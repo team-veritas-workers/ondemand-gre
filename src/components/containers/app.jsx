@@ -1,27 +1,42 @@
 import React, { Component } from 'react';
-import Banner from './../sections/banner.jsx';
-import Nav from './../sections/nav.jsx';
-import Breadcrumbs from './../sections/breadcrumbs.jsx';
-import Video from './../sections/video.jsx';
-import Library from './../sections/library.jsx';
+import { render } from 'react-dom';
+import Banner from './../views/banner/banner.jsx';
+import Nav from './../views/nav/nav.jsx';
+import Breadcrumbs from './../views/breadcrumbs/breadcrumbs.jsx';
+import Menu from './../views/menu/menu.jsx';
+import Video from './../views/video/video.jsx';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: 'Vincent',
-    }
+
+    };
   }
-  
   render() {
     return (
-      <div>
-        <Banner user={ this.state.user }/>
+      <div style={ app }>
+        <Banner />
         <Nav />
         <Breadcrumbs />
-        <Video />
-        <Library />
+        <div style={ container }>
+          <Menu />
+          <Video />
+        </div>
       </div>
     )
   }
+}
+
+const app = {
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const container = {
+  backgroundColor: 'green',
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  height: '800px',
 }
