@@ -7,7 +7,7 @@ const Video = () => {
 };
 
 const video = {
-  backgroundColor: 'pink',
+  backgroundColor: 'white',
   width: '100%'
 }
 

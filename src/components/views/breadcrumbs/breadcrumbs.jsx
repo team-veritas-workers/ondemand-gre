@@ -8,7 +8,7 @@ const Breadcrumbs = () => {
 
 const breadcrumbs = {
   height: '40px',
-  backgroundColor: 'brown',
+  backgroundColor: '#EAEAEA',
 }
 
 export default Breadcrumbs;

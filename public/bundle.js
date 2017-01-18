@@ -56,7 +56,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	__webpack_require__(246);
+	__webpack_require__(247);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21526,21 +21526,25 @@
 
 	var _banner2 = _interopRequireDefault(_banner);
 
-	var _nav = __webpack_require__(242);
+	var _nav = __webpack_require__(243);
 
 	var _nav2 = _interopRequireDefault(_nav);
 
-	var _breadcrumbs = __webpack_require__(243);
+	var _breadcrumbs = __webpack_require__(244);
 
 	var _breadcrumbs2 = _interopRequireDefault(_breadcrumbs);
 
-	var _menu = __webpack_require__(244);
+	var _menu = __webpack_require__(245);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
-	var _video = __webpack_require__(245);
+	var _video = __webpack_require__(246);
 
 	var _video2 = _interopRequireDefault(_video);
+
+	var _accordion = __webpack_require__(251);
+
+	var _accordion2 = _interopRequireDefault(_accordion);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21558,23 +21562,54 @@
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+	    _this.toggle = _this.toggle.bind(_this);
 	    _this.state = {};
 	    return _this;
 	  }
 
 	  _createClass(App, [{
+	    key: 'toggle',
+	    value: function toggle(e) {
+
+	      console.log(e.target.style);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var data = [{
+	        title: "Foundations of GRE Logic",
+	        content: _react2.default.createElement(
+	          'div',
+	          { style: me },
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            'poop'
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            'poop'
+	          )
+	        )
+
+	      }, {
+	        title: "Arithmetic",
+	        content: 'Lorem ipsum dolor sit amet, \n                  consectetur adipiscing elit, \n                  sed do eiusmod tempor incididunt \n                  ut labore et dolore magna aliqua. \n                  Ut enim ad minim veniam, quis \n                  nostrud exercitation ullamco laboris \n                  nisi ut aliquip ex ea commodo consequat. \n                  Duis aute irure dolor in reprehenderit \n                  in voluptate velit esse cillum dolore \n                  eu fugiat nulla pariatur. Excepteur \n                  sint occaecat cupidatat non proident, \n                  sunt in culpa qui officia deserunt \n                  mollit anim id est laborum.'
+	      }, {
+	        title: "Text Completion and Sentence Equivalence",
+	        content: 'Lorem ipsum dolor sit amet, \n                  consectetur adipiscing elit, \n                  sed do eiusmod tempor incididunt \n                  ut labore et dolore magna aliqua. \n                  Ut enim ad minim veniam, quis \n                  nostrud exercitation ullamco laboris \n                  nisi ut aliquip ex ea commodo consequat. \n                  Duis aute irure dolor in reprehenderit \n                  in voluptate velit esse cillum dolore \n                  eu fugiat nulla pariatur. Excepteur \n                  sint occaecat cupidatat non proident, \n                  sunt in culpa qui officia deserunt \n                  mollit anim id est laborum.'
+	      }];
+
 	      return _react2.default.createElement(
 	        'div',
 	        { style: app },
 	        _react2.default.createElement(_banner2.default, null),
-	        _react2.default.createElement(_nav2.default, null),
 	        _react2.default.createElement(_breadcrumbs2.default, null),
 	        _react2.default.createElement(
 	          'div',
 	          { style: container },
-	          _react2.default.createElement(_menu2.default, null),
+	          _react2.default.createElement(_accordion2.default, { data: data }),
 	          _react2.default.createElement(_video2.default, null)
 	        )
 	      );
@@ -21593,11 +21628,14 @@
 	};
 
 	var container = {
-	  backgroundColor: 'green',
+	  backgroundColor: '#111539',
 	  display: 'flex',
 	  flexDirection: 'row',
 	  width: '100%',
 	  height: '800px'
+	};
+	var me = {
+	  listStyle: 'none'
 	};
 
 /***/ },
@@ -21618,19 +21656,31 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
+	var _veritasLogoWhite = __webpack_require__(242);
+
+	var _veritasLogoWhite2 = _interopRequireDefault(_veritasLogoWhite);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Banner = function Banner() {
 	  return _react2.default.createElement(
 	    'div',
 	    { style: banner },
-	    'Hi!'
+	    _react2.default.createElement('div', { style: logo })
 	  );
 	};
 
 	var banner = {
-	  backgroundColor: 'red',
-	  height: '56px'
+	  backgroundColor: '#111539',
+	  height: '95px',
+	  color: 'white'
+	};
+
+	var logo = {
+	  width: '600px',
+	  height: '100%',
+	  backgroundImage: 'url(' + _veritasLogoWhite2.default + ')',
+	  backgroundSize: 'cover'
 	};
 
 	exports.default = (0, _radium2.default)(Banner);
@@ -25720,6 +25770,12 @@
 /* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__.p + "2e21749335ed2b94c0192e5e5fa92e6e.png";
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -25744,7 +25800,7 @@
 	exports.default = Nav;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25765,13 +25821,13 @@
 
 	var breadcrumbs = {
 	  height: '40px',
-	  backgroundColor: 'brown'
+	  backgroundColor: '#EAEAEA'
 	};
 
 	exports.default = Breadcrumbs;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25784,11 +25840,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _radium = __webpack_require__(180);
+
+	var _radium2 = _interopRequireDefault(_radium);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Menu = function Menu() {
+	var Menu = function Menu(props) {
 	  return _react2.default.createElement(
-	    'div',
+	    'nav',
 	    { style: menu },
 	    _react2.default.createElement(
 	      'ul',
@@ -25796,68 +25856,211 @@
 	      _react2.default.createElement(
 	        'li',
 	        null,
-	        'Foundations of GRE Logic'
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Foundations of GRE Logic'
+	        )
 	      ),
 	      _react2.default.createElement(
 	        'li',
 	        null,
-	        'Arithmetic'
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Arithmetic'
+	        )
 	      ),
 	      _react2.default.createElement(
 	        'li',
 	        null,
-	        'Text Completion and Sentence Equivalence'
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Algebra'
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Critical Reasoning'
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Geometry and Statistics'
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Reading Comprehension'
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Word Problems and Data Analysis'
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Analytical Writing Measure'
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        'Quantitative Strategy'
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Text Completion and Sentence Equivalence'
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Algebra'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Arithmetic'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Critical Reasoning'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Geometry and Statistics'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Word Problems and Data Analysis'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Analytical Writing Measure'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Quantitative Strategy'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Photoshop'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Illustrator'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Web Design'
+	            ),
+	            _react2.default.createElement(
+	              'ul',
+	              null,
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'HTML'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'CSS'
+	                )
+	              )
+	            )
+	          )
+	        )
 	      )
 	    )
 	  );
 	};
 
 	var menu = {
-	  backgroundColor: 'dodgerblue',
+	  backgroundColor: '#111539',
 	  width: '25%',
 	  minWidth: '225px'
 
 	};
 
-	exports.default = Menu;
+	var lesson = {
+	  width: '100%',
+	  backgroundcolor: '#111539',
+	  color: 'white'
+	};
+
+	var ulStyle = {
+	  backgroundColor: '#A1A2A0',
+	  color: 'white',
+	  height: '20px',
+	  overflow: 'hidden'
+	};
+
+	exports.default = (0, _radium2.default)(Menu);
+
+	// import React, {Component} from 'react';
+	// import Radium from 'radium';
+
+	// const Menu = (props) => {
+	//   return (
+	//     <div style={ menu }>
+	//       <ul style={ ulStyle } key='boob' onClick={ props.toggle }>
+	//         <li>Lesson 1</li>
+	//         <li>1</li>
+	//         <li>2</li>
+	//         <li>3</li>
+	//       </ul>
+	//       <ul style={ ulStyle } key='poop' onClick={ props.toggle }>
+	//         <li>Lesson 2</li>
+	//         <li>1</li>
+	//         <li>2</li>
+	//         <li>3</li>
+	//       </ul>
+	//     </div>
+	//   );
+	// };
+
+	// const menu = {
+	//   backgroundColor: '#2F3241',
+	//   width: '25%',
+	//   minWidth: '225px'
+	// };
+
+	// const ulStyle = {
+	//   backgroundColor: '#A1A2A0',
+	//   color: '#FFF',
+	//   height: '20px',
+	//   overflow: 'hidden',
+	// }
+
+	// export default Radium(Menu);
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25877,23 +26080,23 @@
 	};
 
 	var video = {
-	  backgroundColor: 'pink',
+	  backgroundColor: 'white',
 	  width: '100%'
 	};
 
 	exports.default = Video;
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(247);
+	var content = __webpack_require__(248);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(249)(content, {});
+	var update = __webpack_require__(250)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25910,21 +26113,21 @@
 	}
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(248)();
+	exports = module.exports = __webpack_require__(249)();
 	// imports
-
+	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);", ""]);
 
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nli {\n\tbackground-color: purple;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n}", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\nnav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}\n\nbody {\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 420px;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 50px;\n}\n\n.title {\n  height: 30px;\n  width: 400px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n}\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -30px;\n  text-align: left;\n  transition: all 200ms cubic-bezier(0.600, -0.280, 0.735, 0.045);\n}\n\n.content-open {\n  margin-top: 0px;\n  height: 200px;\n  background-color: rgba(0,0,0, .1);\n  transition: all 350ms cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .2s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\n\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports) {
 
 	/*
@@ -25980,7 +26183,7 @@
 
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -26230,6 +26433,96 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Accordion = _react2.default.createClass({
+	  displayName: "Accordion",
+	  componentWillMount: function componentWillMount() {
+	    var accordion = [];
+
+	    this.props.data.forEach(function (i) {
+	      accordion.push({
+	        title: i.title,
+	        content: i.content,
+	        open: false
+	      });
+	    });
+
+	    this.setState({
+	      accordionItems: accordion
+	    });
+	  },
+	  click: function click(i) {
+	    var newAccordion = this.state.accordionItems.slice();
+	    var index = newAccordion.indexOf(i);
+
+	    newAccordion[index].open = !newAccordion[index].open;
+	    this.setState({ accordionItems: newAccordion });
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    var sections = this.state.accordionItems.map(function (i) {
+	      return _react2.default.createElement(
+	        "div",
+	        { key: _this.state.accordionItems.indexOf(i) },
+	        _react2.default.createElement(
+	          "div",
+	          {
+	            className: "title",
+	            onClick: _this.click.bind(null, i)
+	          },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "arrow-wrapper" },
+	            _react2.default.createElement("i", { className: i.open ? "fa fa-angle-down fa-rotate-180" : "fa fa-angle-down"
+	            })
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            { className: "title-text" },
+	            i.title
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: i.open ? "content content-open" : "content"
+	          },
+	          _react2.default.createElement(
+	            "div",
+	            { className: i.open ? "content-text content-text-open" : "content-text"
+	            },
+	            " ",
+	            i.content
+	          )
+	        )
+	      );
+	    });
+
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "accordion" },
+	      sections
+	    );
+	  }
+	});
+
+	exports.default = Accordion;
 
 /***/ }
 /******/ ]);
