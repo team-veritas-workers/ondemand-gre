@@ -4,3 +4,11 @@
 	margin: 0;
 	padding: 0;
 }
+
+li {
+	background-color: purple;
+	width: 100%;
+	padding-top: 1.5em;
+	font-weight: bold;
+	color: white;
+}
