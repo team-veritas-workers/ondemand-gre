@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import Radium from 'radium';
+import Lesson from './lesson.jsx';
 
 const Menu = (props) => {
   return (
@@ -33,33 +33,17 @@ const Menu = (props) => {
 
 
       );
-=======
-import Lesson from './lesson.jsx';
-import Radium from 'radium';
+}
 
-const Menu = (props) => {
-  const lessons = [];
-  if (props.videoData) {
-    props.videoData.forEach((lesson, i) => {
-      lessons.push(<Lesson key={i} lessonData={ lesson }/>)
-    })
-  }
-  return (
-    <div style={ menu }>
-      { lessons }
-    </div>
-  );
->>>>>>> master
-};
+
+
 
 
 const menu = {
-<<<<<<< HEAD
   backgroundColor: '#111539',
   width: '25%',
   minWidth: '225px',
  
-
 };
 
 const lesson = {
@@ -74,20 +58,6 @@ const ulStyle = {
   height: '20px',
   
 }
-
-export default Radium(Menu);
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // import React, {Component} from 'react';
@@ -126,12 +96,7 @@ export default Radium(Menu);
 // }
 
 // export default Radium(Menu);
-=======
-  backgroundColor: '#131544',
-  width: '30%',
-  minWidth: '300px',
-  maxWidth: '350px',
-};
+
 
 export default Radium(Menu);
->>>>>>> master
+

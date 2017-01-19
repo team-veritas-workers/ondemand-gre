@@ -56,11 +56,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-<<<<<<< HEAD
-	__webpack_require__(247);
-=======
-	__webpack_require__(250);
->>>>>>> master
+	__webpack_require__(252);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21526,25 +21522,6 @@
 
 	var _reactDom = __webpack_require__(32);
 
-<<<<<<< HEAD
-	var _banner = __webpack_require__(179);
-
-	var _banner2 = _interopRequireDefault(_banner);
-
-	var _nav = __webpack_require__(243);
-
-	var _nav2 = _interopRequireDefault(_nav);
-
-	var _breadcrumbs = __webpack_require__(244);
-
-	var _breadcrumbs2 = _interopRequireDefault(_breadcrumbs);
-
-	var _menu = __webpack_require__(245);
-
-	var _menu2 = _interopRequireDefault(_menu);
-
-	var _video = __webpack_require__(246);
-=======
 	var _jquery = __webpack_require__(179);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
@@ -21561,14 +21538,21 @@
 
 	var _breadcrumbs2 = _interopRequireDefault(_breadcrumbs);
 
-	var _content = __webpack_require__(246);
->>>>>>> master
+	var _menu = __webpack_require__(246);
 
-	var _content2 = _interopRequireDefault(_content);
+	var _menu2 = _interopRequireDefault(_menu);
 
-	var _accordion = __webpack_require__(251);
+	var _video = __webpack_require__(248);
+
+	var _video2 = _interopRequireDefault(_video);
+
+	var _accordion = __webpack_require__(250);
 
 	var _accordion2 = _interopRequireDefault(_accordion);
+
+	var _content = __webpack_require__(251);
+
+	var _content2 = _interopRequireDefault(_content);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21586,22 +21570,13 @@
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-<<<<<<< HEAD
-=======
 	    _this.getVideoData = _this.getVideoData.bind(_this);
->>>>>>> master
 	    _this.toggle = _this.toggle.bind(_this);
 	    _this.state = {};
 	    return _this;
 	  }
 
 	  _createClass(App, [{
-<<<<<<< HEAD
-	    key: 'toggle',
-	    value: function toggle(e) {
-
-	      console.log(e.target.style);
-=======
 	    key: 'getVideoData',
 	    value: function getVideoData() {
 	      var _this2 = this;
@@ -21626,7 +21601,6 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.getVideoData();
->>>>>>> master
 	    }
 	  }, {
 	    key: 'render',
@@ -21711,16 +21685,12 @@
 	        { style: app },
 	        _react2.default.createElement(_banner2.default, null),
 	        _react2.default.createElement(_breadcrumbs2.default, null),
-<<<<<<< HEAD
 	        _react2.default.createElement(
 	          'div',
 	          { style: container },
 	          _react2.default.createElement(_accordion2.default, { data: data }),
 	          _react2.default.createElement(_video2.default, null)
 	        )
-=======
-	        _react2.default.createElement(_content2.default, { toggle: this.toggle, videoData: this.state.videoData })
->>>>>>> master
 	      );
 	    }
 	  }]);
@@ -21733,8 +21703,8 @@
 
 	var app = {
 	  display: 'flex',
-<<<<<<< HEAD
-	  flexDirection: 'column'
+	  flexDirection: 'column',
+	  height: '100vh'
 	};
 
 	var container = {
@@ -21748,60 +21718,12 @@
 	};
 	var me = {
 	  listStyle: 'none'
-=======
-	  flexDirection: 'column',
-	  height: '100vh'
->>>>>>> master
 	};
 
 /***/ },
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _radium = __webpack_require__(180);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	var _veritasLogoWhite = __webpack_require__(242);
-
-	var _veritasLogoWhite2 = _interopRequireDefault(_veritasLogoWhite);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Banner = function Banner() {
-	  return _react2.default.createElement(
-	    'div',
-	    { style: banner },
-	    _react2.default.createElement('div', { style: logo })
-	  );
-	};
-
-	var banner = {
-	  backgroundColor: '#111539',
-	  height: '95px',
-	  color: 'white'
-	};
-
-	var logo = {
-	  width: '600px',
-	  height: '100%',
-	  backgroundImage: 'url(' + _veritasLogoWhite2.default + ')',
-	  backgroundSize: 'cover'
-	};
-
-	exports.default = (0, _radium2.default)(Banner);
-=======
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	 * jQuery JavaScript Library v3.1.1
 	 * https://jquery.com/
@@ -21839,72 +21761,10 @@
 		} else {
 			factory( global );
 		}
->>>>>>> master
 
 	// Pass this if window is not defined yet
 	} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
-<<<<<<< HEAD
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _enhancer = __webpack_require__(181);
-
-	var _enhancer2 = _interopRequireDefault(_enhancer);
-
-	var _plugins = __webpack_require__(227);
-
-	var _plugins2 = _interopRequireDefault(_plugins);
-
-	var _style = __webpack_require__(238);
-
-	var _style2 = _interopRequireDefault(_style);
-
-	var _styleRoot = __webpack_require__(239);
-
-	var _styleRoot2 = _interopRequireDefault(_styleRoot);
-
-	var _getState = __webpack_require__(223);
-
-	var _getState2 = _interopRequireDefault(_getState);
-
-	var _keyframes = __webpack_require__(241);
-
-	var _keyframes2 = _interopRequireDefault(_keyframes);
-
-	var _resolveStyles = __webpack_require__(183);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function Radium(ComposedComponent) {
-	  return (0, _enhancer2.default)(ComposedComponent);
-	}
-
-	Radium.Plugins = _plugins2.default;
-	Radium.Style = _style2.default;
-	Radium.StyleRoot = _styleRoot2.default;
-	Radium.getState = _getState2.default;
-	Radium.keyframes = _keyframes2.default;
-
-	if (process.env.NODE_ENV !== 'production') {
-	  Radium.TestMode = {
-	    clearState: _resolveStyles.__clearStateForTests,
-	    disable: _resolveStyles.__setTestMode.bind(null, false),
-	    enable: _resolveStyles.__setTestMode.bind(null, true)
-	  };
-	}
-
-	exports.default = Radium;
-	module.exports = exports['default'];
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ },
-/* 181 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	// Edge <= 12 - 13+, Firefox <=18 - 45+, IE 10 - 11, Safari 5.1 - 9+, iOS 6 - 9.1
 	// throw exceptions when non-strict code (e.g., ASP.NET 4.5) accesses strict mode
 	// arguments.callee.caller (trac-13335). But as of jQuery 3.0 (2016), strict mode should be common
@@ -22099,7 +21959,6 @@
 					if ( target === copy ) {
 						continue;
 					}
->>>>>>> master
 
 					// Recurse if we're merging plain objects or arrays
 					if ( deep && copy && ( jQuery.isPlainObject( copy ) ||
@@ -22128,21 +21987,13 @@
 		return target;
 	};
 
-<<<<<<< HEAD
-	var _styleKeeper = __webpack_require__(182);
-=======
 	jQuery.extend( {
->>>>>>> master
 
 		// Unique for each copy of jQuery on the page
 		expando: "jQuery" + ( version + Math.random() ).replace( /\D/g, "" ),
 
-<<<<<<< HEAD
-	var _resolveStyles = __webpack_require__(183);
-=======
 		// Assume jQuery is ready without the ready module
 		isReady: true,
->>>>>>> master
 
 		error: function( msg ) {
 			throw new Error( msg );
@@ -22394,17 +22245,11 @@
 		jQuery.fn[ Symbol.iterator ] = arr[ Symbol.iterator ];
 	}
 
-<<<<<<< HEAD
-/***/ },
-/* 182 */
-/***/ function(module, exports) {
-=======
 	// Populate the class2type map
 	jQuery.each( "Boolean Number String Function Array Date RegExp Object Error Symbol".split( " " ),
 	function( i, name ) {
 		class2type[ "[object " + name + "]" ] = name.toLowerCase();
 	} );
->>>>>>> master
 
 	function isArrayLike( obj ) {
 
@@ -22750,11 +22595,6 @@
 							context;
 					}
 
-<<<<<<< HEAD
-/***/ },
-/* 183 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 					if ( newSelector ) {
 						try {
 							push.apply( results,
@@ -22771,7 +22611,6 @@
 				}
 			}
 		}
->>>>>>> master
 
 		// All others
 		return select( selector.replace( rtrim, "$1" ), context, results, seed );
@@ -22806,16 +22645,12 @@
 		return fn;
 	}
 
-<<<<<<< HEAD
-	var _appendImportantToEachValue = __webpack_require__(184);
-=======
 	/**
 	 * Support testing using an element
 	 * @param {Function} fn Passed the created element and returns a boolean result
 	 */
 	function assert( fn ) {
 		var el = document.createElement("fieldset");
->>>>>>> master
 
 		try {
 			return !!fn( el );
@@ -22831,9 +22666,6 @@
 		}
 	}
 
-<<<<<<< HEAD
-	var _cssRuleSetToString = __webpack_require__(187);
-=======
 	/**
 	 * Adds the same handler for all of the specified attrs
 	 * @param {String} attrs Pipe-separated list of attributes
@@ -22842,16 +22674,12 @@
 	function addHandle( attrs, handler ) {
 		var arr = attrs.split("|"),
 			i = arr.length;
->>>>>>> master
 
 		while ( i-- ) {
 			Expr.attrHandle[ arr[i] ] = handler;
 		}
 	}
 
-<<<<<<< HEAD
-	var _getState = __webpack_require__(223);
-=======
 	/**
 	 * Checks document order of two siblings
 	 * @param {Element} a
@@ -22862,16 +22690,12 @@
 		var cur = b && a,
 			diff = cur && a.nodeType === 1 && b.nodeType === 1 &&
 				a.sourceIndex - b.sourceIndex;
->>>>>>> master
 
 		// Use IE sourceIndex if available on both nodes
 		if ( diff ) {
 			return diff;
 		}
 
-<<<<<<< HEAD
-	var _getStateKey = __webpack_require__(224);
-=======
 		// Check if b follows a
 		if ( cur ) {
 			while ( (cur = cur.nextSibling) ) {
@@ -22880,14 +22704,10 @@
 				}
 			}
 		}
->>>>>>> master
 
 		return a ? 1 : -1;
 	}
 
-<<<<<<< HEAD
-	var _hash = __webpack_require__(225);
-=======
 	/**
 	 * Returns a function to use in pseudos for input types
 	 * @param {String} type
@@ -22898,7 +22718,6 @@
 			return name === "input" && elem.type === type;
 		};
 	}
->>>>>>> master
 
 	/**
 	 * Returns a function to use in pseudos for buttons
@@ -22911,11 +22730,6 @@
 		};
 	}
 
-<<<<<<< HEAD
-	var _mergeStyles = __webpack_require__(226);
-
-	var _plugins = __webpack_require__(227);
-=======
 	/**
 	 * Returns a function to use in pseudos for :enabled/:disabled
 	 * @param {Boolean} disabled true for :disabled; false for :enabled
@@ -22924,16 +22738,12 @@
 
 		// Known :disabled false positives: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
 		return function( elem ) {
->>>>>>> master
 
 			// Only certain elements can match :enabled or :disabled
 			// https://html.spec.whatwg.org/multipage/scripting.html#selector-enabled
 			// https://html.spec.whatwg.org/multipage/scripting.html#selector-disabled
 			if ( "form" in elem ) {
 
-<<<<<<< HEAD
-	var _exenv = __webpack_require__(237);
-=======
 				// Check for inherited disabledness on relevant non-disabled elements:
 				// * listed form-associated elements in a disabled fieldset
 				//   https://html.spec.whatwg.org/multipage/forms.html#category-listed
@@ -22942,7 +22752,6 @@
 				//   https://html.spec.whatwg.org/multipage/forms.html#concept-option-disabled
 				// All such elements have a "form" property.
 				if ( elem.parentNode && elem.disabled === false ) {
->>>>>>> master
 
 					// Option elements defer to a parent optgroup if present
 					if ( "label" in elem ) {
@@ -23503,11 +23312,6 @@
 		throw new Error( "Syntax error, unrecognized expression: " + msg );
 	};
 
-<<<<<<< HEAD
-/***/ },
-/* 184 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	/**
 	 * Document sorting and removing duplicates
 	 * @param {ArrayLike} results
@@ -23517,7 +23321,6 @@
 			duplicates = [],
 			j = 0,
 			i = 0;
->>>>>>> master
 
 		// Unless we *know* we can detect duplicates, assume their presence
 		hasDuplicate = !support.detectDuplicates;
@@ -23535,20 +23338,13 @@
 			}
 		}
 
-<<<<<<< HEAD
-	var _appendPxIfNeeded = __webpack_require__(185);
-=======
 		// Clear input after sorting to release objects
 		// See https://github.com/jquery/sizzle/pull/225
 		sortInput = null;
->>>>>>> master
 
 		return results;
 	};
 
-<<<<<<< HEAD
-	var _mapObject = __webpack_require__(186);
-=======
 	/**
 	 * Utility function for retrieving the text value of an array of DOM nodes
 	 * @param {Array|Element} elem
@@ -23558,7 +23354,6 @@
 			ret = "",
 			i = 0,
 			nodeType = elem.nodeType;
->>>>>>> master
 
 		if ( !nodeType ) {
 			// If no nodeType, this is expected to be an array
@@ -23587,14 +23382,8 @@
 
 	Expr = Sizzle.selectors = {
 
-<<<<<<< HEAD
-/***/ },
-/* 185 */
-/***/ function(module, exports) {
-=======
 		// Can be adjusted by the user
 		cacheLength: 50,
->>>>>>> master
 
 		createPseudo: markFunction,
 
@@ -23615,14 +23404,8 @@
 			"ATTR": function( match ) {
 				match[1] = match[1].replace( runescape, funescape );
 
-<<<<<<< HEAD
-/***/ },
-/* 186 */
-/***/ function(module, exports) {
-=======
 				// Move the given value to match[3] whether quoted or unquoted
 				match[3] = ( match[3] || match[4] || match[5] || "" ).replace( runescape, funescape );
->>>>>>> master
 
 				if ( match[2] === "~=" ) {
 					match[3] = " " + match[3] + " ";
@@ -23650,16 +23433,10 @@
 						Sizzle.error( match[0] );
 					}
 
-<<<<<<< HEAD
-/***/ },
-/* 187 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 					// numeric x and y parameters for Expr.filter.CHILD
 					// remember that false/true cast respectively to 0/1
 					match[4] = +( match[4] ? match[5] + (match[6] || 1) : 2 * ( match[3] === "even" || match[3] === "odd" ) );
 					match[5] = +( ( match[7] + match[8] ) || match[3] === "odd" );
->>>>>>> master
 
 				// other types prohibit arguments
 				} else if ( match[3] ) {
@@ -23669,25 +23446,17 @@
 				return match;
 			},
 
-<<<<<<< HEAD
-	var _appendPxIfNeeded = __webpack_require__(185);
-=======
 			"PSEUDO": function( match ) {
 				var excess,
 					unquoted = !match[6] && match[2];
->>>>>>> master
 
 				if ( matchExpr["CHILD"].test( match[0] ) ) {
 					return null;
 				}
 
-<<<<<<< HEAD
-	var _camelCasePropsToDashCase = __webpack_require__(188);
-=======
 				// Accept quoted arguments as-is
 				if ( match[3] ) {
 					match[2] = match[4] || match[5] || "";
->>>>>>> master
 
 				// Strip excess characters from unquoted arguments
 				} else if ( unquoted && rpseudo.test( unquoted ) &&
@@ -23696,14 +23465,10 @@
 					// advance to the next closing parenthesis
 					(excess = unquoted.indexOf( ")", unquoted.length - excess ) - unquoted.length) ) {
 
-<<<<<<< HEAD
-	var _mapObject = __webpack_require__(186);
-=======
 					// excess is a negative index
 					match[0] = match[0].slice( 0, excess );
 					match[2] = unquoted.slice( 0, excess );
 				}
->>>>>>> master
 
 				// Return only captures needed by the pseudo filter method (type and argument)
 				return match.slice( 0, 3 );
@@ -23742,9 +23507,6 @@
 						return true;
 					}
 
-<<<<<<< HEAD
-	var _prefixer = __webpack_require__(189);
-=======
 					result += "";
 
 					return operator === "=" ? result === check :
@@ -23902,7 +23664,6 @@
 				if ( fn[ expando ] ) {
 					return fn( argument );
 				}
->>>>>>> master
 
 				// But maintain support for old signatures
 				if ( fn.length > 1 ) {
@@ -24113,11 +23874,6 @@
 				return matchIndexes;
 			}),
 
-<<<<<<< HEAD
-/***/ },
-/* 188 */
-/***/ function(module, exports) {
-=======
 			"gt": createPositionalPseudo(function( matchIndexes, length, argument ) {
 				var i = argument < 0 ? argument + length : argument;
 				for ( ; ++i < length; ) {
@@ -24127,7 +23883,6 @@
 			})
 		}
 	};
->>>>>>> master
 
 	Expr.pseudos["nth"] = Expr.pseudos["eq"];
 
@@ -24195,16 +23950,10 @@
 				}
 			}
 
-<<<<<<< HEAD
-/***/ },
-/* 189 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 			if ( !matched ) {
 				break;
 			}
 		}
->>>>>>> master
 
 		// Return the length of the invalid excess
 		// if we're just parsing
@@ -24332,12 +24081,8 @@
 			}
 		}
 
-<<<<<<< HEAD
-	var _inlineStylePrefixer = __webpack_require__(190);
-=======
 		return newUnmatched;
 	}
->>>>>>> master
 
 	function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postSelector ) {
 		if ( postFilter && !postFilter[ expando ] ) {
@@ -24545,11 +24290,6 @@
 					}
 				}
 
-<<<<<<< HEAD
-/***/ },
-/* 190 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 				// `i` is now the count of elements visited above, and adding it to `matchedCount`
 				// makes the latter nonnegative.
 				matchedCount += i;
@@ -24566,7 +24306,6 @@
 					while ( (matcher = setMatchers[j++]) ) {
 						matcher( unmatched, setMatched, context, xml );
 					}
->>>>>>> master
 
 					if ( seed ) {
 						// Reintegrate element matches to eliminate the need for sorting
@@ -24599,27 +24338,19 @@
 					outermostContext = contextBackup;
 				}
 
-<<<<<<< HEAD
-	var _inlineStylePrefixAll = __webpack_require__(191);
-=======
 				return unmatched;
 			};
->>>>>>> master
 
 		return bySet ?
 			markFunction( superMatcher ) :
 			superMatcher;
 	}
 
-<<<<<<< HEAD
-	var _utilsGetBrowserInformation = __webpack_require__(206);
-=======
 	compile = Sizzle.compile = function( selector, match /* Internal Use Only */ ) {
 		var i,
 			setMatchers = [],
 			elementMatchers = [],
 			cached = compilerCache[ selector + " " ];
->>>>>>> master
 
 		if ( !cached ) {
 			// Generate a function of recursive functions that can be used to check each element
@@ -24636,12 +24367,8 @@
 				}
 			}
 
-<<<<<<< HEAD
-	var _utilsGetPrefixedKeyframes = __webpack_require__(209);
-=======
 			// Cache the compiled function
 			cached = compilerCache( selector, matcherFromGroupMatchers( elementMatchers, setMatchers ) );
->>>>>>> master
 
 			// Save selector and tokenization
 			cached.selector = selector;
@@ -24649,9 +24376,6 @@
 		return cached;
 	};
 
-<<<<<<< HEAD
-	var _utilsCapitalizeString = __webpack_require__(210);
-=======
 	/**
 	 * A low-level selection function that works with Sizzle's compiled
 	 *  selector functions
@@ -24665,51 +24389,35 @@
 		var i, tokens, token, type, find,
 			compiled = typeof selector === "function" && selector,
 			match = !seed && tokenize( (selector = compiled.selector || selector) );
->>>>>>> master
 
 		results = results || [];
 
-<<<<<<< HEAD
-	var _utilsAssign = __webpack_require__(211);
-=======
 		// Try to minimize operations if there is only one selector in the list and no seed
 		// (the latter of which guarantees us context)
 		if ( match.length === 1 ) {
->>>>>>> master
 
 			// Reduce context if the leading compound selector is an ID
 			tokens = match[0] = match[0].slice( 0 );
 			if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
 					context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[1].type ] ) {
 
-<<<<<<< HEAD
-	var _prefixProps = __webpack_require__(212);
-=======
 				context = ( Expr.find["ID"]( token.matches[0].replace(runescape, funescape), context ) || [] )[0];
 				if ( !context ) {
 					return results;
->>>>>>> master
 
 				// Precompiled matchers will still verify ancestry, so step up a level
 				} else if ( compiled ) {
 					context = context.parentNode;
 				}
 
-<<<<<<< HEAD
-	var _pluginsCalc = __webpack_require__(213);
-=======
 				selector = selector.slice( tokens.shift().value.length );
 			}
->>>>>>> master
 
 			// Fetch a seed set for right-to-left matching
 			i = matchExpr["needsContext"].test( selector ) ? 0 : tokens.length;
 			while ( i-- ) {
 				token = tokens[i];
 
-<<<<<<< HEAD
-	var _pluginsCursor = __webpack_require__(215);
-=======
 				// Abort if we hit a combinator
 				if ( Expr.relative[ (type = token.type) ] ) {
 					break;
@@ -24734,7 +24442,6 @@
 				}
 			}
 		}
->>>>>>> master
 
 		// Compile and execute a filtering function if one is not provided
 		// Provide `match` to avoid retokenization if we modified the selector above
@@ -24748,36 +24455,24 @@
 		return results;
 	};
 
-<<<<<<< HEAD
-	var _pluginsFlex = __webpack_require__(216);
-=======
 	// One-time assignments
->>>>>>> master
 
 	// Sort stability
 	support.sortStable = expando.split("").sort( sortOrder ).join("") === expando;
 
-<<<<<<< HEAD
-	var _pluginsSizing = __webpack_require__(217);
-=======
 	// Support: Chrome 14-35+
 	// Always assume duplicates if they aren't passed to the comparison function
 	support.detectDuplicates = !!hasDuplicate;
->>>>>>> master
 
 	// Initialize against the default document
 	setDocument();
 
-<<<<<<< HEAD
-	var _pluginsGradient = __webpack_require__(218);
-=======
 	// Support: Webkit<537.32 - Safari 6.0.3/Chrome 25 (fixed in Chrome 27)
 	// Detached nodes confoundingly follow *each other*
 	support.sortDetached = assert(function( el ) {
 		// Should return 1, but returns 4 (following)
 		return el.compareDocumentPosition( document.createElement("fieldset") ) & 1;
 	});
->>>>>>> master
 
 	// Support: IE<8
 	// Prevent attribute/property "interpolation"
@@ -24823,26 +24518,15 @@
 		});
 	}
 
-<<<<<<< HEAD
-	var _pluginsTransition = __webpack_require__(219);
-=======
 	return Sizzle;
->>>>>>> master
 
 	})( window );
 
 
-<<<<<<< HEAD
-	var _pluginsFlexboxIE = __webpack_require__(221);
-=======
->>>>>>> master
 
 	jQuery.find = Sizzle;
 	jQuery.expr = Sizzle.selectors;
 
-<<<<<<< HEAD
-	var _pluginsFlexboxOld = __webpack_require__(222);
-=======
 	// Deprecated
 	jQuery.expr[ ":" ] = jQuery.expr.pseudos;
 	jQuery.uniqueSort = jQuery.unique = Sizzle.uniqueSort;
@@ -24850,7 +24534,6 @@
 	jQuery.isXMLDoc = Sizzle.isXML;
 	jQuery.contains = Sizzle.contains;
 	jQuery.escapeSelector = Sizzle.escape;
->>>>>>> master
 
 
 
@@ -24933,15 +24616,9 @@
 			expr = ":not(" + expr + ")";
 		}
 
-<<<<<<< HEAD
-/***/ },
-/* 191 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		if ( elems.length === 1 && elem.nodeType === 1 ) {
 			return jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [];
 		}
->>>>>>> master
 
 		return jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
 			return elem.nodeType === 1;
@@ -24966,13 +24643,9 @@
 
 			ret = this.pushStack( [] );
 
-<<<<<<< HEAD
-	var _prefixProps = __webpack_require__(192);
-=======
 			for ( i = 0; i < len; i++ ) {
 				jQuery.find( selector, self[ i ], ret );
 			}
->>>>>>> master
 
 			return len > 1 ? jQuery.uniqueSort( ret ) : ret;
 		},
@@ -24996,67 +24669,43 @@
 		}
 	} );
 
-<<<<<<< HEAD
-	var _utilsCapitalizeString = __webpack_require__(193);
-=======
->>>>>>> master
 
 	// Initialize a jQuery object
 
-<<<<<<< HEAD
-	var _utilsAssign = __webpack_require__(194);
-=======
->>>>>>> master
 
 	// A central reference to the root jQuery(document)
 	var rootjQuery,
 
-<<<<<<< HEAD
-	var _pluginsCalc = __webpack_require__(195);
-=======
 		// A simple way to check for HTML strings
 		// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
 		// Strict HTML recognition (#11290: must start with <)
 		// Shortcut simple #id case for speed
 		rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
->>>>>>> master
 
 		init = jQuery.fn.init = function( selector, context, root ) {
 			var match, elem;
 
-<<<<<<< HEAD
-	var _pluginsCursor = __webpack_require__(199);
-=======
 			// HANDLE: $(""), $(null), $(undefined), $(false)
 			if ( !selector ) {
 				return this;
 			}
->>>>>>> master
 
 			// Method init() accepts an alternate rootjQuery
 			// so migrate can support jQuery.sub (gh-2101)
 			root = root || rootjQuery;
 
-<<<<<<< HEAD
-	var _pluginsFlex = __webpack_require__(200);
-=======
 			// Handle HTML strings
 			if ( typeof selector === "string" ) {
 				if ( selector[ 0 ] === "<" &&
 					selector[ selector.length - 1 ] === ">" &&
 					selector.length >= 3 ) {
->>>>>>> master
 
 					// Assume that strings that start and end with <> are HTML and skip the regex check
 					match = [ null, selector, null ];
 
-<<<<<<< HEAD
-	var _pluginsSizing = __webpack_require__(201);
-=======
 				} else {
 					match = rquickExpr.exec( selector );
 				}
->>>>>>> master
 
 				// Match html or make sure no context is specified for #id
 				if ( match && ( match[ 1 ] || !context ) ) {
@@ -25103,13 +24752,9 @@
 						return this;
 					}
 
-<<<<<<< HEAD
-	var _pluginsGradient = __webpack_require__(202);
-=======
 				// HANDLE: $(expr, $(...))
 				} else if ( !context || context.jquery ) {
 					return ( context || root ).find( selector );
->>>>>>> master
 
 				// HANDLE: $(expr, context)
 				// (which is just equivalent to: $(context).find(expr)
@@ -25117,15 +24762,11 @@
 					return this.constructor( context ).find( selector );
 				}
 
-<<<<<<< HEAD
-	var _pluginsTransition = __webpack_require__(203);
-=======
 			// HANDLE: $(DOMElement)
 			} else if ( selector.nodeType ) {
 				this[ 0 ] = selector;
 				this.length = 1;
 				return this;
->>>>>>> master
 
 			// HANDLE: $(function)
 			// Shortcut for document ready
@@ -25137,22 +24778,14 @@
 					selector( jQuery );
 			}
 
-<<<<<<< HEAD
-	var _pluginsFlexboxIE = __webpack_require__(204);
-=======
 			return jQuery.makeArray( selector, this );
 		};
->>>>>>> master
 
 	// Give the init function the jQuery prototype for later instantiation
 	init.prototype = jQuery.fn;
 
-<<<<<<< HEAD
-	var _pluginsFlexboxOld = __webpack_require__(205);
-=======
 	// Initialize central reference
 	rootjQuery = jQuery( document );
->>>>>>> master
 
 
 	var rparentsprev = /^(?:parents|prev(?:Until|All))/,
@@ -25210,14 +24843,8 @@
 			return this.pushStack( matched.length > 1 ? jQuery.uniqueSort( matched ) : matched );
 		},
 
-<<<<<<< HEAD
-/***/ },
-/* 192 */
-/***/ function(module, exports) {
-=======
 		// Determine the position of an element within the set
 		index: function( elem ) {
->>>>>>> master
 
 			// No argument, return index in parent
 			if ( !elem ) {
@@ -25229,11 +24856,6 @@
 				return indexOf.call( jQuery( elem ), this[ 0 ] );
 			}
 
-<<<<<<< HEAD
-/***/ },
-/* 193 */
-/***/ function(module, exports) {
-=======
 			// Locate the position of the desired element
 			return indexOf.call( this,
 
@@ -25303,7 +24925,6 @@
 	}, function( name, fn ) {
 		jQuery.fn[ name ] = function( until, selector ) {
 			var matched = jQuery.map( this, fn, until );
->>>>>>> master
 
 			if ( name.slice( -5 ) !== "Until" ) {
 				selector = until;
@@ -25320,17 +24941,11 @@
 					jQuery.uniqueSort( matched );
 				}
 
-<<<<<<< HEAD
-/***/ },
-/* 194 */
-/***/ function(module, exports) {
-=======
 				// Reverse order for parents* and prev-derivatives
 				if ( rparentsprev.test( name ) ) {
 					matched.reverse();
 				}
 			}
->>>>>>> master
 
 			return this.pushStack( matched );
 		};
@@ -25348,11 +24963,6 @@
 		return object;
 	}
 
-<<<<<<< HEAD
-/***/ },
-/* 195 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	/*
 	 * Create a callback list using the following parameters:
 	 *
@@ -25376,7 +24986,6 @@
 	 *
 	 */
 	jQuery.Callbacks = function( options ) {
->>>>>>> master
 
 		// Convert options from String-formatted to Object-formatted if needed
 		// (we check in cache first)
@@ -25390,22 +24999,14 @@
 			// Last fire value for non-forgettable lists
 			memory,
 
-<<<<<<< HEAD
-	var _utilsJoinPrefixedRules = __webpack_require__(196);
-=======
 			// Flag to know if list was already fired
 			fired,
->>>>>>> master
 
 			// Flag to prevent firing
 			locked,
 
-<<<<<<< HEAD
-	var _utilsIsPrefixedValue = __webpack_require__(198);
-=======
 			// Actual callback list
 			list = [],
->>>>>>> master
 
 			// Queue of execution data for repeatable lists
 			queue = [],
@@ -25419,18 +25020,12 @@
 				// Enforce single-firing
 				locked = options.once;
 
-<<<<<<< HEAD
-/***/ },
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 				// Execute callbacks for all pending executions,
 				// respecting firingIndex overrides and runtime changes
 				fired = firing = true;
 				for ( ; queue.length; firingIndex = -1 ) {
 					memory = queue.shift();
 					while ( ++firingIndex < list.length ) {
->>>>>>> master
 
 						// Run callback and check for early termination
 						if ( list[ firingIndex ].apply( memory[ 0 ], memory[ 1 ] ) === false &&
@@ -25450,12 +25045,8 @@
 
 				firing = false;
 
-<<<<<<< HEAD
-	var _camelToDashCase = __webpack_require__(197);
-=======
 				// Clean up if we're done firing for good
 				if ( locked ) {
->>>>>>> master
 
 					// Keep an empty list if we have data for future add calls
 					if ( memory ) {
@@ -25589,18 +25180,12 @@
 	};
 
 
-<<<<<<< HEAD
-/***/ },
-/* 197 */
-/***/ function(module, exports) {
-=======
 	function Identity( v ) {
 		return v;
 	}
 	function Thrower( ex ) {
 		throw ex;
 	}
->>>>>>> master
 
 	function adoptValue( value, resolve, reject ) {
 		var method;
@@ -25615,14 +25200,8 @@
 			} else if ( value && jQuery.isFunction( ( method = value.then ) ) ) {
 				method.call( value, resolve, reject );
 
-<<<<<<< HEAD
-/***/ },
-/* 198 */
-/***/ function(module, exports) {
-=======
 			// Other non-thenables
 			} else {
->>>>>>> master
 
 				// Support: Android 4.0 only
 				// Strict mode functions invoked without .call/.apply get global-object context
@@ -25927,15 +25506,9 @@
 				func.call( deferred, deferred );
 			}
 
-<<<<<<< HEAD
-/***/ },
-/* 199 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 			// All done!
 			return deferred;
 		},
->>>>>>> master
 
 		// Deferred helper
 		when: function( singleValue ) {
@@ -25947,13 +25520,9 @@
 				// count of unprocessed arguments
 				i = remaining,
 
-<<<<<<< HEAD
-	var _utilsJoinPrefixedRules = __webpack_require__(196);
-=======
 				// subordinate fulfillment data
 				resolveContexts = Array( i ),
 				resolveValues = slice.call( arguments ),
->>>>>>> master
 
 				// the master Deferred
 				master = jQuery.Deferred(),
@@ -25977,15 +25546,9 @@
 				if ( master.state() === "pending" ||
 					jQuery.isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
 
-<<<<<<< HEAD
-/***/ },
-/* 200 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 					return master.then();
 				}
 			}
->>>>>>> master
 
 			// Multiple arguments are aggregated like Promise.all array elements
 			while ( i-- ) {
@@ -25997,13 +25560,9 @@
 	} );
 
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(197);
-=======
 	// These usually indicate a programmer mistake during development,
 	// warn about them ASAP rather than swallowing them by default.
 	var rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
->>>>>>> master
 
 	jQuery.Deferred.exceptionHook = function( error, stack ) {
 
@@ -26016,12 +25575,6 @@
 
 
 
-<<<<<<< HEAD
-/***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-=======
->>>>>>> master
 
 	jQuery.readyException = function( error ) {
 		window.setTimeout( function() {
@@ -26031,10 +25584,6 @@
 
 
 
-<<<<<<< HEAD
-	var _utilsJoinPrefixedRules = __webpack_require__(196);
-=======
->>>>>>> master
 
 	// The deferred used on DOM ready
 	var readyList = jQuery.Deferred();
@@ -26059,15 +25608,9 @@
 		// Is the DOM ready to be used? Set to true once it occurs.
 		isReady: false,
 
-<<<<<<< HEAD
-/***/ },
-/* 202 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		// A counter to track how many items to wait for before
 		// the ready event fires. See #6781
 		readyWait: 1,
->>>>>>> master
 
 		// Hold (or release) the ready event
 		holdReady: function( hold ) {
@@ -26086,26 +25629,18 @@
 				return;
 			}
 
-<<<<<<< HEAD
-	var _utilsJoinPrefixedRules = __webpack_require__(196);
-=======
 			// Remember that the DOM is ready
 			jQuery.isReady = true;
->>>>>>> master
 
 			// If a normal DOM Ready event fired, decrement, and wait if need be
 			if ( wait !== true && --jQuery.readyWait > 0 ) {
 				return;
 			}
 
-<<<<<<< HEAD
-	var _utilsIsPrefixedValue = __webpack_require__(198);
-=======
 			// If there are functions bound, to execute
 			readyList.resolveWith( document, [ jQuery ] );
 		}
 	} );
->>>>>>> master
 
 	jQuery.ready.then = readyList.then;
 
@@ -26128,14 +25663,8 @@
 
 	} else {
 
-<<<<<<< HEAD
-/***/ },
-/* 203 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		// Use the handy event callback
 		document.addEventListener( "DOMContentLoaded", completed );
->>>>>>> master
 
 		// A fallback to window.onload, that will always work
 		window.addEventListener( "load", completed );
@@ -26144,16 +25673,12 @@
 
 
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(197);
-=======
 	// Multifunctional method to get and set values of a collection
 	// The value/s can optionally be executed if it's a function
 	var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		var i = 0,
 			len = elems.length,
 			bulk = key == null;
->>>>>>> master
 
 		// Sets many values
 		if ( jQuery.type( key ) === "object" ) {
@@ -26162,23 +25687,15 @@
 				access( elems, fn, i, key[ i ], true, emptyGet, raw );
 			}
 
-<<<<<<< HEAD
-	var _utilsCapitalizeString = __webpack_require__(193);
-=======
 		// Sets one value
 		} else if ( value !== undefined ) {
 			chainable = true;
->>>>>>> master
 
 			if ( !jQuery.isFunction( value ) ) {
 				raw = true;
 			}
 
-<<<<<<< HEAD
-	var _utilsIsPrefixedValue = __webpack_require__(198);
-=======
 			if ( bulk ) {
->>>>>>> master
 
 				// Bulk operations run against the entire set
 				if ( raw ) {
@@ -26194,9 +25711,6 @@
 				}
 			}
 
-<<<<<<< HEAD
-	var _prefixProps = __webpack_require__(192);
-=======
 			if ( fn ) {
 				for ( ; i < len; i++ ) {
 					fn(
@@ -26207,7 +25721,6 @@
 				}
 			}
 		}
->>>>>>> master
 
 		if ( chainable ) {
 			return elems;
@@ -26256,16 +25769,10 @@
 				// Always return an empty object.
 				if ( acceptData( owner ) ) {
 
-<<<<<<< HEAD
-/***/ },
-/* 204 */
-/***/ function(module, exports) {
-=======
 					// If it is a node unlikely to be stringify-ed or looped over
 					// use plain assignment
 					if ( owner.nodeType ) {
 						owner[ this.expando ] = value;
->>>>>>> master
 
 					// Otherwise secure it in a non-enumerable property
 					// configurable must be true to allow the property to be
@@ -26395,12 +25902,6 @@
 	var dataUser = new Data();
 
 
-<<<<<<< HEAD
-/***/ },
-/* 205 */
-/***/ function(module, exports, __webpack_require__) {
-=======
->>>>>>> master
 
 	//	Implementation Summary
 	//
@@ -26433,13 +25934,9 @@
 			return +data;
 		}
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(197);
-=======
 		if ( rbrace.test( data ) ) {
 			return JSON.parse( data );
 		}
->>>>>>> master
 
 		return data;
 	}
@@ -26472,15 +25969,9 @@
 			return dataUser.hasData( elem ) || dataPriv.hasData( elem );
 		},
 
-<<<<<<< HEAD
-/***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		data: function( elem, name, data ) {
 			return dataUser.access( elem, name, data );
 		},
->>>>>>> master
 
 		removeData: function( elem, name ) {
 			dataUser.remove( elem, name );
@@ -26526,12 +26017,8 @@
 					}
 				}
 
-<<<<<<< HEAD
-	var _bowser = __webpack_require__(207);
-=======
 				return data;
 			}
->>>>>>> master
 
 			// Sets multiple values
 			if ( typeof key === "object" ) {
@@ -26765,24 +26252,8 @@
 	};
 
 
-<<<<<<< HEAD
-/***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-=======
->>>>>>> master
 
 
-<<<<<<< HEAD
-	!function (root, name, definition) {
-	  if (typeof module != 'undefined' && module.exports) module.exports = definition()
-	  else if (true) __webpack_require__(208)(name, definition)
-	  else root[name] = definition()
-	}(this, 'bowser', function () {
-	  /**
-	    * See useragents.js for examples of navigator.userAgent
-	    */
-=======
 	function adjustCSS( elem, prop, valueParts, tween ) {
 		var adjusted,
 			scale = 1,
@@ -26796,7 +26267,6 @@
 				},
 			initial = currentValue(),
 			unit = valueParts && valueParts[ 3 ] || ( jQuery.cssNumber[ prop ] ? "" : "px" ),
->>>>>>> master
 
 			// Starting value computation is required for potential unit mismatches
 			initialInUnit = ( jQuery.cssNumber[ prop ] || unit !== "px" && +initial ) &&
@@ -26949,14 +26419,8 @@
 
 
 
-<<<<<<< HEAD
-/***/ },
-/* 208 */
-/***/ function(module, exports) {
-=======
 	// We have to close these tags to support XHTML (#13200)
 	var wrapMap = {
->>>>>>> master
 
 		// Support: IE <=9 only
 		option: [ 1, "<select multiple='multiple'>", "</select>" ],
@@ -26969,14 +26433,8 @@
 		tr: [ 2, "<table><tbody>", "</tbody></table>" ],
 		td: [ 3, "<table><tbody><tr>", "</tr></tbody></table>" ],
 
-<<<<<<< HEAD
-/***/ },
-/* 209 */
-/***/ function(module, exports) {
-=======
 		_default: [ 0, "", "" ]
 	};
->>>>>>> master
 
 	// Support: IE <=9 only
 	wrapMap.optgroup = wrapMap.option;
@@ -26994,14 +26452,8 @@
 		if ( typeof context.getElementsByTagName !== "undefined" ) {
 			ret = context.getElementsByTagName( tag || "*" );
 
-<<<<<<< HEAD
-/***/ },
-/* 210 */
-/***/ function(module, exports) {
-=======
 		} else if ( typeof context.querySelectorAll !== "undefined" ) {
 			ret = context.querySelectorAll( tag || "*" );
->>>>>>> master
 
 		} else {
 			ret = [];
@@ -27015,16 +26467,10 @@
 	}
 
 
-<<<<<<< HEAD
-/***/ },
-/* 211 */
-/***/ function(module, exports) {
-=======
 	// Mark scripts as having already been evaluated
 	function setGlobalEval( elems, refElements ) {
 		var i = 0,
 			l = elems.length;
->>>>>>> master
 
 		for ( ; i < l; i++ ) {
 			dataPriv.set(
@@ -27048,13 +26494,7 @@
 		for ( ; i < l; i++ ) {
 			elem = elems[ i ];
 
-<<<<<<< HEAD
-/***/ },
-/* 212 */
-/***/ function(module, exports) {
-=======
 			if ( elem || elem === 0 ) {
->>>>>>> master
 
 				// Add nodes directly
 				if ( jQuery.type( elem ) === "object" ) {
@@ -27063,15 +26503,9 @@
 					// push.apply(_, arraylike) throws on ancient WebKit
 					jQuery.merge( nodes, elem.nodeType ? [ elem ] : elem );
 
-<<<<<<< HEAD
-/***/ },
-/* 213 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 				// Convert non-html into a text node
 				} else if ( !rhtml.test( elem ) ) {
 					nodes.push( context.createTextNode( elem ) );
->>>>>>> master
 
 				// Convert html into DOM nodes
 				} else {
@@ -27092,12 +26526,8 @@
 					// push.apply(_, arraylike) throws on ancient WebKit
 					jQuery.merge( nodes, tmp.childNodes );
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 					// Remember the top-level container
 					tmp = fragment.firstChild;
->>>>>>> master
 
 					// Ensure the created nodes are orphaned (#12392)
 					tmp.textContent = "";
@@ -27119,13 +26549,7 @@
 				continue;
 			}
 
-<<<<<<< HEAD
-/***/ },
-/* 214 */
-/***/ function(module, exports) {
-=======
 			contains = jQuery.contains( elem.ownerDocument, elem );
->>>>>>> master
 
 			// Append to fragment
 			tmp = getAll( fragment.appendChild( elem ), "script" );
@@ -27149,12 +26573,6 @@
 		return fragment;
 	}
 
-<<<<<<< HEAD
-/***/ },
-/* 215 */
-/***/ function(module, exports, __webpack_require__) {
-=======
->>>>>>> master
 
 	( function() {
 		var fragment = document.createDocumentFragment(),
@@ -27171,13 +26589,9 @@
 
 		div.appendChild( input );
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 		// Support: Android <=4.1 only
 		// Older WebKit doesn't clone checked state correctly in fragments
 		support.checkClone = div.cloneNode( true ).cloneNode( true ).lastChild.checked;
->>>>>>> master
 
 		// Support: IE <=11 only
 		// Make sure textarea (and checkbox) defaultValue is properly cloned
@@ -27201,11 +26615,6 @@
 		return false;
 	}
 
-<<<<<<< HEAD
-/***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	// Support: IE <=9 only
 	// See #13393 for more info
 	function safeActiveElement() {
@@ -27213,7 +26622,6 @@
 			return document.activeElement;
 		} catch ( err ) { }
 	}
->>>>>>> master
 
 	function on( elem, types, selector, data, fn, one ) {
 		var origFn, type;
@@ -27224,9 +26632,6 @@
 			// ( types-Object, selector, data )
 			if ( typeof selector !== "string" ) {
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 				// ( types-Object, data )
 				data = data || selector;
 				selector = undefined;
@@ -27236,7 +26641,6 @@
 			}
 			return elem;
 		}
->>>>>>> master
 
 		if ( data == null && fn == null ) {
 
@@ -27286,13 +26690,7 @@
 	 */
 	jQuery.event = {
 
-<<<<<<< HEAD
-/***/ },
-/* 217 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		global: {},
->>>>>>> master
 
 		add: function( elem, types, handler, data, selector ) {
 
@@ -27313,15 +26711,11 @@
 				selector = handleObjIn.selector;
 			}
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 			// Ensure that invalid selectors throw exceptions at attach time
 			// Evaluate against documentElement in case elem is a non-element node (e.g., document)
 			if ( selector ) {
 				jQuery.find.matchesSelector( documentElement, selector );
 			}
->>>>>>> master
 
 			// Make sure that the handler has a unique ID, used to find/remove it later
 			if ( !handler.guid ) {
@@ -27394,16 +26788,10 @@
 				if ( special.add ) {
 					special.add.call( elem, handleObj );
 
-<<<<<<< HEAD
-/***/ },
-/* 218 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 					if ( !handleObj.handler.guid ) {
 						handleObj.handler.guid = handler.guid;
 					}
 				}
->>>>>>> master
 
 				// Add to the element's handler list, delegates in front
 				if ( selector ) {
@@ -27421,14 +26809,10 @@
 		// Detach an event or set of events from an element
 		remove: function( elem, types, handler, selector, mappedTypes ) {
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 			var j, origCount, tmp,
 				events, t, handleObj,
 				special, handlers, type, namespaces, origType,
 				elemData = dataPriv.hasData( elem ) && dataPriv.get( elem );
->>>>>>> master
 
 			if ( !elemData || !( events = elemData.events ) ) {
 				return;
@@ -27486,15 +26870,9 @@
 						jQuery.removeEvent( elem, type, elemData.handle );
 					}
 
-<<<<<<< HEAD
-/***/ },
-/* 219 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 					delete events[ type ];
 				}
 			}
->>>>>>> master
 
 			// Remove data and the expando if it's no longer used
 			if ( jQuery.isEmptyObject( events ) ) {
@@ -27512,34 +26890,22 @@
 				handlers = ( dataPriv.get( this, "events" ) || {} )[ event.type ] || [],
 				special = jQuery.event.special[ event.type ] || {};
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 			// Use the fix-ed jQuery.Event rather than the (read-only) native event
 			args[ 0 ] = event;
->>>>>>> master
 
 			for ( i = 1; i < arguments.length; i++ ) {
 				args[ i ] = arguments[ i ];
 			}
 
-<<<<<<< HEAD
-	var _utilsCapitalizeString = __webpack_require__(210);
-=======
 			event.delegateTarget = this;
->>>>>>> master
 
 			// Call the preDispatch hook for the mapped type, and let it bail if desired
 			if ( special.preDispatch && special.preDispatch.call( this, event ) === false ) {
 				return;
 			}
 
-<<<<<<< HEAD
-	var _utilsUnprefixProperty = __webpack_require__(220);
-=======
 			// Determine handlers
 			handlerQueue = jQuery.event.handlers.call( this, event, handlers );
->>>>>>> master
 
 			// Run delegates first; they may want to stop propagation beneath us
 			i = 0;
@@ -27633,11 +26999,6 @@
 				handlerQueue.push( { elem: cur, handlers: handlers.slice( delegateCount ) } );
 			}
 
-<<<<<<< HEAD
-/***/ },
-/* 220 */
-/***/ function(module, exports) {
-=======
 			return handlerQueue;
 		},
 
@@ -27710,7 +27071,6 @@
 						return false;
 					}
 				},
->>>>>>> master
 
 				// For cross-browser consistency, don't fire native .click() on links
 				_default: function( event ) {
@@ -27733,17 +27093,11 @@
 
 	jQuery.removeEvent = function( elem, type, handle ) {
 
-<<<<<<< HEAD
-/***/ },
-/* 221 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		// This "if" is needed for plain objects
 		if ( elem.removeEventListener ) {
 			elem.removeEventListener( type, handle );
 		}
 	};
->>>>>>> master
 
 	jQuery.Event = function( src, props ) {
 
@@ -27762,14 +27116,10 @@
 			this.isDefaultPrevented = src.defaultPrevented ||
 					src.defaultPrevented === undefined &&
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 					// Support: Android <=2.3 only
 					src.returnValue === false ?
 				returnTrue :
 				returnFalse;
->>>>>>> master
 
 			// Create target properties
 			// Support: Safari <=6 - 7 only
@@ -27798,11 +27148,6 @@
 		this[ jQuery.expando ] = true;
 	};
 
-<<<<<<< HEAD
-/***/ },
-/* 222 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	// jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
 	// https://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
 	jQuery.Event.prototype = {
@@ -27811,7 +27156,6 @@
 		isPropagationStopped: returnFalse,
 		isImmediatePropagationStopped: returnFalse,
 		isSimulated: false,
->>>>>>> master
 
 		preventDefault: function() {
 			var e = this.originalEvent;
@@ -27827,16 +27171,12 @@
 
 			this.isPropagationStopped = returnTrue;
 
-<<<<<<< HEAD
-	var _utilsCamelToDashCase = __webpack_require__(214);
-=======
 			if ( e && !this.isSimulated ) {
 				e.stopPropagation();
 			}
 		},
 		stopImmediatePropagation: function() {
 			var e = this.originalEvent;
->>>>>>> master
 
 			this.isImmediatePropagationStopped = returnTrue;
 
@@ -27902,14 +27242,8 @@
 					return 2;
 				}
 
-<<<<<<< HEAD
-/***/ },
-/* 223 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 				return 0;
 			}
->>>>>>> master
 
 			return event.which;
 		}
@@ -27976,9 +27310,6 @@
 			}
 			if ( typeof types === "object" ) {
 
-<<<<<<< HEAD
-	var _getStateKey = __webpack_require__(224);
-=======
 				// ( types-object [, selector] )
 				for ( type in types ) {
 					this.off( type, selector, types[ type ] );
@@ -27986,7 +27317,6 @@
 				return this;
 			}
 			if ( selector === false || typeof selector === "function" ) {
->>>>>>> master
 
 				// ( types [, fn] )
 				fn = selector;
@@ -28009,13 +27339,7 @@
 		// See https://github.com/eslint/eslint/issues/3229
 		rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi,
 
-<<<<<<< HEAD
-/***/ },
-/* 224 */
-/***/ function(module, exports) {
-=======
 		/* eslint-enable */
->>>>>>> master
 
 		// Support: IE <=10 - 11, Edge 12 - 13
 		// In IE/Edge using regex groups here causes severe slowdowns.
@@ -28037,11 +27361,6 @@
 		return elem;
 	}
 
-<<<<<<< HEAD
-/***/ },
-/* 225 */
-/***/ function(module, exports) {
-=======
 	// Replace/restore the type attribute of script elements for safe DOM manipulation
 	function disableScript( elem ) {
 		elem.type = ( elem.getAttribute( "type" ) !== null ) + "/" + elem.type;
@@ -28049,7 +27368,6 @@
 	}
 	function restoreScript( elem ) {
 		var match = rscriptTypeMasked.exec( elem.type );
->>>>>>> master
 
 		if ( match ) {
 			elem.type = match[ 1 ];
@@ -28085,16 +27403,10 @@
 			}
 		}
 
-<<<<<<< HEAD
-/***/ },
-/* 226 */
-/***/ function(module, exports) {
-=======
 		// 2. Copy user data
 		if ( dataUser.hasData( src ) ) {
 			udataOld = dataUser.access( src );
 			udataCur = jQuery.extend( {}, udataOld );
->>>>>>> master
 
 			dataUser.set( dest, udataCur );
 		}
@@ -28152,17 +27464,11 @@
 				scripts = jQuery.map( getAll( fragment, "script" ), disableScript );
 				hasScripts = scripts.length;
 
-<<<<<<< HEAD
-/***/ },
-/* 227 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 				// Use the original fragment for the last item
 				// instead of the first because it can end up
 				// being emptied incorrectly in certain situations (#8070).
 				for ( ; i < l; i++ ) {
 					node = fragment;
->>>>>>> master
 
 					if ( i !== iNoClone ) {
 						node = jQuery.clone( node, true, true );
@@ -28170,22 +27476,15 @@
 						// Keep references to cloned scripts for later restoration
 						if ( hasScripts ) {
 
-<<<<<<< HEAD
-	var _checkPropsPlugin = __webpack_require__(228);
-=======
 							// Support: Android <=4.0 only, PhantomJS 1 only
 							// push.apply(_, arraylike) throws on ancient WebKit
 							jQuery.merge( scripts, getAll( node, "script" ) );
 						}
 					}
->>>>>>> master
 
 					callback.call( collection[ i ], node, i );
 				}
 
-<<<<<<< HEAD
-	var _keyframesPlugin = __webpack_require__(229);
-=======
 				if ( hasScripts ) {
 					doc = scripts[ scripts.length - 1 ].ownerDocument;
 
@@ -28213,28 +27512,20 @@
 				}
 			}
 		}
->>>>>>> master
 
 		return collection;
 	}
 
-<<<<<<< HEAD
-	var _mergeStyleArrayPlugin = __webpack_require__(230);
-=======
 	function remove( elem, selector, keepData ) {
 		var node,
 			nodes = selector ? jQuery.filter( selector, elem ) : elem,
 			i = 0;
->>>>>>> master
 
 		for ( ; ( node = nodes[ i ] ) != null; i++ ) {
 			if ( !keepData && node.nodeType === 1 ) {
 				jQuery.cleanData( getAll( node ) );
 			}
 
-<<<<<<< HEAD
-	var _prefixPlugin = __webpack_require__(231);
-=======
 			if ( node.parentNode ) {
 				if ( keepData && jQuery.contains( node.ownerDocument, node ) ) {
 					setGlobalEval( getAll( node, "script" ) );
@@ -28242,45 +27533,32 @@
 				node.parentNode.removeChild( node );
 			}
 		}
->>>>>>> master
 
 		return elem;
 	}
 
-<<<<<<< HEAD
-	var _removeNestedStylesPlugin = __webpack_require__(232);
-=======
 	jQuery.extend( {
 		htmlPrefilter: function( html ) {
 			return html.replace( rxhtmlTag, "<$1></$2>" );
 		},
->>>>>>> master
 
 		clone: function( elem, dataAndEvents, deepDataAndEvents ) {
 			var i, l, srcElements, destElements,
 				clone = elem.cloneNode( true ),
 				inPage = jQuery.contains( elem.ownerDocument, elem );
 
-<<<<<<< HEAD
-	var _resolveInteractionStylesPlugin = __webpack_require__(233);
-=======
 			// Fix IE cloning issues
 			if ( !support.noCloneChecked && ( elem.nodeType === 1 || elem.nodeType === 11 ) &&
 					!jQuery.isXMLDoc( elem ) ) {
->>>>>>> master
 
 				// We eschew Sizzle here for performance reasons: https://jsperf.com/getall-vs-sizzle/2
 				destElements = getAll( clone );
 				srcElements = getAll( elem );
 
-<<<<<<< HEAD
-	var _resolveMediaQueriesPlugin = __webpack_require__(235);
-=======
 				for ( i = 0, l = srcElements.length; i < l; i++ ) {
 					fixInput( srcElements[ i ], destElements[ i ] );
 				}
 			}
->>>>>>> master
 
 			// Copy the events from the original to the clone
 			if ( dataAndEvents ) {
@@ -28288,9 +27566,6 @@
 					srcElements = srcElements || getAll( elem );
 					destElements = destElements || getAll( clone );
 
-<<<<<<< HEAD
-	var _visitedPlugin = __webpack_require__(236);
-=======
 					for ( i = 0, l = srcElements.length; i < l; i++ ) {
 						cloneCopyEvent( srcElements[ i ], destElements[ i ] );
 					}
@@ -28298,7 +27573,6 @@
 					cloneCopyEvent( elem, clone );
 				}
 			}
->>>>>>> master
 
 			// Preserve script evaluation history
 			destElements = getAll( clone, "script" );
@@ -28392,11 +27666,6 @@
 			} );
 		},
 
-<<<<<<< HEAD
-/***/ },
-/* 228 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		after: function() {
 			return domManip( this, arguments, function( elem ) {
 				if ( this.parentNode ) {
@@ -28404,7 +27673,6 @@
 				}
 			} );
 		},
->>>>>>> master
 
 		empty: function() {
 			var elem,
@@ -28453,18 +27721,12 @@
 						for ( ; i < l; i++ ) {
 							elem = this[ i ] || {};
 
-<<<<<<< HEAD
-/***/ },
-/* 229 */
-/***/ function(module, exports) {
-=======
 							// Remove element nodes and prevent memory leaks
 							if ( elem.nodeType === 1 ) {
 								jQuery.cleanData( getAll( elem, false ) );
 								elem.innerHTML = value;
 							}
 						}
->>>>>>> master
 
 						elem = 0;
 
@@ -28520,16 +27782,10 @@
 				push.apply( ret, elems.get() );
 			}
 
-<<<<<<< HEAD
-/***/ },
-/* 230 */
-/***/ function(module, exports) {
-=======
 			return this.pushStack( ret );
 		};
 	} );
 	var rmargin = ( /^margin/ );
->>>>>>> master
 
 	var rnumnonpx = new RegExp( "^(" + pnum + ")(?!px)[a-z%]+$", "i" );
 
@@ -28547,23 +27803,13 @@
 			return view.getComputedStyle( elem );
 		};
 
-<<<<<<< HEAD
-/***/ },
-/* 231 */
-/***/ function(module, exports, __webpack_require__) {
-=======
->>>>>>> master
 
 
 	( function() {
 
-<<<<<<< HEAD
-	var _prefixer = __webpack_require__(189);
-=======
 		// Executing both pixelPosition & boxSizingReliable tests require only one layout
 		// so they're executed at the same time to save the second computation.
 		function computeStyleTests() {
->>>>>>> master
 
 			// This is a singleton, we need to execute it only once
 			if ( !div ) {
@@ -28578,14 +27824,8 @@
 			div.innerHTML = "";
 			documentElement.appendChild( container );
 
-<<<<<<< HEAD
-/***/ },
-/* 232 */
-/***/ function(module, exports) {
-=======
 			var divStyle = window.getComputedStyle( div );
 			pixelPositionVal = divStyle.top !== "1%";
->>>>>>> master
 
 			// Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
 			reliableMarginLeftVal = divStyle.marginLeft === "2px";
@@ -28598,16 +27838,10 @@
 
 			documentElement.removeChild( container );
 
-<<<<<<< HEAD
-/***/ },
-/* 233 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 			// Nullify the div so it wouldn't be stored in the memory and
 			// it will also be a sign that checks already performed
 			div = null;
 		}
->>>>>>> master
 
 		var pixelPositionVal, boxSizingReliableVal, pixelMarginRightVal, reliableMarginLeftVal,
 			container = document.createElement( "div" ),
@@ -28618,9 +27852,6 @@
 			return;
 		}
 
-<<<<<<< HEAD
-	var _mouseUpListener = __webpack_require__(234);
-=======
 		// Support: IE <=9 - 11 only
 		// Style of cloned element affects source element cloned (#8908)
 		div.style.backgroundClip = "content-box";
@@ -28650,7 +27881,6 @@
 			}
 		} );
 	} )();
->>>>>>> master
 
 
 	function curCSS( elem, name, computed ) {
@@ -28738,16 +27968,10 @@
 	// Return a css property mapped to a potentially vendor prefixed property
 	function vendorPropName( name ) {
 
-<<<<<<< HEAD
-/***/ },
-/* 234 */
-/***/ function(module, exports) {
-=======
 		// Shortcut for names that are not vendor prefixed
 		if ( name in emptyStyle ) {
 			return name;
 		}
->>>>>>> master
 
 		// Check for vendor prefixed names
 		var capName = name[ 0 ].toUpperCase() + name.slice( 1 ),
@@ -28788,16 +28012,10 @@
 
 		for ( ; i < 4; i += 2 ) {
 
-<<<<<<< HEAD
-/***/ },
-/* 235 */
-/***/ function(module, exports) {
-=======
 			// Both box models exclude margin, so add it if we want it
 			if ( extra === "margin" ) {
 				val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
 			}
->>>>>>> master
 
 			if ( isBorderBox ) {
 
@@ -28979,16 +28197,10 @@
 					return ret;
 				}
 
-<<<<<<< HEAD
-/***/ },
-/* 236 */
-/***/ function(module, exports) {
-=======
 				// Otherwise just get the value from the style object
 				return style[ name ];
 			}
 		},
->>>>>>> master
 
 		css: function( elem, name, extra, styles ) {
 			var val, num, hooks,
@@ -29016,11 +28228,6 @@
 				val = cssNormalTransform[ name ];
 			}
 
-<<<<<<< HEAD
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 			// Make numeric if forced or a qualifier was provided and val looks numeric
 			if ( extra === "" || extra ) {
 				num = parseFloat( val );
@@ -29071,7 +28278,6 @@
 					elem.style[ name ] = value;
 					value = jQuery.css( elem, name );
 				}
->>>>>>> master
 
 				return setPositiveNumber( elem, value, subtract );
 			}
@@ -29201,18 +28407,12 @@
 			get: function( tween ) {
 				var result;
 
-<<<<<<< HEAD
-/***/ },
-/* 238 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 				// Use a property on the element directly when it is not a DOM element,
 				// or when there is no matching style property that exists.
 				if ( tween.elem.nodeType !== 1 ||
 					tween.elem[ tween.prop ] != null && tween.elem.style[ tween.prop ] == null ) {
 					return tween.elem[ tween.prop ];
 				}
->>>>>>> master
 
 				// Passing an empty string as a 3rd parameter to .css will automatically
 				// attempt a parseFloat and fallback to a string if the parse fails.
@@ -29261,11 +28461,7 @@
 		_default: "swing"
 	};
 
-<<<<<<< HEAD
-	var _cssRuleSetToString = __webpack_require__(187);
-=======
 	jQuery.fx = Tween.prototype.init;
->>>>>>> master
 
 	// Back compat <1.8 extension point
 	jQuery.fx.step = {};
@@ -29437,11 +28633,6 @@
 			}
 		}
 
-<<<<<<< HEAD
-/***/ },
-/* 239 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		if ( opts.overflow ) {
 			style.overflow = "hidden";
 			anim.always( function() {
@@ -29450,7 +28641,6 @@
 				style.overflowY = opts.overflow[ 2 ];
 			} );
 		}
->>>>>>> master
 
 		// Implement show/hide animations
 		propTween = false;
@@ -29476,19 +28666,11 @@
 					showHide( [ elem ], true );
 				}
 
-<<<<<<< HEAD
-	var _enhancer = __webpack_require__(181);
-=======
 				/* eslint-disable no-loop-func */
->>>>>>> master
 
 				anim.done( function() {
 
-<<<<<<< HEAD
-	var _styleKeeper = __webpack_require__(182);
-=======
 				/* eslint-enable no-loop-func */
->>>>>>> master
 
 					// The final step of a "hide" animation is actually hiding the element
 					if ( !hidden ) {
@@ -29501,9 +28683,6 @@
 				} );
 			}
 
-<<<<<<< HEAD
-	var _styleSheet = __webpack_require__(240);
-=======
 			// Per-property setup
 			propTween = createTween( hidden ? dataShow[ prop ] : 0, prop, anim );
 			if ( !( prop in dataShow ) ) {
@@ -29515,7 +28694,6 @@
 			}
 		}
 	}
->>>>>>> master
 
 	function propFilter( props, specialEasing ) {
 		var index, name, easing, value, hooks;
@@ -29726,17 +28904,11 @@
 				if ( opt.duration in jQuery.fx.speeds ) {
 					opt.duration = jQuery.fx.speeds[ opt.duration ];
 
-<<<<<<< HEAD
-/***/ },
-/* 240 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 				} else {
 					opt.duration = jQuery.fx.speeds._default;
 				}
 			}
 		}
->>>>>>> master
 
 		// Normalize opt.queue - true/undefined/null -> "fx"
 		if ( opt.queue == null || opt.queue === true ) {
@@ -29759,12 +28931,8 @@
 		return opt;
 	};
 
-<<<<<<< HEAD
-	var _styleKeeper = __webpack_require__(182);
-=======
 	jQuery.fn.extend( {
 		fadeTo: function( speed, to, easing, callback ) {
->>>>>>> master
 
 			// Show any hidden elements after setting opacity to 0
 			return this.filter( isHiddenWithinTree ).css( "opacity", 0 ).show()
@@ -29932,11 +29100,6 @@
 		fxNow = undefined;
 	};
 
-<<<<<<< HEAD
-/***/ },
-/* 241 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	jQuery.fx.timer = function( timer ) {
 		jQuery.timers.push( timer );
 		if ( timer() ) {
@@ -29945,7 +29108,6 @@
 			jQuery.timers.pop();
 		}
 	};
->>>>>>> master
 
 	jQuery.fx.interval = 13;
 	jQuery.fx.start = function() {
@@ -29963,35 +29125,23 @@
 			window.clearInterval( timerId );
 		}
 
-<<<<<<< HEAD
-	var _cssRuleSetToString = __webpack_require__(187);
-=======
 		timerId = null;
 	};
->>>>>>> master
 
 	jQuery.fx.speeds = {
 		slow: 600,
 		fast: 200,
 
-<<<<<<< HEAD
-	var _hash = __webpack_require__(225);
-=======
 		// Default speed
 		_default: 400
 	};
->>>>>>> master
 
 
-<<<<<<< HEAD
-	var _prefixer = __webpack_require__(189);
-=======
 	// Based off of the plugin by Clint Helfers, with permission.
 	// https://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
 	jQuery.fn.delay = function( time, type ) {
 		time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
 		type = type || "fx";
->>>>>>> master
 
 		return this.queue( type, function( next, hooks ) {
 			var timeout = window.setTimeout( next, time );
@@ -30002,22 +29152,10 @@
 	};
 
 
-<<<<<<< HEAD
-/***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "2e21749335ed2b94c0192e5e5fa92e6e.png";
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	( function() {
 		var input = document.createElement( "input" ),
 			select = document.createElement( "select" ),
 			opt = select.appendChild( document.createElement( "option" ) );
->>>>>>> master
 
 		input.type = "checkbox";
 
@@ -30053,43 +29191,10 @@
 		}
 	} );
 
-<<<<<<< HEAD
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Breadcrumbs = function Breadcrumbs() {
-	  return _react2.default.createElement('div', { style: breadcrumbs });
-	};
-
-	var breadcrumbs = {
-	  height: '40px',
-	  backgroundColor: '#EAEAEA'
-	};
-
-	exports.default = Breadcrumbs;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 	jQuery.extend( {
 		attr: function( elem, name, value ) {
 			var ret, hooks,
 				nType = elem.nodeType;
->>>>>>> master
 
 			// Don't get/set attributes on text, comment and attribute nodes
 			if ( nType === 3 || nType === 8 || nType === 2 ) {
@@ -30114,172 +29219,6 @@
 					return;
 				}
 
-<<<<<<< HEAD
-	var _radium = __webpack_require__(180);
-
-	var _radium2 = _interopRequireDefault(_radium);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Menu = function Menu(props) {
-	  return _react2.default.createElement(
-	    'nav',
-	    { style: menu },
-	    _react2.default.createElement(
-	      'ul',
-	      null,
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(
-	          'a',
-	          { href: '#' },
-	          'Foundations of GRE Logic'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(
-	          'a',
-	          { href: '#' },
-	          'Arithmetic'
-	        )
-	      ),
-	      _react2.default.createElement(
-	        'li',
-	        null,
-	        _react2.default.createElement(
-	          'a',
-	          { href: '#' },
-	          'Text Completion and Sentence Equivalence'
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#' },
-	            'Algebra'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#' },
-	            'Arithmetic'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#' },
-	            'Critical Reasoning'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#' },
-	            'Geometry and Statistics'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#' },
-	            'Word Problems and Data Analysis'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#' },
-	            'Analytical Writing Measure'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'li',
-	          null,
-	          _react2.default.createElement(
-	            'a',
-	            { href: '#' },
-	            'Quantitative Strategy'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              'a',
-	              { href: '#' },
-	              'Photoshop'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              'a',
-	              { href: '#' },
-	              'Illustrator'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              'a',
-	              { href: '#' },
-	              'Web Design'
-	            ),
-	            _react2.default.createElement(
-	              'ul',
-	              null,
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  'a',
-	                  { href: '#' },
-	                  'HTML'
-	                )
-	              ),
-	              _react2.default.createElement(
-	                'li',
-	                null,
-	                _react2.default.createElement(
-	                  'a',
-	                  { href: '#' },
-	                  'CSS'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      )
-	    )
-	  );
-	};
-
-	var menu = {
-	  backgroundColor: '#111539',
-	  width: '25%',
-	  minWidth: '225px'
-=======
 				if ( hooks && "set" in hooks &&
 					( ret = hooks.set( elem, value, name ) ) !== undefined ) {
 					return ret;
@@ -30292,7 +29231,6 @@
 			if ( hooks && "get" in hooks && ( ret = hooks.get( elem, name ) ) !== null ) {
 				return ret;
 			}
->>>>>>> master
 
 			ret = jQuery.find.attr( elem, name );
 
@@ -30316,63 +29254,6 @@
 			}
 		},
 
-<<<<<<< HEAD
-	var lesson = {
-	  width: '100%',
-	  backgroundcolor: '#111539',
-	  color: 'white'
-	};
-
-	var ulStyle = {
-	  backgroundColor: '#A1A2A0',
-	  color: 'white',
-	  height: '20px'
-
-	};
-
-	exports.default = (0, _radium2.default)(Menu);
-
-	// import React, {Component} from 'react';
-	// import Radium from 'radium';
-
-	// const Menu = (props) => {
-	//   return (
-	//     <div style={ menu }>
-	//       <ul style={ ulStyle } key='boob' onClick={ props.toggle }>
-	//         <li>Lesson 1</li>
-	//         <li>1</li>
-	//         <li>2</li>
-	//         <li>3</li>
-	//       </ul>
-	//       <ul style={ ulStyle } key='poop' onClick={ props.toggle }>
-	//         <li>Lesson 2</li>
-	//         <li>1</li>
-	//         <li>2</li>
-	//         <li>3</li>
-	//       </ul>
-	//     </div>
-	//   );
-	// };
-
-	// const menu = {
-	//   backgroundColor: '#2F3241',
-	//   width: '25%',
-	//   minWidth: '225px'
-	// };
-
-	// const ulStyle = {
-	//   backgroundColor: '#A1A2A0',
-	//   color: '#FFF',
-	//   height: '20px',
-	//   overflow: 'hidden',
-	// }
-
-	// export default Radium(Menu);
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-=======
 		removeAttr: function( elem, value ) {
 			var name,
 				i = 0,
@@ -30380,7 +29261,6 @@
 				// Attribute names can contain non-HTML whitespace characters
 				// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
 				attrNames = value && value.match( rnothtmlwhite );
->>>>>>> master
 
 			if ( attrNames && elem.nodeType === 1 ) {
 				while ( ( name = attrNames[ i++ ] ) ) {
@@ -30407,78 +29287,6 @@
 	jQuery.each( jQuery.expr.match.bool.source.match( /\w+/g ), function( i, name ) {
 		var getter = attrHandle[ name ] || jQuery.find.attr;
 
-<<<<<<< HEAD
-	var _maxresdefault = __webpack_require__(252);
-
-	var _maxresdefault2 = _interopRequireDefault(_maxresdefault);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Video = function Video() {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement('div', { style: VideoImg }),
-	    _react2.default.createElement('div', { style: video })
-	  );
-	};
-
-	var video = {
-	  backgroundColor: 'white',
-	  width: '100%'
-	};
-
-	var VideoImg = {
-	  width: '700px',
-	  height: '40%',
-	  backgroundImage: 'url(' + _maxresdefault2.default + ')',
-	  backgroundSize: 'cover'
-	};
-	exports.default = Video;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(248);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(250)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./main.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./main.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(249)();
-	// imports
-	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);", ""]);
-
-	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n\t\n}\n\nbody {\n\toverflow: hidden;\n\n}\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\n/*nav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}*/\n\n/*body {\n\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}*/\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 600px;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 5px;\n\t overflow: scroll;\n\t/*border: solid red;*/\n\t \n\t \n}\n\n.title {\n  height: 40px;\n  width: 420px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n\t/*border: solid green;*/\n\n\n\n}\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -28px;\n  text-align: left;\n  /*transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);*/\n\ttransition: all .8s ease-in;\n\toverflow: hidden;\n\t\n}\n\n.content-open {\n  margin-top: 0px;\n\theight: 250px;\n  background-color: rgba(0,0,0, .1);\n  /*transition: all 950ms cubic-bezier(0.080, 1.090, 0.320, 1.275);*/\n\t transition: all .8s ease-in;\n\t /*will-change: overfow;*/\n\t\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .8s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\n\n", ""]);
-
-	// exports
-
-
-/***/ },
-/* 249 */
-=======
 		attrHandle[ name ] = function( elem, name, isXML ) {
 			var ret, handle,
 				lowercaseName = name.toLowerCase();
@@ -33171,6 +31979,7 @@
 	};
 
 	var banner = {
+	  color: 'white',
 	  display: 'flex',
 	  backgroundColor: '#131544',
 	  height: '56px'
@@ -37342,83 +36151,232 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _menu = __webpack_require__(247);
-
-	var _menu2 = _interopRequireDefault(_menu);
-
-	var _video = __webpack_require__(249);
-
-	var _video2 = _interopRequireDefault(_video);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Content = function Content(props) {
-	  // SHOULD GO IN CONTAINER AND HAVE STATE
-	  return _react2.default.createElement(
-	    'div',
-	    { style: container },
-	    _react2.default.createElement(_menu2.default, { toggle: props.toggle, videoData: props.videoData }),
-	    _react2.default.createElement(_video2.default, { videoData: props.videoData })
-	  );
-	};
-
-	var container = {
-	  display: 'flex',
-	  flexDirection: 'row',
-	  flex: '2'
-	};
-
-	exports.default = Content;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lesson = __webpack_require__(248);
-
-	var _lesson2 = _interopRequireDefault(_lesson);
-
 	var _radium = __webpack_require__(181);
 
 	var _radium2 = _interopRequireDefault(_radium);
 
+	var _lesson = __webpack_require__(247);
+
+	var _lesson2 = _interopRequireDefault(_lesson);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
-	  var lessons = [];
-	  if (props.videoData) {
-	    props.videoData.forEach(function (lesson, i) {
-	      lessons.push(_react2.default.createElement(_lesson2.default, { key: i, lessonData: lesson }));
-	    });
-	  }
 	  return _react2.default.createElement(
-	    'div',
+	    'nav',
 	    { style: menu },
-	    lessons
+	    _react2.default.createElement(
+	      'ul',
+	      null,
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Foundations of GRE Logic'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Arithmetic'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Text Completion and Sentence Equivalence'
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Algebra'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Arithmetic'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Critical Reasoning'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Geometry and Statistics'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Word Problems and Data Analysis'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Analytical Writing Measure'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Quantitative Strategy'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Photoshop'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Illustrator'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Web Design'
+	            ),
+	            _react2.default.createElement(
+	              'ul',
+	              null,
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'HTML'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'CSS'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
+	    )
 	  );
 	};
 
 	var menu = {
-	  backgroundColor: '#131544',
-	  width: '30%',
-	  minWidth: '300px',
-	  maxWidth: '350px'
+	  backgroundColor: '#111539',
+	  width: '25%',
+	  minWidth: '225px'
+
 	};
+
+	var lesson = {
+	  width: '100%',
+	  backgroundcolor: '#111539',
+	  color: 'white'
+	};
+
+	var ulStyle = {
+	  backgroundColor: '#A1A2A0',
+	  color: 'white',
+	  height: '20px'
+
+	};
+
+	// import React, {Component} from 'react';
+	// import Radium from 'radium';
+
+	// const Menu = (props) => {
+	//   return (
+	//     <div style={ menu }>
+	//       <ul style={ ulStyle } key='boob' onClick={ props.toggle }>
+	//         <li>Lesson 1</li>
+	//         <li>1</li>
+	//         <li>2</li>
+	//         <li>3</li>
+	//       </ul>
+	//       <ul style={ ulStyle } key='poop' onClick={ props.toggle }>
+	//         <li>Lesson 2</li>
+	//         <li>1</li>
+	//         <li>2</li>
+	//         <li>3</li>
+	//       </ul>
+	//     </div>
+	//   );
+	// };
+
+	// const menu = {
+	//   backgroundColor: '#2F3241',
+	//   width: '25%',
+	//   minWidth: '225px'
+	// };
+
+	// const ulStyle = {
+	//   backgroundColor: '#A1A2A0',
+	//   color: '#FFF',
+	//   height: '20px',
+	//   overflow: 'hidden',
+	// }
+
+	// export default Radium(Menu);
+
 
 	exports.default = (0, _radium2.default)(Menu);
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37467,10 +36425,10 @@
 	exports.default = (0, _radium2.default)(Lesson);
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -37480,24 +36438,28 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _maxresdefault = __webpack_require__(249);
+
+	var _maxresdefault2 = _interopRequireDefault(_maxresdefault);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Video = function Video(props) {
 	  return _react2.default.createElement(
-	    "div",
+	    'div',
 	    { style: video },
 	    _react2.default.createElement(
-	      "video",
-	      { id: "example_video_1", className: "video-js vjs-default-skin", controls: true, preload: "auto", width: "100%", height: "auto", "data-setup": "{\"example_option\":true}" },
-	      _react2.default.createElement("source", { src: "https://gre-on-demand.veritasprep.com/gre_1_5.mp4", type: "video/mp4" }),
+	      'video',
+	      { id: 'example_video_1', className: 'video-js vjs-default-skin', controls: true, preload: 'auto', width: '100%', height: 'auto', 'data-setup': '{"example_option":true}' },
+	      _react2.default.createElement('source', { src: 'https://gre-on-demand.veritasprep.com/gre_1_5.mp4', type: 'video/mp4' }),
 	      _react2.default.createElement(
-	        "p",
-	        { className: "vjs-no-js" },
-	        "To view this video please enable JavaScript, and consider upgrading to a web browser that ",
+	        'p',
+	        { className: 'vjs-no-js' },
+	        'To view this video please enable JavaScript, and consider upgrading to a web browser that ',
 	        _react2.default.createElement(
-	          "a",
-	          { href: "http://videojs.com/html5-video-support/", target: "_blank" },
-	          "supports HTML5 video"
+	          'a',
+	          { href: 'http://videojs.com/html5-video-support/', target: '_blank' },
+	          'supports HTML5 video'
 	        )
 	      )
 	    )
@@ -37512,16 +36474,154 @@
 	exports.default = Video;
 
 /***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "638c74b9a1ad5aef7b90dc45f8e89d84.jpg";
+
+/***/ },
 /* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Accordion = _react2.default.createClass({
+	  displayName: "Accordion",
+	  componentWillMount: function componentWillMount() {
+	    var accordion = [];
+
+	    this.props.data.forEach(function (i) {
+	      accordion.push({
+	        title: i.title,
+	        content: i.content,
+	        open: false
+	      });
+	    });
+
+	    this.setState({
+	      accordionItems: accordion
+	    });
+	  },
+	  click: function click(i) {
+	    var newAccordion = this.state.accordionItems.slice();
+	    var index = newAccordion.indexOf(i);
+
+	    newAccordion[index].open = !newAccordion[index].open;
+	    this.setState({ accordionItems: newAccordion });
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    var sections = this.state.accordionItems.map(function (i) {
+	      return _react2.default.createElement(
+	        "div",
+	        { key: _this.state.accordionItems.indexOf(i) },
+	        _react2.default.createElement(
+	          "div",
+	          {
+	            className: "title",
+	            onClick: _this.click.bind(null, i)
+	          },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "arrow-wrapper" },
+	            _react2.default.createElement("i", { className: i.open ? "fa fa-angle-down fa-rotate-180" : "fa fa-angle-down"
+	            })
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            { className: "title-text" },
+	            i.title
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: i.open ? "content content-open" : "content"
+	          },
+	          _react2.default.createElement(
+	            "div",
+	            { className: i.open ? "content-text content-text-open" : "content-text"
+	            },
+	            " ",
+	            i.content
+	          )
+	        )
+	      );
+	    });
+
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "accordion" },
+	      sections
+	    );
+	  }
+	});
+
+	exports.default = Accordion;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _menu = __webpack_require__(246);
+
+	var _menu2 = _interopRequireDefault(_menu);
+
+	var _video = __webpack_require__(248);
+
+	var _video2 = _interopRequireDefault(_video);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Content = function Content(props) {
+	  // SHOULD GO IN CONTAINER AND HAVE STATE
+	  return _react2.default.createElement(
+	    'div',
+	    { style: container },
+	    _react2.default.createElement(_menu2.default, { toggle: props.toggle, videoData: props.videoData }),
+	    _react2.default.createElement(_video2.default, { videoData: props.videoData })
+	  );
+	};
+
+	var container = {
+	  display: 'flex',
+	  flexDirection: 'row',
+	  flex: '2'
+	};
+
+	exports.default = Content;
+
+/***/ },
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(251);
+	var content = __webpack_require__(253);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(253)(content, {});
+	var update = __webpack_require__(255)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -37538,22 +36638,21 @@
 	}
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(252)();
+	exports = module.exports = __webpack_require__(254)();
 	// imports
-
+	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);", ""]);
 
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nhtml, body {\n\theight: 100vh\n}", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n\n\t\n}\n\nbody {\n\toverflow: hidden;\n\n}\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\n/*nav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}*/\n\n/*body {\n\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}*/\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 600px;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 5px;\n\t overflow: scroll;\n\t/*border: solid red;*/\n\t \n\t \n}\n\n.title {\n  height: 40px;\n  width: 420px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n\t/*border: solid green;*/\n\n\n\n}\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -28px;\n  text-align: left;\n  /*transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);*/\n\ttransition: all .8s ease-in;\n\toverflow: hidden;\n\t\n}\n\n.content-open {\n  margin-top: 0px;\n\theight: 250px;\n  background-color: rgba(0,0,0, .1);\n  /*transition: all 950ms cubic-bezier(0.080, 1.090, 0.320, 1.275);*/\n\t transition: all .8s ease-in;\n\t /*will-change: overfow;*/\n\t\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .8s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\nhtml, body {\n\theight: 100vh\n}\n\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 252 */
->>>>>>> master
+/* 254 */
 /***/ function(module, exports) {
 
 	/*
@@ -37609,11 +36708,7 @@
 
 
 /***/ },
-<<<<<<< HEAD
-/* 250 */
-=======
-/* 253 */
->>>>>>> master
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -37863,105 +36958,6 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
-<<<<<<< HEAD
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Accordion = _react2.default.createClass({
-	  displayName: "Accordion",
-	  componentWillMount: function componentWillMount() {
-	    var accordion = [];
-
-	    this.props.data.forEach(function (i) {
-	      accordion.push({
-	        title: i.title,
-	        content: i.content,
-	        open: false
-	      });
-	    });
-
-	    this.setState({
-	      accordionItems: accordion
-	    });
-	  },
-	  click: function click(i) {
-	    var newAccordion = this.state.accordionItems.slice();
-	    var index = newAccordion.indexOf(i);
-
-	    newAccordion[index].open = !newAccordion[index].open;
-	    this.setState({ accordionItems: newAccordion });
-	  },
-	  render: function render() {
-	    var _this = this;
-
-	    var sections = this.state.accordionItems.map(function (i) {
-	      return _react2.default.createElement(
-	        "div",
-	        { key: _this.state.accordionItems.indexOf(i) },
-	        _react2.default.createElement(
-	          "div",
-	          {
-	            className: "title",
-	            onClick: _this.click.bind(null, i)
-	          },
-	          _react2.default.createElement(
-	            "div",
-	            { className: "arrow-wrapper" },
-	            _react2.default.createElement("i", { className: i.open ? "fa fa-angle-down fa-rotate-180" : "fa fa-angle-down"
-	            })
-	          ),
-	          _react2.default.createElement(
-	            "span",
-	            { className: "title-text" },
-	            i.title
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { className: i.open ? "content content-open" : "content"
-	          },
-	          _react2.default.createElement(
-	            "div",
-	            { className: i.open ? "content-text content-text-open" : "content-text"
-	            },
-	            " ",
-	            i.content
-	          )
-	        )
-	      );
-	    });
-
-	    return _react2.default.createElement(
-	      "div",
-	      { className: "accordion" },
-	      sections
-	    );
-	  }
-	});
-
-	exports.default = Accordion;
-
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "638c74b9a1ad5aef7b90dc45f8e89d84.jpg";
-=======
->>>>>>> master
 
 /***/ }
 /******/ ]);
