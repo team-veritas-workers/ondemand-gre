@@ -7,6 +7,7 @@ const Breadcrumbs = () => {
 };
 
 const breadcrumbs = {
+  display: 'flex',
   height: '40px',
   backgroundColor: '#EAEAEA',
 }

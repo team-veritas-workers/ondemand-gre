@@ -3,6 +3,7 @@
 	font-family: 'Roboto', sans-serif;
 	margin: 0;
 	padding: 0;
+
 	
 }
 
@@ -148,4 +149,7 @@ li {
   margin-left: 375px;
 }
 
+html, body {
+	height: 100vh
+}
 

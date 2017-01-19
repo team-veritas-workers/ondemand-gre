@@ -4,27 +4,25 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 
 const Banner = () => {
   return (
- 
-      <div style={ banner }>
-        <div style={ logo }></div>
-      </div>
-   
+    <div style={ banner }>
+      <div style={ logo }></div>
+    </div>
   );
 };
 
 const banner = {
-  backgroundColor: '#111539',
-  height: '95px',
-  color: 'white'
+  color: 'white',
+  display: 'flex',
+  backgroundColor: '#131544',
+  height: '56px',
 }
 
 const logo = {
-   width: '600px',
-   height: '100%',
-   backgroundImage: `url(${ logoWhite })`,
-   backgroundSize: 'cover'
+    width: '300px',
+    backgroundImage: `url(${ logoWhite })`,
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
 }
 
 export default Radium(Banner);
-
 
