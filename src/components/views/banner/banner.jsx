@@ -11,6 +11,7 @@ const Banner = () => {
 };
 
 const banner = {
+  color: 'white',
   display: 'flex',
   backgroundColor: '#131544',
   height: '56px',
@@ -24,3 +25,4 @@ const logo = {
 }
 
 export default Radium(Banner);
+
