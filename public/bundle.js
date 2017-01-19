@@ -21576,30 +21576,80 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var data = [{
-	        title: "Foundations of GRE Logic",
-	        content: _react2.default.createElement(
-	          'div',
-	          { style: me },
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            'poop'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            'poop'
-	          )
-	        )
 
-	      }, {
-	        title: "Arithmetic",
-	        content: 'Lorem ipsum dolor sit amet, \n                  consectetur adipiscing elit, \n                  sed do eiusmod tempor incididunt \n                  ut labore et dolore magna aliqua. \n                  Ut enim ad minim veniam, quis \n                  nostrud exercitation ullamco laboris \n                  nisi ut aliquip ex ea commodo consequat. \n                  Duis aute irure dolor in reprehenderit \n                  in voluptate velit esse cillum dolore \n                  eu fugiat nulla pariatur. Excepteur \n                  sint occaecat cupidatat non proident, \n                  sunt in culpa qui officia deserunt \n                  mollit anim id est laborum.'
-	      }, {
-	        title: "Text Completion and Sentence Equivalence",
-	        content: 'Lorem ipsum dolor sit amet, \n                  consectetur adipiscing elit, \n                  sed do eiusmod tempor incididunt \n                  ut labore et dolore magna aliqua. \n                  Ut enim ad minim veniam, quis \n                  nostrud exercitation ullamco laboris \n                  nisi ut aliquip ex ea commodo consequat. \n                  Duis aute irure dolor in reprehenderit \n                  in voluptate velit esse cillum dolore \n                  eu fugiat nulla pariatur. Excepteur \n                  sint occaecat cupidatat non proident, \n                  sunt in culpa qui officia deserunt \n                  mollit anim id est laborum.'
-	      }];
+	      var fatArr = [{ "name": "Foundations of GRE Logic", "lessonNumber": "1", "description": "Build the core GMAT skills and understand what the test measures", "videos": [{ "name": "gre_intro", "title": "GRE Intro", "duration": "1 min" }, { "name": "gre_1_1", "title": "Foundations of GRE", "duration": "9 min" }, { "name": "gre_1_2", "title": "Think Like the Testmaker", "duration": "3 min" }, { "name": "gre_1_3", "title": "Test Format, Scoring", "duration": "3 min" }, { "name": "gre_1_4", "title": "Question Types - GRE Verbal", "duration": "20 min" }, { "name": "gre_1_5", "title": "GRE Quantitative", "duration": "19 min" }, { "name": "gre_1_6_0", "title": "GRE Logic", "duration": "28 min" }, { "name": "gre_1_6_1", "title": "More on GRE Logic", "duration": "28 min" }, { "duration": "6 min", "title": "Lesson Summary", "name": "gre_1_6_1" }] }, { "name": "Arithmetic", "lessonNumber": "2", "description": "Master the trickiest subjects, reducing unnecessary math mistakes", "videos": [{ "name": "gre_2_1", "title": "Arithmetic", "duration": "2 min" }, { "name": "gre_2_2", "title": "Calculations", "duration": "15 min" }, { "name": "gre_2_3", "title": "Combinatorics and Probability, Definitions & Divisions", "duration": "6 min" }, { "name": "gre_2_4", "title": "Percents", "duration": "13 min" }, { "name": "gre_2_5", "title": "Ratios", "duration": "9 min" }, { "name": "gre_2_6_0", "title": "Factors", "duration": "26 min" }, { "name": "gre_2_6_1", "title": "Multiples and the Number Line", "duration": "12 min" }, { "name": "gre_2_7", "title": "Number Properties", "duration": "15 min" }, { "name": "gre_2_8", "title": "You Oughta Know", "duration": "15 min" }] }, { "name": "Text Completion & Sentence Equivalence", "lessonNumber": "3", "description": "Enhance your reasoning skills and quickly break down any problem", "videos": [{ "name": "gre_3_1", "title": "Text Completion & Sentence Equivalence", "duration": "10 min" }, { "name": "gre_3_2", "title": "Strategy #1: Focus on Transition Language", "duration": "10 min" }, { "name": "gre_3_3", "title": "Strategy #2: The Whole Sentence Matters", "duration": "3 min" }, { "name": "gre_3_4", "title": "Strategy #3: Fill in the Blanks Yourself", "duration": "5 min" }, { "name": "gre_3_5", "title": "Strategy #4: Fill In The Easiest Blank First", "duration": "8 min" }, { "name": "gre_3_6", "title": "Strategy #5: Use Process of Elimination", "duration": "5 min" }, { "name": "gre_3_7", "title": "Sentence Equivalence: The Basics", "duration": "4 min" }, { "name": "gre_3_8", "title": "Strategy #1: Focus on Transitional language", "duration": "2 min" }, { "name": "gre_3_9", "title": "Strategy #2: Fill In The Blanks Yourself", "duration": "1 min" }, { "name": "gre_3_10", "title": "Strategy #3: Use Process of Elimination", "duration": "3 min" }, { "name": "gre_3_11", "title": "Strategy #4: Beware – Synonymous Words vs. Synonymous Sentences!", "duration": "4 min" }, { "name": "gre_3_12", "title": "Strategy #4a: Your Perfect Word May Not Have A Match", "duration": "3 min" }, { "name": "gre_3_13", "title": "Strategic Summary", "duration": "1 min" }, { "name": "gre_3_14", "title": "Study Habits", "duration": "4 min" }] }, { "name": "Algebra", "lessonNumber": "4", "description": "Manipulate equations using these crucial time-saving strategies", "videos": [{ "name": "gre_4_1", "title": "Algebra - An Inconvenient Truth", "duration": "6 min" }, { "name": "gre_4_2", "title": "Multiply by 1", "duration": "7 min" }, { "name": "gre_4_3", "title": "Combine Like Terms", "duration": "3 min" }, { "name": "gre_4_4", "title": "Harder Factoring", "duration": "2 min" }, { "name": "gre_4_5", "title": "Do the Same to Both Sides", "duration": "7 min" }, { "name": "gre_4_6", "title": "Eliminate Variables", "duration": "6 min" }, { "name": "gre_4_7", "title": "Exponents", "duration": "11 min" }, { "name": "gre_4_8", "title": "Common Bases", "duration": "3 min" }, { "name": "gre_4_9", "title": "Create Multiplication", "duration": "3 min" }, { "name": "gre_4_10", "title": "Find Patterns", "duration": "3 min" }, { "name": "gre_4_11", "title": "Roots Are Exponents Too", "duration": "6 min" }, { "name": "gre_4_12", "title": "Numbers Properties", "duration": "8 min" }, { "name": "gre_4_13", "title": "Quadratics", "duration": "14 min" }, { "name": "gre_4_14", "title": "Common Algebraic Equations", "duration": "10 min" }, { "name": "gre_4_15", "title": "Difference of Squares Drill", "duration": "6 min" }, { "name": "gre_4_16", "title": "Inequalities", "duration": "9 min" }, { "name": "gre_4_17", "title": "Functions", "duration": "6 min" }, { "name": "gre_4_18", "title": "Sequences", "duration": "7 min" }, { "name": "gre_4_19", "title": "You Outta Know", "duration": "13 min" }] }, { "name": "Critical Reasoning", "lessonNumber": "5", "description": "Avoid common traps and quickly identify what's being tested", "videos": [{ "name": "gre_5_1", "title": "Critical Reasoning", "duration": "11 min" }, { "name": "gre_5_2", "title": "Strenghten and Weaken Questions", "duration": "8 min" }, { "name": "gre_5_3", "title": "Mind the Gap", "duration": "9 min" }, { "name": "gre_5_4", "title": "Common Logical Fallacies", "duration": "11 min" }, { "name": "gre_5_5", "title": "Inference", "duration": "16 min" }, { "name": "gre_5_6", "title": "Method of Reasoning", "duration": "5 min" }, { "name": "gre_5_7", "title": "SWIM Subtypes & Advanced Applications", "duration": "19 min" }, { "name": "gre_5_8", "title": "Summary", "duration": "3 min" }] }, { "name": "Geometry & Statistics", "lessonNumber": "6", "description": "Avoid time-wasting traps with these key geometric relationships", "videos": [{ "name": "gre_6_1", "title": "Geometry Basics", "duration": "10 min" }, { "name": "gre_6_2", "title": "Triangles", "duration": "14 min" }, { "name": "gre_6_3", "title": "Quadrilaterals", "duration": "6 min" }, { "name": "gre_6_4", "title": "Circles", "duration": "16 min" }, { "name": "gre_6_5", "title": "Coordinate Geometry", "duration": "14 min" }, { "name": "gre_6_6", "title": "Statistics", "duration": "12 min" }, { "name": "gre_6_7_0", "title": "Combinatorics", "duration": "24 min" }, { "name": "gre_6_7_1", "title": "Probability", "duration": "9 min" }, { "name": "gre_6_8", "title": "You Outta Know", "duration": "19 min" }] }, { "name": "Reading Comprehension", "lessonNumber": "7", "description": "Focus only on what matters while improving accuracy and pace", "videos": [{ "name": "gre_7_1", "title": "GRE Reading Comprehension", "duration": "4 min" }, { "name": "gre_7_2", "title": "STOP", "duration": "10 min" }, { "name": "gre_7_3", "title": "Primary Purpose Question", "duration": "8 min" }, { "name": "gre_7_4", "title": "Organization", "duration": "2 min" }, { "name": "gre_7_5", "title": "Inference Question", "duration": "6 min" }, { "name": "gre_7_6", "title": "Question Types", "duration": "6 min" }, { "name": "gre_7_7", "title": "Question Type: Sample Passage", "duration": "6 min" }, { "name": "gre_7_8", "title": "Specific Questions", "duration": "1 min" }, { "name": "gre_7_9", "title": "Inference Questions", "duration": "5 min" }, { "name": "gre_7_10", "title": "Function Questions", "duration": "5 min" }, { "name": "gre_7_11", "title": "Universal Questions", "duration": "5 min" }, { "name": "gre_7_12", "title": "Select All/Inference", "duration": "5 min" }, { "name": "gre_7_13", "title": "Select-In-Passage", "duration": "4 min" }, { "name": "gre_7_14", "title": "More On Inferences", "duration": "29 min" }, { "name": "gre_7_15", "title": "Short, Dense Passages", "duration": "18 min" }] }, { "name": "Word Problems & Data Analysis", "lessonNumber": "8", "description": "Deconstruct every problem type, avoiding common logic traps", "videos": [{ "name": "gre_8_1", "title": "Word Problems & Data Analysis", "duration": "3 min" }, { "name": "gre_8_2", "title": "The Problem Solving Toolkit", "duration": "18 min" }, { "name": "gre_8_3", "title": "Use a Mix of Approaches", "duration": "4 min" }, { "name": "gre_8_4", "title": "Mastering Common Word Problems", "duration": "11 min" }, { "name": "gre_8_5", "title": "Weighted Average", "duration": "7 min" }, { "name": "gre_8_6", "title": "Quantitative Comparison", "duration": "14 min" }, { "name": "gre_8_7", "title": "Profit/Revenue/Cost", "duration": "5 min" }, { "name": "gre_8_8", "title": "Data & Graphics Interpretation Introduction", "duration": "9 min" }, { "name": "gre_8_9", "title": "Graphs", "duration": "6 min" }] }, { "name": "Analytical Writing Measure", "lessonNumber": "9", "description": "Apply more advanced logic and excel in the hardest problems", "videos": [{ "name": "gre_9_1", "title": "Analytical Writing", "duration": "5 min" }, { "name": "gre_9_2", "title": "The Screen", "duration": "4 min" }, { "name": "gre_9_3", "title": "Brainstorm", "duration": "6 min" }, { "name": "gre_9_4", "title": "Template", "duration": "8 min" }, { "name": "gre_9_5", "title": "Write", "duration": "5 min" }, { "name": "gre_9_6", "title": "An Introduction", "duration": "1 min" }, { "name": "gre_9_7", "title": "Brainstorm", "duration": "4 min" }, { "name": "gre_9_8", "title": "Template", "duration": "4 min" }, { "name": "gre_9_9", "title": "Write", "duration": "1 min" }, { "name": "gre_9_10", "title": "Overall Strategies", "duration": "5 min" }] }, { "name": "Quantitative Strategy", "lessonNumber": "10", "description": "Master advanced concepts and valuable time-saving techniques", "videos": [{ "name": "gre_10_1", "title": "Quantitative Strategy", "duration": "3 min" }, { "name": "gre_10_2", "title": "Leverage Every Asset", "duration": "1 min" }, { "name": "gre_10_3", "title": "Take the Hint!", "duration": "2 min" }, { "name": "gre_10_4", "title": "Get Comparable Values", "duration": "4 min" }, { "name": "gre_10_5", "title": "Quantitative Comparison", "duration": "2 min" }, { "name": "gre_10_6", "title": "Multiple Choice, Select One", "duration": "16 min" }, { "name": "gre_10_7", "title": "Numeric Entry", "duration": "4 min" }, { "name": "gre_10_8", "title": "You Know The Answer…But You’d Love To Confirm", "duration": "3 min" }, { "name": "gre_10_9", "title": "Flag & Return", "duration": "9 min" }, { "name": "gre_10_10", "title": "Use The Calculator Wisely", "duration": "6 min" }, { "name": "gre_10_11", "title": "Pacing & Section Strategy", "duration": "2 min" }, { "name": "gre_10_12", "title": "Confident vs. Paranoid", "duration": "3 min" }, { "name": "gre_10_13", "title": "There Is NO Partial Credit", "duration": "6 min" }, { "name": "gre_10_14", "title": "Summary", "duration": "12 min" }] }];
+
+	      var data = [
+
+	        //   {
+	        //   title: "Foundations of GRE Logic", 
+	        //   content: <div style={me}>
+
+	        //   <li>poop</li>
+	        //   <li>poop</li>
+
+	        //   </div>,
+
+	        // }, {
+	        //   title: "Arithmetic", 
+	        //   content: `Lorem ipsum dolor sit amet, 
+	        //             consectetur adipiscing elit, 
+	        //             sed do eiusmod tempor incididunt 
+	        //             ut labore et dolore magna aliqua. 
+	        //             Ut enim ad minim veniam, quis 
+	        //             nostrud exercitation ullamco laboris 
+	        //             nisi ut aliquip ex ea commodo consequat. 
+	        //             Duis aute irure dolor in reprehenderit 
+	        //             in voluptate velit esse cillum dolore 
+	        //             eu fugiat nulla pariatur. Excepteur 
+	        //             sint occaecat cupidatat non proident, 
+	        //             sunt in culpa qui officia deserunt 
+	        //             mollit anim id est laborum.`
+	        // },{
+	        //   title: "Text Completion and Sentence Equivalence", 
+	        //   content: `Lorem ipsum dolor sit amet, 
+	        //             consectetur adipiscing elit, 
+	        //             sed do eiusmod tempor incididunt 
+	        //             ut labore et dolore magna aliqua. 
+	        //             Ut enim ad minim veniam, quis 
+	        //             nostrud exercitation ullamco laboris 
+	        //             nisi ut aliquip ex ea commodo consequat. 
+	        //             Duis aute irure dolor in reprehenderit 
+	        //             in voluptate velit esse cillum dolore 
+	        //             eu fugiat nulla pariatur. Excepteur 
+	        //             sint occaecat cupidatat non proident, 
+	        //             sunt in culpa qui officia deserunt 
+	        //             mollit anim id est laborum.`
+	        // }
+
+
+	      ];
+
+	      for (var i = 0; i < fatArr.length; i++) {
+	        data[i] = { title: fatArr[i]["name"] };
+	      };
+
+	      for (var _i = 0; _i < fatArr.length; _i++) {
+	        data[_i]["content"] = fatArr[_i]["videos"].map(function (val) {
+	          return val.title;
+	        });
+	      }
+
+	      for (var _i2 = 0; _i2 < data.length; _i2++) {
+	        var newDiv = [];
+	        for (var b = 0; b < data[_i2]['content'].length; b++) {
+	          newDiv.push(_react2.default.createElement(
+	            'li',
+	            null,
+	            '  ',
+	            data[_i2]['content'][b],
+	            '  '
+	          ));
+	        }
+	        data[_i2]['content'] = newDiv;
+	      }
+
+	      console.log(data);
 
 	      return _react2.default.createElement(
 	        'div',
@@ -21632,7 +21682,9 @@
 	  display: 'flex',
 	  flexDirection: 'row',
 	  width: '100%',
-	  height: '800px'
+	  height: '100vh',
+	  overflow: 'hidden'
+
 	};
 	var me = {
 	  listStyle: 'none'
@@ -26016,8 +26068,8 @@
 	var ulStyle = {
 	  backgroundColor: '#A1A2A0',
 	  color: 'white',
-	  height: '20px',
-	  overflow: 'hidden'
+	  height: '20px'
+
 	};
 
 	exports.default = (0, _radium2.default)(Menu);
@@ -26073,10 +26125,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _maxresdefault = __webpack_require__(252);
+
+	var _maxresdefault2 = _interopRequireDefault(_maxresdefault);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Video = function Video() {
-	  return _react2.default.createElement('div', { style: video });
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement('div', { style: VideoImg }),
+	    _react2.default.createElement('div', { style: video })
+	  );
 	};
 
 	var video = {
@@ -26084,6 +26145,12 @@
 	  width: '100%'
 	};
 
+	var VideoImg = {
+	  width: '700px',
+	  height: '40%',
+	  backgroundImage: 'url(' + _maxresdefault2.default + ')',
+	  backgroundSize: 'cover'
+	};
 	exports.default = Video;
 
 /***/ },
@@ -26121,7 +26188,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);", ""]);
 
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\nnav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}\n\nbody {\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 420px;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 50px;\n}\n\n.title {\n  height: 30px;\n  width: 400px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n}\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -30px;\n  text-align: left;\n  transition: all 200ms cubic-bezier(0.600, -0.280, 0.735, 0.045);\n}\n\n.content-open {\n  margin-top: 0px;\n  height: 200px;\n  background-color: rgba(0,0,0, .1);\n  transition: all 350ms cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .2s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\n\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n\t\n}\n\nbody {\n\toverflow: hidden;\n\n}\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\n/*nav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}*/\n\n/*body {\n\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}*/\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 600px;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 5px;\n\t overflow: scroll;\n\t/*border: solid red;*/\n\t \n\t \n}\n\n.title {\n  height: 40px;\n  width: 420px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n\t/*border: solid green;*/\n\n\n\n}\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -28px;\n  text-align: left;\n  /*transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);*/\n\ttransition: all .8s ease-in;\n\toverflow: hidden;\n\t\n}\n\n.content-open {\n  margin-top: 0px;\n\theight: 250px;\n  background-color: rgba(0,0,0, .1);\n  /*transition: all 950ms cubic-bezier(0.080, 1.090, 0.320, 1.275);*/\n\t transition: all .8s ease-in;\n\t /*will-change: overfow;*/\n\t\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .8s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\n\n", ""]);
 
 	// exports
 
@@ -26523,6 +26590,12 @@
 	});
 
 	exports.default = Accordion;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "638c74b9a1ad5aef7b90dc45f8e89d84.jpg";
 
 /***/ }
 /******/ ]);

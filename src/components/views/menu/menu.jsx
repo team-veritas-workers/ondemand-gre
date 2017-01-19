@@ -38,21 +38,22 @@ const Menu = (props) => {
 const menu = {
   backgroundColor: '#111539',
   width: '25%',
-  minWidth: '225px'
+  minWidth: '225px',
+ 
 
 };
 
 const lesson = {
-        width: '100%',
+  width: '100%',
   backgroundcolor: '#111539',
   color: 'white',
 }
 
 const ulStyle = {
-        backgroundColor: '#A1A2A0',
+  backgroundColor: '#A1A2A0',
   color: 'white',
   height: '20px',
-  overflow: 'hidden',
+  
 }
 
 export default Radium(Menu);
