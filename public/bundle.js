@@ -56,12 +56,16 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	__webpack_require__(250);
+	__webpack_require__(252);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Main = function Main() {
-	  return _react2.default.createElement(_app2.default, null);
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(_app2.default, null)
+	  );
 	};
 
 	(0, _reactDom.render)(_react2.default.createElement(Main, null), document.getElementById('app'));
@@ -21534,7 +21538,19 @@
 
 	var _breadcrumbs2 = _interopRequireDefault(_breadcrumbs);
 
-	var _content = __webpack_require__(246);
+	var _menu = __webpack_require__(246);
+
+	var _menu2 = _interopRequireDefault(_menu);
+
+	var _video = __webpack_require__(248);
+
+	var _video2 = _interopRequireDefault(_video);
+
+	var _accordion = __webpack_require__(250);
+
+	var _accordion2 = _interopRequireDefault(_accordion);
+
+	var _content = __webpack_require__(251);
 
 	var _content2 = _interopRequireDefault(_content);
 
@@ -21589,13 +21605,92 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+
+	      var fatArr = [{ "name": "Foundations of GRE Logic", "lessonNumber": "1", "description": "Build the core GMAT skills and understand what the test measures", "videos": [{ "name": "gre_intro", "title": "GRE Intro", "duration": "1 min" }, { "name": "gre_1_1", "title": "Foundations of GRE", "duration": "9 min" }, { "name": "gre_1_2", "title": "Think Like the Testmaker", "duration": "3 min" }, { "name": "gre_1_3", "title": "Test Format, Scoring", "duration": "3 min" }, { "name": "gre_1_4", "title": "Question Types - GRE Verbal", "duration": "20 min" }, { "name": "gre_1_5", "title": "GRE Quantitative", "duration": "19 min" }, { "name": "gre_1_6_0", "title": "GRE Logic", "duration": "28 min" }, { "name": "gre_1_6_1", "title": "More on GRE Logic", "duration": "28 min" }, { "duration": "6 min", "title": "Lesson Summary", "name": "gre_1_6_1" }] }, { "name": "Arithmetic", "lessonNumber": "2", "description": "Master the trickiest subjects, reducing unnecessary math mistakes", "videos": [{ "name": "gre_2_1", "title": "Arithmetic", "duration": "2 min" }, { "name": "gre_2_2", "title": "Calculations", "duration": "15 min" }, { "name": "gre_2_3", "title": "Combinatorics and Probability, Definitions & Divisions", "duration": "6 min" }, { "name": "gre_2_4", "title": "Percents", "duration": "13 min" }, { "name": "gre_2_5", "title": "Ratios", "duration": "9 min" }, { "name": "gre_2_6_0", "title": "Factors", "duration": "26 min" }, { "name": "gre_2_6_1", "title": "Multiples and the Number Line", "duration": "12 min" }, { "name": "gre_2_7", "title": "Number Properties", "duration": "15 min" }, { "name": "gre_2_8", "title": "You Oughta Know", "duration": "15 min" }] }, { "name": "Text Completion & Sentence Equivalence", "lessonNumber": "3", "description": "Enhance your reasoning skills and quickly break down any problem", "videos": [{ "name": "gre_3_1", "title": "Text Completion & Sentence Equivalence", "duration": "10 min" }, { "name": "gre_3_2", "title": "Strategy #1: Focus on Transition Language", "duration": "10 min" }, { "name": "gre_3_3", "title": "Strategy #2: The Whole Sentence Matters", "duration": "3 min" }, { "name": "gre_3_4", "title": "Strategy #3: Fill in the Blanks Yourself", "duration": "5 min" }, { "name": "gre_3_5", "title": "Strategy #4: Fill In The Easiest Blank First", "duration": "8 min" }, { "name": "gre_3_6", "title": "Strategy #5: Use Process of Elimination", "duration": "5 min" }, { "name": "gre_3_7", "title": "Sentence Equivalence: The Basics", "duration": "4 min" }, { "name": "gre_3_8", "title": "Strategy #1: Focus on Transitional language", "duration": "2 min" }, { "name": "gre_3_9", "title": "Strategy #2: Fill In The Blanks Yourself", "duration": "1 min" }, { "name": "gre_3_10", "title": "Strategy #3: Use Process of Elimination", "duration": "3 min" }, { "name": "gre_3_11", "title": "Strategy #4: Beware – Synonymous Words vs. Synonymous Sentences!", "duration": "4 min" }, { "name": "gre_3_12", "title": "Strategy #4a: Your Perfect Word May Not Have A Match", "duration": "3 min" }, { "name": "gre_3_13", "title": "Strategic Summary", "duration": "1 min" }, { "name": "gre_3_14", "title": "Study Habits", "duration": "4 min" }] }, { "name": "Algebra", "lessonNumber": "4", "description": "Manipulate equations using these crucial time-saving strategies", "videos": [{ "name": "gre_4_1", "title": "Algebra - An Inconvenient Truth", "duration": "6 min" }, { "name": "gre_4_2", "title": "Multiply by 1", "duration": "7 min" }, { "name": "gre_4_3", "title": "Combine Like Terms", "duration": "3 min" }, { "name": "gre_4_4", "title": "Harder Factoring", "duration": "2 min" }, { "name": "gre_4_5", "title": "Do the Same to Both Sides", "duration": "7 min" }, { "name": "gre_4_6", "title": "Eliminate Variables", "duration": "6 min" }, { "name": "gre_4_7", "title": "Exponents", "duration": "11 min" }, { "name": "gre_4_8", "title": "Common Bases", "duration": "3 min" }, { "name": "gre_4_9", "title": "Create Multiplication", "duration": "3 min" }, { "name": "gre_4_10", "title": "Find Patterns", "duration": "3 min" }, { "name": "gre_4_11", "title": "Roots Are Exponents Too", "duration": "6 min" }, { "name": "gre_4_12", "title": "Numbers Properties", "duration": "8 min" }, { "name": "gre_4_13", "title": "Quadratics", "duration": "14 min" }, { "name": "gre_4_14", "title": "Common Algebraic Equations", "duration": "10 min" }, { "name": "gre_4_15", "title": "Difference of Squares Drill", "duration": "6 min" }, { "name": "gre_4_16", "title": "Inequalities", "duration": "9 min" }, { "name": "gre_4_17", "title": "Functions", "duration": "6 min" }, { "name": "gre_4_18", "title": "Sequences", "duration": "7 min" }, { "name": "gre_4_19", "title": "You Outta Know", "duration": "13 min" }] }, { "name": "Critical Reasoning", "lessonNumber": "5", "description": "Avoid common traps and quickly identify what's being tested", "videos": [{ "name": "gre_5_1", "title": "Critical Reasoning", "duration": "11 min" }, { "name": "gre_5_2", "title": "Strenghten and Weaken Questions", "duration": "8 min" }, { "name": "gre_5_3", "title": "Mind the Gap", "duration": "9 min" }, { "name": "gre_5_4", "title": "Common Logical Fallacies", "duration": "11 min" }, { "name": "gre_5_5", "title": "Inference", "duration": "16 min" }, { "name": "gre_5_6", "title": "Method of Reasoning", "duration": "5 min" }, { "name": "gre_5_7", "title": "SWIM Subtypes & Advanced Applications", "duration": "19 min" }, { "name": "gre_5_8", "title": "Summary", "duration": "3 min" }] }, { "name": "Geometry & Statistics", "lessonNumber": "6", "description": "Avoid time-wasting traps with these key geometric relationships", "videos": [{ "name": "gre_6_1", "title": "Geometry Basics", "duration": "10 min" }, { "name": "gre_6_2", "title": "Triangles", "duration": "14 min" }, { "name": "gre_6_3", "title": "Quadrilaterals", "duration": "6 min" }, { "name": "gre_6_4", "title": "Circles", "duration": "16 min" }, { "name": "gre_6_5", "title": "Coordinate Geometry", "duration": "14 min" }, { "name": "gre_6_6", "title": "Statistics", "duration": "12 min" }, { "name": "gre_6_7_0", "title": "Combinatorics", "duration": "24 min" }, { "name": "gre_6_7_1", "title": "Probability", "duration": "9 min" }, { "name": "gre_6_8", "title": "You Outta Know", "duration": "19 min" }] }, { "name": "Reading Comprehension", "lessonNumber": "7", "description": "Focus only on what matters while improving accuracy and pace", "videos": [{ "name": "gre_7_1", "title": "GRE Reading Comprehension", "duration": "4 min" }, { "name": "gre_7_2", "title": "STOP", "duration": "10 min" }, { "name": "gre_7_3", "title": "Primary Purpose Question", "duration": "8 min" }, { "name": "gre_7_4", "title": "Organization", "duration": "2 min" }, { "name": "gre_7_5", "title": "Inference Question", "duration": "6 min" }, { "name": "gre_7_6", "title": "Question Types", "duration": "6 min" }, { "name": "gre_7_7", "title": "Question Type: Sample Passage", "duration": "6 min" }, { "name": "gre_7_8", "title": "Specific Questions", "duration": "1 min" }, { "name": "gre_7_9", "title": "Inference Questions", "duration": "5 min" }, { "name": "gre_7_10", "title": "Function Questions", "duration": "5 min" }, { "name": "gre_7_11", "title": "Universal Questions", "duration": "5 min" }, { "name": "gre_7_12", "title": "Select All/Inference", "duration": "5 min" }, { "name": "gre_7_13", "title": "Select-In-Passage", "duration": "4 min" }, { "name": "gre_7_14", "title": "More On Inferences", "duration": "29 min" }, { "name": "gre_7_15", "title": "Short, Dense Passages", "duration": "18 min" }] }, { "name": "Word Problems & Data Analysis", "lessonNumber": "8", "description": "Deconstruct every problem type, avoiding common logic traps", "videos": [{ "name": "gre_8_1", "title": "Word Problems & Data Analysis", "duration": "3 min" }, { "name": "gre_8_2", "title": "The Problem Solving Toolkit", "duration": "18 min" }, { "name": "gre_8_3", "title": "Use a Mix of Approaches", "duration": "4 min" }, { "name": "gre_8_4", "title": "Mastering Common Word Problems", "duration": "11 min" }, { "name": "gre_8_5", "title": "Weighted Average", "duration": "7 min" }, { "name": "gre_8_6", "title": "Quantitative Comparison", "duration": "14 min" }, { "name": "gre_8_7", "title": "Profit/Revenue/Cost", "duration": "5 min" }, { "name": "gre_8_8", "title": "Data & Graphics Interpretation Introduction", "duration": "9 min" }, { "name": "gre_8_9", "title": "Graphs", "duration": "6 min" }] }, { "name": "Analytical Writing Measure", "lessonNumber": "9", "description": "Apply more advanced logic and excel in the hardest problems", "videos": [{ "name": "gre_9_1", "title": "Analytical Writing", "duration": "5 min" }, { "name": "gre_9_2", "title": "The Screen", "duration": "4 min" }, { "name": "gre_9_3", "title": "Brainstorm", "duration": "6 min" }, { "name": "gre_9_4", "title": "Template", "duration": "8 min" }, { "name": "gre_9_5", "title": "Write", "duration": "5 min" }, { "name": "gre_9_6", "title": "An Introduction", "duration": "1 min" }, { "name": "gre_9_7", "title": "Brainstorm", "duration": "4 min" }, { "name": "gre_9_8", "title": "Template", "duration": "4 min" }, { "name": "gre_9_9", "title": "Write", "duration": "1 min" }, { "name": "gre_9_10", "title": "Overall Strategies", "duration": "5 min" }] }, { "name": "Quantitative Strategy", "lessonNumber": "10", "description": "Master advanced concepts and valuable time-saving techniques", "videos": [{ "name": "gre_10_1", "title": "Quantitative Strategy", "duration": "3 min" }, { "name": "gre_10_2", "title": "Leverage Every Asset", "duration": "1 min" }, { "name": "gre_10_3", "title": "Take the Hint!", "duration": "2 min" }, { "name": "gre_10_4", "title": "Get Comparable Values", "duration": "4 min" }, { "name": "gre_10_5", "title": "Quantitative Comparison", "duration": "2 min" }, { "name": "gre_10_6", "title": "Multiple Choice, Select One", "duration": "16 min" }, { "name": "gre_10_7", "title": "Numeric Entry", "duration": "4 min" }, { "name": "gre_10_8", "title": "You Know The Answer…But You’d Love To Confirm", "duration": "3 min" }, { "name": "gre_10_9", "title": "Flag & Return", "duration": "9 min" }, { "name": "gre_10_10", "title": "Use The Calculator Wisely", "duration": "6 min" }, { "name": "gre_10_11", "title": "Pacing & Section Strategy", "duration": "2 min" }, { "name": "gre_10_12", "title": "Confident vs. Paranoid", "duration": "3 min" }, { "name": "gre_10_13", "title": "There Is NO Partial Credit", "duration": "6 min" }, { "name": "gre_10_14", "title": "Summary", "duration": "12 min" }] }];
+
+	      var data = [
+
+	        //   {
+	        //   title: "Foundations of GRE Logic", 
+	        //   content: <div style={me}>
+
+	        //   <li>poop</li>
+	        //   <li>poop</li>
+
+	        //   </div>,
+
+	        // }, {
+	        //   title: "Arithmetic", 
+	        //   content: `Lorem ipsum dolor sit amet, 
+	        //             consectetur adipiscing elit, 
+	        //             sed do eiusmod tempor incididunt 
+	        //             ut labore et dolore magna aliqua. 
+	        //             Ut enim ad minim veniam, quis 
+	        //             nostrud exercitation ullamco laboris 
+	        //             nisi ut aliquip ex ea commodo consequat. 
+	        //             Duis aute irure dolor in reprehenderit 
+	        //             in voluptate velit esse cillum dolore 
+	        //             eu fugiat nulla pariatur. Excepteur 
+	        //             sint occaecat cupidatat non proident, 
+	        //             sunt in culpa qui officia deserunt 
+	        //             mollit anim id est laborum.`
+	        // },{
+	        //   title: "Text Completion and Sentence Equivalence", 
+	        //   content: `Lorem ipsum dolor sit amet, 
+	        //             consectetur adipiscing elit, 
+	        //             sed do eiusmod tempor incididunt 
+	        //             ut labore et dolore magna aliqua. 
+	        //             Ut enim ad minim veniam, quis 
+	        //             nostrud exercitation ullamco laboris 
+	        //             nisi ut aliquip ex ea commodo consequat. 
+	        //             Duis aute irure dolor in reprehenderit 
+	        //             in voluptate velit esse cillum dolore 
+	        //             eu fugiat nulla pariatur. Excepteur 
+	        //             sint occaecat cupidatat non proident, 
+	        //             sunt in culpa qui officia deserunt 
+	        //             mollit anim id est laborum.`
+	        // }
+
+
+	      ];
+
+	      for (var i = 0; i < fatArr.length; i++) {
+	        data[i] = { title: fatArr[i]["name"] };
+	      };
+
+	      for (var _i = 0; _i < fatArr.length; _i++) {
+	        data[_i]["content"] = fatArr[_i]["videos"].map(function (val) {
+	          return val.title;
+	        });
+	      }
+
+	      for (var _i2 = 0; _i2 < data.length; _i2++) {
+	        var newDiv = [];
+	        for (var b = 0; b < data[_i2]['content'].length; b++) {
+	          newDiv.push(_react2.default.createElement(
+	            'li',
+	            null,
+	            '  ',
+	            data[_i2]['content'][b],
+	            '  '
+	          ));
+	        }
+	        data[_i2]['content'] = newDiv;
+	      }
+
+	      console.log(data);
+
 	      return _react2.default.createElement(
 	        'div',
 	        { style: app },
 	        _react2.default.createElement(_banner2.default, null),
-	        _react2.default.createElement(_nav2.default, null),
 	        _react2.default.createElement(_breadcrumbs2.default, null),
-	        _react2.default.createElement(_content2.default, { toggle: this.toggle, videoData: this.state.videoData })
+	        _react2.default.createElement(
+	          'div',
+	          { style: container },
+	          _react2.default.createElement(_accordion2.default, { data: data }),
+	          _react2.default.createElement(_video2.default, null)
+	        )
 	      );
 	    }
 	  }]);
@@ -21610,6 +21705,19 @@
 	  display: 'flex',
 	  flexDirection: 'column',
 	  height: '100vh'
+	};
+
+	var container = {
+	  backgroundColor: '#111539',
+	  display: 'flex',
+	  flexDirection: 'row',
+	  width: '100%',
+	  height: '100vh',
+	  overflow: 'hidden'
+
+	};
+	var me = {
+	  listStyle: 'none'
 	};
 
 /***/ },
@@ -31871,6 +31979,7 @@
 	};
 
 	var banner = {
+	  color: 'white',
 	  display: 'flex',
 	  backgroundColor: '#131544',
 	  height: '56px'
@@ -36042,83 +36151,232 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _menu = __webpack_require__(247);
-
-	var _menu2 = _interopRequireDefault(_menu);
-
-	var _video = __webpack_require__(249);
-
-	var _video2 = _interopRequireDefault(_video);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Content = function Content(props) {
-	  // SHOULD GO IN CONTAINER AND HAVE STATE
-	  return _react2.default.createElement(
-	    'div',
-	    { style: container },
-	    _react2.default.createElement(_menu2.default, { toggle: props.toggle, videoData: props.videoData }),
-	    _react2.default.createElement(_video2.default, { videoData: props.videoData })
-	  );
-	};
-
-	var container = {
-	  display: 'flex',
-	  flexDirection: 'row',
-	  flex: '2'
-	};
-
-	exports.default = Content;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _lesson = __webpack_require__(248);
-
-	var _lesson2 = _interopRequireDefault(_lesson);
-
 	var _radium = __webpack_require__(181);
 
 	var _radium2 = _interopRequireDefault(_radium);
 
+	var _lesson = __webpack_require__(247);
+
+	var _lesson2 = _interopRequireDefault(_lesson);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
-	  var lessons = [];
-	  if (props.videoData) {
-	    props.videoData.forEach(function (lesson, i) {
-	      lessons.push(_react2.default.createElement(_lesson2.default, { key: i, lessonData: lesson }));
-	    });
-	  }
 	  return _react2.default.createElement(
-	    'div',
+	    'nav',
 	    { style: menu },
-	    lessons
+	    _react2.default.createElement(
+	      'ul',
+	      null,
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Foundations of GRE Logic'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Arithmetic'
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'li',
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Text Completion and Sentence Equivalence'
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Algebra'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Arithmetic'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Critical Reasoning'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Geometry and Statistics'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Word Problems and Data Analysis'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Analytical Writing Measure'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'li',
+	          null,
+	          _react2.default.createElement(
+	            'a',
+	            { href: '#' },
+	            'Quantitative Strategy'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Photoshop'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Illustrator'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '#' },
+	              'Web Design'
+	            ),
+	            _react2.default.createElement(
+	              'ul',
+	              null,
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'HTML'
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { href: '#' },
+	                  'CSS'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      )
+	    )
 	  );
 	};
 
 	var menu = {
-	  backgroundColor: '#131544',
-	  width: '30%',
-	  minWidth: '300px',
-	  maxWidth: '350px'
+	  backgroundColor: '#111539',
+	  width: '25%',
+	  minWidth: '225px'
+
 	};
+
+	var lesson = {
+	  width: '100%',
+	  backgroundcolor: '#111539',
+	  color: 'white'
+	};
+
+	var ulStyle = {
+	  backgroundColor: '#A1A2A0',
+	  color: 'white',
+	  height: '20px'
+
+	};
+
+	// import React, {Component} from 'react';
+	// import Radium from 'radium';
+
+	// const Menu = (props) => {
+	//   return (
+	//     <div style={ menu }>
+	//       <ul style={ ulStyle } key='boob' onClick={ props.toggle }>
+	//         <li>Lesson 1</li>
+	//         <li>1</li>
+	//         <li>2</li>
+	//         <li>3</li>
+	//       </ul>
+	//       <ul style={ ulStyle } key='poop' onClick={ props.toggle }>
+	//         <li>Lesson 2</li>
+	//         <li>1</li>
+	//         <li>2</li>
+	//         <li>3</li>
+	//       </ul>
+	//     </div>
+	//   );
+	// };
+
+	// const menu = {
+	//   backgroundColor: '#2F3241',
+	//   width: '25%',
+	//   minWidth: '225px'
+	// };
+
+	// const ulStyle = {
+	//   backgroundColor: '#A1A2A0',
+	//   color: '#FFF',
+	//   height: '20px',
+	//   overflow: 'hidden',
+	// }
+
+	// export default Radium(Menu);
+
 
 	exports.default = (0, _radium2.default)(Menu);
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36167,10 +36425,10 @@
 	exports.default = (0, _radium2.default)(Lesson);
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -36180,24 +36438,28 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _maxresdefault = __webpack_require__(249);
+
+	var _maxresdefault2 = _interopRequireDefault(_maxresdefault);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Video = function Video(props) {
 	  return _react2.default.createElement(
-	    "div",
+	    'div',
 	    { style: video },
 	    _react2.default.createElement(
-	      "video",
-	      { id: "example_video_1", className: "video-js vjs-default-skin", controls: true, preload: "auto", width: "100%", height: "auto", "data-setup": "{\"example_option\":true}" },
-	      _react2.default.createElement("source", { src: "https://gre-on-demand.veritasprep.com/gre_1_5.mp4", type: "video/mp4" }),
+	      'video',
+	      { id: 'example_video_1', className: 'video-js vjs-default-skin', controls: true, preload: 'auto', width: '100%', height: 'auto', 'data-setup': '{"example_option":true}' },
+	      _react2.default.createElement('source', { src: 'https://gre-on-demand.veritasprep.com/gre_1_5.mp4', type: 'video/mp4' }),
 	      _react2.default.createElement(
-	        "p",
-	        { className: "vjs-no-js" },
-	        "To view this video please enable JavaScript, and consider upgrading to a web browser that ",
+	        'p',
+	        { className: 'vjs-no-js' },
+	        'To view this video please enable JavaScript, and consider upgrading to a web browser that ',
 	        _react2.default.createElement(
-	          "a",
-	          { href: "http://videojs.com/html5-video-support/", target: "_blank" },
-	          "supports HTML5 video"
+	          'a',
+	          { href: 'http://videojs.com/html5-video-support/', target: '_blank' },
+	          'supports HTML5 video'
 	        )
 	      )
 	    )
@@ -36212,16 +36474,154 @@
 	exports.default = Video;
 
 /***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "638c74b9a1ad5aef7b90dc45f8e89d84.jpg";
+
+/***/ },
 /* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Accordion = _react2.default.createClass({
+	  displayName: "Accordion",
+	  componentWillMount: function componentWillMount() {
+	    var accordion = [];
+
+	    this.props.data.forEach(function (i) {
+	      accordion.push({
+	        title: i.title,
+	        content: i.content,
+	        open: false
+	      });
+	    });
+
+	    this.setState({
+	      accordionItems: accordion
+	    });
+	  },
+	  click: function click(i) {
+	    var newAccordion = this.state.accordionItems.slice();
+	    var index = newAccordion.indexOf(i);
+
+	    newAccordion[index].open = !newAccordion[index].open;
+	    this.setState({ accordionItems: newAccordion });
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    var sections = this.state.accordionItems.map(function (i) {
+	      return _react2.default.createElement(
+	        "div",
+	        { key: _this.state.accordionItems.indexOf(i) },
+	        _react2.default.createElement(
+	          "div",
+	          {
+	            className: "title",
+	            onClick: _this.click.bind(null, i)
+	          },
+	          _react2.default.createElement(
+	            "div",
+	            { className: "arrow-wrapper" },
+	            _react2.default.createElement("i", { className: i.open ? "fa fa-angle-down fa-rotate-180" : "fa fa-angle-down"
+	            })
+	          ),
+	          _react2.default.createElement(
+	            "span",
+	            { className: "title-text" },
+	            i.title
+	          )
+	        ),
+	        _react2.default.createElement(
+	          "div",
+	          { className: i.open ? "content content-open" : "content"
+	          },
+	          _react2.default.createElement(
+	            "div",
+	            { className: i.open ? "content-text content-text-open" : "content-text"
+	            },
+	            " ",
+	            i.content
+	          )
+	        )
+	      );
+	    });
+
+	    return _react2.default.createElement(
+	      "div",
+	      { className: "accordion" },
+	      sections
+	    );
+	  }
+	});
+
+	exports.default = Accordion;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _menu = __webpack_require__(246);
+
+	var _menu2 = _interopRequireDefault(_menu);
+
+	var _video = __webpack_require__(248);
+
+	var _video2 = _interopRequireDefault(_video);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Content = function Content(props) {
+	  // SHOULD GO IN CONTAINER AND HAVE STATE
+	  return _react2.default.createElement(
+	    'div',
+	    { style: container },
+	    _react2.default.createElement(_menu2.default, { toggle: props.toggle, videoData: props.videoData }),
+	    _react2.default.createElement(_video2.default, { videoData: props.videoData })
+	  );
+	};
+
+	var container = {
+	  display: 'flex',
+	  flexDirection: 'row',
+	  flex: '2'
+	};
+
+	exports.default = Content;
+
+/***/ },
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(251);
+	var content = __webpack_require__(253);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(253)(content, {});
+	var update = __webpack_require__(255)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36238,21 +36638,21 @@
 	}
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(252)();
+	exports = module.exports = __webpack_require__(254)();
 	// imports
-
+	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);", ""]);
 
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n}\n\nhtml, body {\n\theight: 100vh\n}", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n\n\t\n}\n\nbody {\n\toverflow: hidden;\n\n}\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\n/*nav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}*/\n\n/*body {\n\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}*/\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 600px;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 5px;\n\t overflow: scroll;\n\t/*border: solid red;*/\n\t \n\t \n}\n\n.title {\n  height: 40px;\n  width: 420px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n\t/*border: solid green;*/\n\n\n\n}\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -28px;\n  text-align: left;\n  /*transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);*/\n\ttransition: all .8s ease-in;\n\toverflow: hidden;\n\t\n}\n\n.content-open {\n  margin-top: 0px;\n\theight: 250px;\n  background-color: rgba(0,0,0, .1);\n  /*transition: all 950ms cubic-bezier(0.080, 1.090, 0.320, 1.275);*/\n\t transition: all .8s ease-in;\n\t /*will-change: overfow;*/\n\t\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .8s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\nhtml, body {\n\theight: 100vh\n}\n\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports) {
 
 	/*
@@ -36308,7 +36708,7 @@
 
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

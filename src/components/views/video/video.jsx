@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import me from './../../../assets/maxresdefault.jpg';
+
 
 const Video = (props) => {
   return (
+
     <div style={ video }>
       <video id="example_video_1" className="video-js vjs-default-skin" controls preload="auto" width="100%" height="auto" data-setup='{"example_option":true}'>
       <source src="https://gre-on-demand.veritasprep.com/gre_1_5.mp4" type="video/mp4" />
