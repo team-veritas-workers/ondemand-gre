@@ -5,7 +5,9 @@ import './../../stylesheets/main.css';
 
 const Main = () => {
   return (
-    <App />
+    <div>
+      <App />
+    </div>
   );
 };
 
