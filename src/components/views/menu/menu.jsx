@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
+import Lesson from './lesson.jsx';
+import Radium from 'radium';
 
-const Menu = () => {
+const Menu = (props) => {
+  const lessons = [];
+  if (props.videoData) {
+    props.videoData.forEach((lesson, i) => {
+      lessons.push(<Lesson key={i} lessonData={ lesson }/>)
+    })
+  }
   return (
-    <div style={ menu }>hi</div>
+    <div style={ menu }>
+      { lessons }
+    </div>
   );
 };
 
 const menu = {
-  backgroundColor: 'dodgerblue',
-  width: '25%',
-  minWidth: '225px'
-
+  backgroundColor: '#131544',
+  width: '30%',
+  minWidth: '300px',
+  maxWidth: '350px',
 };
 
-export default Menu;
+export default Radium(Menu);

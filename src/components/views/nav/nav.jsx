@@ -7,7 +7,8 @@ const Nav = () => {
 };
 
 const nav = {
-  backgroundColor: 'dodgerblue',
+  display: 'flex',
+  backgroundColor: '#131544',
   height: '49px'
 };
 
