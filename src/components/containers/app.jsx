@@ -14,6 +14,7 @@ export default class App extends Component {
     super(props);
     this.playVideo = this.playVideo.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
+    this.expandLesson = this.expandLesson.bind(this);
     this.state = {};
   }
 
@@ -26,15 +27,24 @@ export default class App extends Component {
     document.getElementById('example_video_1').play();
   }
 
-  expandLesson(e) {
-    console.log('hi');
+  expandLesson(lesson) {
+    const newState = this.state.videoData;
+    const index = this.state.videoData.indexOf(lesson);
+    newState[index].open = !newState[index].open;
+    this.setState({ videoData: newState });
   }
 
   getVideoData() {
     const URL = 'https://www.veritasprep.com/api/desktop-app/get_playlist.php';
     const body = { type: 'desktop', account: 'GRE' };
     $.post(URL, body)
-    .then(res => this.setState({ videoData: JSON.parse(res) }))
+    .then(res => {
+      const accordion = JSON.parse(res).map(item => {
+        item.open = false;
+        return item;
+      });
+      this.setState({ videoData: accordion });
+    })
     .catch(err => console.log(err));
   }
   

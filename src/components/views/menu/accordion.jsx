@@ -31,16 +31,7 @@ const Accordion = React.createClass({
     render () {
     const sections = this.state.accordionItems.map((i) => (
       <div style={ thing } key={this.state.accordionItems.indexOf(i)}>
-        <div 
-          className="title" 
-          onClick={this.click.bind(null, i)}
-        >
-         <div className="arrow-wrapper">
-           <i className={i.open 
-             ? "fa fa-angle-down fa-rotate-180" 
-             : "fa fa-angle-down"}
-           ></i>
-         </div>
+        <div className="title" onClick={this.click.bind(null, i)}>
          <span style={ thing2 } className="title-text">
            {i.title}
          </span>
