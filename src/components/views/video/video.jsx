@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import me from './../../../assets/maxresdefault.jpg';
+
 
 
 const Video = (props) => {

@@ -3,14 +3,11 @@
 	font-family: 'Roboto', sans-serif;
 	margin: 0;
 	padding: 0;
-
-	
-}
+  }
 
 body {
 	overflow: hidden;
-
-}
+  }
 
 li {
 	background-color: #111539;
@@ -51,15 +48,14 @@ li {
 
 .accordion {
    -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);
-   width: 600px;
+   width: 40em;
    background-color: transparent;
    margin: auto;
    margin-top: 5px;
-	 overflow: scroll;
+	 overflow-y: scroll;
 	/*border: solid red;*/
-	 
-	 
-}
+   height: 100vh;
+   }
 
 .title {
   height: 40px;
@@ -78,10 +74,7 @@ li {
   margin-top: 2px;
   transition: all .2s ease-in;
 	/*border: solid green;*/
-
-
-
-}
+  }
 
 .title-text {
   margin-left: 10px;
@@ -104,19 +97,30 @@ li {
   z-index: 1000;
   margin-top: -28px;
   text-align: left;
-  /*transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);*/
+  transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);
 	transition: all .8s ease-in;
 	overflow: hidden;
-	
+}
+  
+  /*below is where the green check mark comes in on main menu */
+.content li {
+  margin: 0;
+	padding: 16px 0 16px 28px;
+	list-style: none;
+	background-image: url("http://www.clipartbest.com/cliparts/9cR/RAd/9cRRAdooi.png");
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-size: 20px;
 }
 
+/*below is for when each category of videos opens and that box's properties*/
 .content-open {
   margin-top: 0px;
-	height: 250px;
+	height: fit-content;
   background-color: rgba(0,0,0, .1);
   /*transition: all 950ms cubic-bezier(0.080, 1.090, 0.320, 1.275);*/
-	 transition: all .8s ease-in;
-	 /*will-change: overfow;*/
+	transition: all .8s ease-in;
+	/*will-change: overfow;*/
 	
 }
 
@@ -153,3 +157,47 @@ html, body {
 	height: 100vh
 }
 
+
+
+/*below is for .hamburger icon in nav bar*/
+.hamburger{
+  background:none;
+  position:absolute;
+  top:0;
+  right:0;
+  line-height:45px;
+  padding:5px 15px 0px 15px;
+  color:#fff;
+  border:0;
+  font-size:1.4em;
+  font-weight:bold;
+  cursor:pointer;
+  outline:none;
+  z-index:10000000000000;
+}
+/*below is .cross which does not appear yet bc html has been taken out of nav bar*/
+.cross{
+  background:none;
+  position:absolute;
+  top:0px;
+  left:0;
+  padding:13px 15px 0px 15px;
+  color:#fff;
+  border:0;
+  font-size:3em;
+  line-height:65px;
+  font-weight:bold;
+  cursor:pointer;
+  outline:none;
+  z-index:10000000000000;
+}
+
+
+.menu{z-index:1000000; font-weight:bold; font-size:0.8em; width:30%; background:#131313;  position:absolute; text-align:center;}
+.menu ul {margin: 0; padding: 0; list-style-type: none; list-style-image: none;}
+.menu li {display: block;   padding:15px 0 15px 0; border-bottom:#1d1f20 1px solid;}
+.menu li:hover{display: block;    background:#181818; padding:15px 0 15px 0; border-bottom:#1d1f20 1px solid;}
+.menu ul li a { text-decoration:none;  margin: 0px; color:#fff;}
+.menu ul li a:hover {  color: #fff; text-decoration:none;}
+.menu a{text-decoration:none; color:white;}
+.menu a:hover{text-decoration:none; color:white;}

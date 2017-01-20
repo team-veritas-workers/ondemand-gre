@@ -4,14 +4,10 @@ import $ from 'jquery';
 import Banner from './../views/banner/banner.jsx';
 import Nav from './../views/nav/nav.jsx';
 import Breadcrumbs from './../views/breadcrumbs/breadcrumbs.jsx';
-
 import Menu from './../views/menu/menu.jsx';
 import Video from './../views/video/video.jsx';
 import Accordion from './../views/menu/accordion.jsx';
-
 import Content from './../views/content/content.jsx';
-
-
 
 export default class App extends Component {
   constructor(props) {
@@ -105,21 +101,13 @@ export default class App extends Component {
      };
 
      for (let i = 0; i < fatArr.length; i++){
-      data[i]["content"] = 
-
-      
-
-      fatArr[i]["videos"].map(function(val){ return val.title })
-
-      
-
-      
+      data[i]["content"] = fatArr[i]["videos"].map(function(val){ return val.title })
      }
 
      for (let i = 0; i < data.length; i++){
       let newDiv = [];
       for (let b = 0; b < data[i]['content'].length; b++){
-        newDiv.push(<li>  {data[i]['content'][b]}  </li>)
+        newDiv.push(<li> {data[i]['content'][b]}  </li>)
 
       }
       data[i]['content'] = newDiv;

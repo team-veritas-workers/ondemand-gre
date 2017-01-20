@@ -56,7 +56,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	__webpack_require__(252);
+	__webpack_require__(251);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21546,11 +21546,11 @@
 
 	var _video2 = _interopRequireDefault(_video);
 
-	var _accordion = __webpack_require__(250);
+	var _accordion = __webpack_require__(249);
 
 	var _accordion2 = _interopRequireDefault(_accordion);
 
-	var _content = __webpack_require__(251);
+	var _content = __webpack_require__(250);
 
 	var _content2 = _interopRequireDefault(_content);
 
@@ -21670,7 +21670,7 @@
 	          newDiv.push(_react2.default.createElement(
 	            'li',
 	            null,
-	            '  ',
+	            ' ',
 	            data[_i2]['content'][b],
 	            '  '
 	          ));
@@ -36126,13 +36126,38 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Breadcrumbs = function Breadcrumbs() {
-	  return _react2.default.createElement('div', { style: breadcrumbs });
+	  return _react2.default.createElement(
+	    'div',
+	    { style: breadcrumbs },
+	    _react2.default.createElement(
+	      'button',
+	      { style: hamburger },
+	      '\u2630'
+	    )
+	  );
 	};
 
 	var breadcrumbs = {
 	  display: 'flex',
 	  height: '40px',
 	  backgroundColor: '#EAEAEA'
+	};
+
+	var hamburger = {
+	  background: 'none',
+	  position: 'absolute',
+
+	  left: '0',
+	  lineHeight: '45px',
+
+	  // padding:5px 15px 0px 15px,
+	  color: 'black',
+	  border: '0',
+	  fontSize: '1.9em',
+	  fontWeight: 'bold',
+	  cursor: 'pointer',
+	  outline: 'none',
+	  zIndex: '10000000000000'
 	};
 
 	exports.default = Breadcrumbs;
@@ -36428,7 +36453,7 @@
 /* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -36438,28 +36463,24 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _maxresdefault = __webpack_require__(249);
-
-	var _maxresdefault2 = _interopRequireDefault(_maxresdefault);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Video = function Video(props) {
 	  return _react2.default.createElement(
-	    'div',
+	    "div",
 	    { style: video },
 	    _react2.default.createElement(
-	      'video',
-	      { id: 'example_video_1', className: 'video-js vjs-default-skin', controls: true, preload: 'auto', width: '100%', height: 'auto', 'data-setup': '{"example_option":true}' },
-	      _react2.default.createElement('source', { src: 'https://gre-on-demand.veritasprep.com/gre_1_5.mp4', type: 'video/mp4' }),
+	      "video",
+	      { id: "example_video_1", className: "video-js vjs-default-skin", controls: true, preload: "auto", width: "100%", height: "auto", "data-setup": "{\"example_option\":true}" },
+	      _react2.default.createElement("source", { src: "https://gre-on-demand.veritasprep.com/gre_1_5.mp4", type: "video/mp4" }),
 	      _react2.default.createElement(
-	        'p',
-	        { className: 'vjs-no-js' },
-	        'To view this video please enable JavaScript, and consider upgrading to a web browser that ',
+	        "p",
+	        { className: "vjs-no-js" },
+	        "To view this video please enable JavaScript, and consider upgrading to a web browser that ",
 	        _react2.default.createElement(
-	          'a',
-	          { href: 'http://videojs.com/html5-video-support/', target: '_blank' },
-	          'supports HTML5 video'
+	          "a",
+	          { href: "http://videojs.com/html5-video-support/", target: "_blank" },
+	          "supports HTML5 video"
 	        )
 	      )
 	    )
@@ -36477,13 +36498,7 @@
 /* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "638c74b9a1ad5aef7b90dc45f8e89d84.jpg";
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -36493,10 +36508,14 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _greenCircleDownloadingPng = __webpack_require__(255);
+
+	var _greenCircleDownloadingPng2 = _interopRequireDefault(_greenCircleDownloadingPng);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Accordion = _react2.default.createClass({
-	  displayName: "Accordion",
+	  displayName: 'Accordion',
 	  componentWillMount: function componentWillMount() {
 	    var accordion = [];
 
@@ -36524,35 +36543,35 @@
 
 	    var sections = this.state.accordionItems.map(function (i) {
 	      return _react2.default.createElement(
-	        "div",
-	        { key: _this.state.accordionItems.indexOf(i) },
+	        'div',
+	        { style: thing, key: _this.state.accordionItems.indexOf(i) },
 	        _react2.default.createElement(
-	          "div",
+	          'div',
 	          {
-	            className: "title",
+	            className: 'title',
 	            onClick: _this.click.bind(null, i)
 	          },
 	          _react2.default.createElement(
-	            "div",
-	            { className: "arrow-wrapper" },
-	            _react2.default.createElement("i", { className: i.open ? "fa fa-angle-down fa-rotate-180" : "fa fa-angle-down"
+	            'div',
+	            { className: 'arrow-wrapper' },
+	            _react2.default.createElement('i', { className: i.open ? "fa fa-angle-down fa-rotate-180" : "fa fa-angle-down"
 	            })
 	          ),
 	          _react2.default.createElement(
-	            "span",
-	            { className: "title-text" },
+	            'span',
+	            { style: thing2, className: 'title-text' },
 	            i.title
 	          )
 	        ),
 	        _react2.default.createElement(
-	          "div",
+	          'div',
 	          { className: i.open ? "content content-open" : "content"
 	          },
 	          _react2.default.createElement(
-	            "div",
+	            'div',
 	            { className: i.open ? "content-text content-text-open" : "content-text"
 	            },
-	            " ",
+	            ' ',
 	            i.content
 	          )
 	        )
@@ -36560,17 +36579,42 @@
 	    });
 
 	    return _react2.default.createElement(
-	      "div",
-	      { className: "accordion" },
+	      'div',
+	      { className: 'accordion' },
 	      sections
 	    );
 	  }
 	});
 
+	var thing = {
+	  overflowY: 'scroll',
+	  // below why is maxWidth needed?
+	  maxWidth: '600px'
+
+	};
+
+	var thing2 = {
+	  backgroundSize: '18px, 18px',
+	  // backgroundSize: '15px, 15px',
+	  backgroundImage: 'url(http://files.softicons.com/download/application-icons/ios7-style-icons-by-matias-melian/png/256x256/DownloadsFolder.png)',
+	  // backgroundSize: 'contain',
+	  backgroundRepeat: 'no-repeat',
+	  paddingLeft: '30px'
+
+	};
+
+	// const logo = {
+	//     width: '300px',
+	//     backgroundImage: `url(${ logoWhite })`,
+	//     backgroundSize: 'contain',
+	//     backgroundRepeat: 'no-repeat',
+	// }
+
+
 	exports.default = Accordion;
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36612,16 +36656,16 @@
 	exports.default = Content;
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(253);
+	var content = __webpack_require__(252);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(255)(content, {});
+	var update = __webpack_require__(254)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -36638,21 +36682,21 @@
 	}
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(254)();
+	exports = module.exports = __webpack_require__(253)();
 	// imports
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Quicksand:300,400,700);", ""]);
 
 	// module
-	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n\n\t\n}\n\nbody {\n\toverflow: hidden;\n\n}\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\n/*nav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}*/\n\n/*body {\n\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}*/\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 600px;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 5px;\n\t overflow: scroll;\n\t/*border: solid red;*/\n\t \n\t \n}\n\n.title {\n  height: 40px;\n  width: 420px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n\t/*border: solid green;*/\n\n\n\n}\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -28px;\n  text-align: left;\n  /*transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);*/\n\ttransition: all .8s ease-in;\n\toverflow: hidden;\n\t\n}\n\n.content-open {\n  margin-top: 0px;\n\theight: 250px;\n  background-color: rgba(0,0,0, .1);\n  /*transition: all 950ms cubic-bezier(0.080, 1.090, 0.320, 1.275);*/\n\t transition: all .8s ease-in;\n\t /*will-change: overfow;*/\n\t\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .8s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\nhtml, body {\n\theight: 100vh\n}\n\n", ""]);
+	exports.push([module.id, "* {\n  box-sizing: border-box;\n\tfont-family: 'Roboto', sans-serif;\n\tmargin: 0;\n\tpadding: 0;\n  }\n\nbody {\n\toverflow: hidden;\n  }\n\nli {\n\tbackground-color: #111539;\n\twidth: 100%;\n\tpadding-top: 1.5em;\n\tfont-weight: bold;\n\tcolor: white;\n}\n\n/*nav ul ul {\n\tdisplay: none;\n}\n\n\tnav ul li:hover > ul {\n\t\tdisplay: block;\n\t}*/\n\n/*body {\n\n  font-family: 'quicksand';\n  font-weight: lighter;\n  background: rgba(92,129,202,1);\n  background: \n    -moz-linear-gradient(\n      left, \n      rgba(92,129,202,1) 0%, \n      rgba(249,140,112,1) 100%\n  );\n  background:\n    -webkit-linear-gradient(\n        left, \n        rgba(92,129,202,1) 0%, \n        rgba(249,140,112,1) 100%\n  );\n}*/\n\n.accordion {\n   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);\n   width: 40em;\n   background-color: transparent;\n   margin: auto;\n   margin-top: 5px;\n\t overflow-y: scroll;\n\t/*border: solid red;*/\n   height: 100vh;\n   }\n\n.title {\n  height: 40px;\n  width: 420px;\n  background-color: rgba(0,0,0, .4);\n  color: #ffddcc;\n  text-transform: uppercase;\n  letter-spacing: 1px;\n  text-align: left;\n  line-height: 2;\n  font-weight: lighter;\n  position: relative;\n  padding: 10px;\n  z-index: 2000;\n  border-radius: 4px;\n  margin-top: 2px;\n  transition: all .2s ease-in;\n\t/*border: solid green;*/\n  }\n\n.title-text {\n  margin-left: 10px;\n}\n\n.title:hover {\n  cursor: pointer;\n  background-color: rgba(0,0,0, .5);\n}\n\n.content {\n  height: 30px;\n  width: 420px;\n  background-color: transparent;\n  border-radius: 4px;\n  color: white;\n  font-size: 14px;\n  text-align: center;\n  position: relative;\n  z-index: 1000;\n  margin-top: -28px;\n  text-align: left;\n  transition: all .8s cubic-bezier(0.600, -0.280, 0.735, 0.045);\n\ttransition: all .8s ease-in;\n\toverflow: hidden;\n}\n  \n  /*below is where the green check mark comes in on main menu */\n.content li {\n  margin: 0;\n\tpadding: 16px 0 16px 28px;\n\tlist-style: none;\n\tbackground-image: url(\"http://www.clipartbest.com/cliparts/9cR/RAd/9cRRAdooi.png\");\n\tbackground-repeat: no-repeat;\n\tbackground-position: left center;\n\tbackground-size: 20px;\n}\n\n/*below is for when each category of videos opens and that box's properties*/\n.content-open {\n  margin-top: 0px;\n\theight: fit-content;\n  background-color: rgba(0,0,0, .1);\n  /*transition: all 950ms cubic-bezier(0.080, 1.090, 0.320, 1.275);*/\n\ttransition: all .8s ease-in;\n\t/*will-change: overfow;*/\n\t\n}\n\n.content-text {\n  padding: 15px;\n  visibility: hidden;\n  opacity: 0;\n  overflow: auto;\n  transition: all .8s ease-in;\n}\n\n.content-text-open {\n  visibility: visible;\n  opacity: 1;\n  transition: all .8s ease-in;\n}\n\n.fa-angle-down {\n  font-size: 20px;\n  color: rgba(255,255,255, .5);\n  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);\n}\n\n.fa-rotate-180 {\n  color: rgba(255,255,255, 1);\n}\n\n.arrow-wrapper {\n  position: absolute;\n  margin-left: 375px;\n}\n\nhtml, body {\n\theight: 100vh\n}\n\n\n\n/*below is for .hamburger icon in nav bar*/\n.hamburger{\n  background:none;\n  position:absolute;\n  top:0;\n  right:0;\n  line-height:45px;\n  padding:5px 15px 0px 15px;\n  color:#fff;\n  border:0;\n  font-size:1.4em;\n  font-weight:bold;\n  cursor:pointer;\n  outline:none;\n  z-index:10000000000000;\n}\n/*below is .cross which does not appear yet bc html has been taken out of nav bar*/\n.cross{\n  background:none;\n  position:absolute;\n  top:0px;\n  left:0;\n  padding:13px 15px 0px 15px;\n  color:#fff;\n  border:0;\n  font-size:3em;\n  line-height:65px;\n  font-weight:bold;\n  cursor:pointer;\n  outline:none;\n  z-index:10000000000000;\n}\n\n\n.menu{z-index:1000000; font-weight:bold; font-size:0.8em; width:30%; background:#131313;  position:absolute; text-align:center;}\n.menu ul {margin: 0; padding: 0; list-style-type: none; list-style-image: none;}\n.menu li {display: block;   padding:15px 0 15px 0; border-bottom:#1d1f20 1px solid;}\n.menu li:hover{display: block;    background:#181818; padding:15px 0 15px 0; border-bottom:#1d1f20 1px solid;}\n.menu ul li a { text-decoration:none;  margin: 0px; color:#fff;}\n.menu ul li a:hover {  color: #fff; text-decoration:none;}\n.menu a{text-decoration:none; color:white;}\n.menu a:hover{text-decoration:none; color:white;}", ""]);
 
 	// exports
 
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports) {
 
 	/*
@@ -36708,7 +36752,7 @@
 
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -36958,6 +37002,12 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "934ad17ef2b60e79a8b087d529164ed3.png";
 
 /***/ }
 /******/ ]);
