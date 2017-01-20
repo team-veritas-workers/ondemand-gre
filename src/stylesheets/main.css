@@ -7,15 +7,9 @@
 
 body {
 	overflow: hidden;
-  }
-
-li {
-	background-color: #111539;
-	width: 100%;
-	padding-top: 1.5em;
-	font-weight: bold;
-	color: white;
 }
+
+
 
 /*nav ul ul {
 	display: none;
@@ -46,20 +40,9 @@ li {
   );
 }*/
 
-.accordion {
-   -webkit-box-shadow: 0px 13px 23px -13px rgba(0,0,0,0.5);
-   width: 40em;
-   background-color: transparent;
-   margin: auto;
-   margin-top: 5px;
-	 overflow-y: scroll;
-	/*border: solid red;*/
-   height: 100vh;
-   }
-
 .title {
   height: 40px;
-  width: 420px;
+  width: 446px;
   background-color: rgba(0,0,0, .4);
   color: #ffddcc;
   text-transform: uppercase;
@@ -82,7 +65,7 @@ li {
 
 .title:hover {
   cursor: pointer;
-  background-color: rgba(0,0,0, .5);
+  background-color: red;
 }
 
 .content {
@@ -103,7 +86,7 @@ li {
 }
   
   /*below is where the green check mark comes in on main menu */
-.content li {
+.content div > div {
   margin: 0;
 	padding: 16px 0 16px 28px;
 	list-style: none;
@@ -136,21 +119,6 @@ li {
   visibility: visible;
   opacity: 1;
   transition: all .8s ease-in;
-}
-
-.fa-angle-down {
-  font-size: 20px;
-  color: rgba(255,255,255, .5);
-  transition: all .6s cubic-bezier(0.080, 1.090, 0.320, 1.275);
-}
-
-.fa-rotate-180 {
-  color: rgba(255,255,255, 1);
-}
-
-.arrow-wrapper {
-  position: absolute;
-  margin-left: 375px;
 }
 
 html, body {
@@ -193,7 +161,7 @@ html, body {
 }
 
 
-.menu{z-index:1000000; font-weight:bold; font-size:0.8em; width:30%; background:#131313;  position:absolute; text-align:center;}
+.menu{z-index:1000000; font-weight:bold; font-size:0.8em; width:30%; background:#131313; text-align:center;}
 .menu ul {margin: 0; padding: 0; list-style-type: none; list-style-image: none;}
 .menu li {display: block;   padding:15px 0 15px 0; border-bottom:#1d1f20 1px solid;}
 .menu li:hover{display: block;    background:#181818; padding:15px 0 15px 0; border-bottom:#1d1f20 1px solid;}

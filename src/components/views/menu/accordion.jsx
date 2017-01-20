@@ -4,7 +4,7 @@ import greenDownload from './../../../assets/green-circle-downloading-png-3.png'
 
 const Accordion = React.createClass({
 
-    componentWillMount () {
+  componentWillMount () {
     let accordion = [];
     
     this.props.data.forEach((i) => {
@@ -15,7 +15,7 @@ const Accordion = React.createClass({
       });
     });
     
-        this.setState({
+    this.setState({
       accordionItems: accordion
     });
   },
@@ -31,16 +31,7 @@ const Accordion = React.createClass({
     render () {
     const sections = this.state.accordionItems.map((i) => (
       <div style={ thing } key={this.state.accordionItems.indexOf(i)}>
-        <div 
-          className="title" 
-          onClick={this.click.bind(null, i)}
-        >
-         <div className="arrow-wrapper">
-           <i className={i.open 
-             ? "fa fa-angle-down fa-rotate-180" 
-             : "fa fa-angle-down"}
-           ></i>
-         </div>
+        <div className="title" onClick={this.click.bind(null, i)}>
          <span style={ thing2 } className="title-text">
            {i.title}
          </span>
@@ -66,6 +57,11 @@ const Accordion = React.createClass({
    }
 });
 
+const styles = {
+	borderStyle: 'solid',
+	borderColor: 'green',
+}
+
 const thing = {
   overflowY: 'scroll',
   // below why is maxWidth needed?
@@ -89,6 +85,7 @@ const thing2 = {
 //     backgroundSize: 'contain',
 //     backgroundRepeat: 'no-repeat',
 // }
+
 
 
 export default Accordion

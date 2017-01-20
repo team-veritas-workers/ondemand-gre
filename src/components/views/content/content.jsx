@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Menu from './../menu/menu.jsx';
 import Video from './../video/video.jsx';
+import Accordion from './../menu/accordion.jsx';
 
 const Content = (props) => {
-  // SHOULD GO IN CONTAINER AND HAVE STATE
   return (
     <div style={ container }>
-      <Menu toggle={ props.toggle } videoData={ props.videoData }/>
+      <Menu videoData={ props.videoData } playVideo={ props.playVideo } expandLesson={ props.expandLesson }/>
       <Video videoData={ props.videoData }/>
     </div>
   );
