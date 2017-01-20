@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 const Accordion = React.createClass({
 
-    componentWillMount () {
+  componentWillMount () {
     let accordion = [];
     
     this.props.data.forEach((i) => {
@@ -14,7 +14,7 @@ const Accordion = React.createClass({
       });
     });
     
-        this.setState({
+    this.setState({
       accordionItems: accordion
     });
   },
@@ -30,30 +30,11 @@ const Accordion = React.createClass({
     render () {
     const sections = this.state.accordionItems.map((i) => (
       <div key={this.state.accordionItems.indexOf(i)}>
-        <div 
-          className="title" 
-          onClick={this.click.bind(null, i)}
-        >
-         <div className="arrow-wrapper">
-           <i className={i.open 
-             ? "fa fa-angle-down fa-rotate-180" 
-             : "fa fa-angle-down"}
-           ></i>
-         </div>
-         <span className="title-text">
-           {i.title}
-         </span>
-       </div>
-       <div className={i.open 
-         ? "content content-open" 
-         : "content"}
-        >
-          <div className={i.open 
-            ? "content-text content-text-open" 
-            : "content-text"}
-          > {i.content}
-          </div>
-        </div>
+        <div className="title" onClick={this.click.bind(null, i)}>
+					<div style={styles} className="arrow-wrapper"><i className={i.open ? "fa fa-angle-down fa-rotate-180" : "fa fa-angle-down"}></i></div>
+					<span className="title-text">{i.title}</span>
+				</div>
+       	<div className={i.open ? "content content-open" : "content"}><div className={i.open ? "content-text content-text-open" : "content-text"}>{i.content}</div></div>
       </div>
     ));
     
@@ -65,6 +46,10 @@ const Accordion = React.createClass({
    }
 });
 
+const styles = {
+	borderStyle: 'solid',
+	borderColor: 'green',
+}
 
 
 export default Accordion

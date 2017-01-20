@@ -9,16 +9,8 @@
 
 body {
 	overflow: hidden;
-
 }
 
-li {
-	background-color: #111539;
-	width: 100%;
-	padding-top: 1.5em;
-	font-weight: bold;
-	color: white;
-}
 
 /*nav ul ul {
 	display: none;

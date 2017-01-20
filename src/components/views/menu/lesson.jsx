@@ -2,25 +2,30 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 
 const Lesson = (props) => {
-  const videos = [];
+  // console.log(props);
+  const contents = [];
+  props.lessonData.videos.forEach((video, i) => {
+    contents.push(<div onClick={ props.playVideo } id={ video.name } key={i} style={ thing }>{ video.title }</div>)
+  });
+
   return (
-    <div style={ lessonTitle }>
-      <span>{ props.lessonData.name }</span>
-    </div>
+      <div style={ lesson }>
+        <div>{ props.lessonData.name }</div>
+        <div>{ contents }</div>
+      </div>
   );
 };
 
-const lessonTitle = {
-  alignItems: 'center',
-  backgroundColor: '#131544',
+const lesson = {
   color: '#FFF',
-  display: 'flex',
-  height: '29px',
-  overflow: 'hidden',
-  paddingLeft: '5px',
+  backgroundColor: 'red'
+}
+
+const thing = {
+  backgroundColor: 'green',
   ':hover': {
-    backgroundColor: '#EAEAEA',
-    color: '#333'
+    backgroundColor: 'blue',
+    cursor: 'pointer',
   }
 }
 
