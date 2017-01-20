@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import greenDownload from './../../../assets/green-circle-downloading-png-3.png';
     
 
 const Accordion = React.createClass({
@@ -29,7 +30,7 @@ const Accordion = React.createClass({
   
     render () {
     const sections = this.state.accordionItems.map((i) => (
-      <div key={this.state.accordionItems.indexOf(i)}>
+      <div style={ thing } key={this.state.accordionItems.indexOf(i)}>
         <div 
           className="title" 
           onClick={this.click.bind(null, i)}
@@ -40,7 +41,7 @@ const Accordion = React.createClass({
              : "fa fa-angle-down"}
            ></i>
          </div>
-         <span className="title-text">
+         <span style={ thing2 } className="title-text">
            {i.title}
          </span>
        </div>
@@ -65,6 +66,29 @@ const Accordion = React.createClass({
    }
 });
 
+const thing = {
+  overflowY: 'scroll',
+  // below why is maxWidth needed?
+  maxWidth: '600px'
+  
+}
+
+const thing2 = {
+   backgroundSize: '18px, 18px',
+  // backgroundSize: '15px, 15px',
+  backgroundImage: `url(http://files.softicons.com/download/application-icons/ios7-style-icons-by-matias-melian/png/256x256/DownloadsFolder.png)`,
+  // backgroundSize: 'contain',
+  backgroundRepeat: 'no-repeat',
+  paddingLeft: '30px',
+
+}
+
+// const logo = {
+//     width: '300px',
+//     backgroundImage: `url(${ logoWhite })`,
+//     backgroundSize: 'contain',
+//     backgroundRepeat: 'no-repeat',
+// }
 
 
 export default Accordion
