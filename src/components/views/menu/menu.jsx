@@ -3,32 +3,41 @@ import Radium from 'radium';
 import Lesson from './lesson.jsx';
 
 const Menu = (props) => {
-	const lessons = [];
+	let lessons;
 	if (props.videoData) {
-		props.videoData.forEach((lesson, i) => {
-			lessons.push(<Lesson contentClass={ lesson.open ? 'content content-open' : 'content' } expandLesson={ props.expandLesson } playVideo={ props.playVideo } lessonData={ lesson } id={ i } key={ i }/>)
+		lessons = props.videoData.map((lesson, i) => {
+			return (
+				<Lesson open={ lesson.open } contentClass={ lesson.open ? 'content content-open' : 'content' } contentTextStyle={ lesson.open ? 'content-text content-text-open' : 'content-text' } expandLesson={ props.expandLesson } playVideo={ props.playVideo } lessonData={ lesson } id={ i } key={ i }/>
+			);
 		});
 	}
   return (
-		<div style={ menu }>
+		<div style={ props.showMenu ? menu : menuHide }>
 			{ lessons }
     </div>
   );
 }
 
 const menu = {
+	width: '480px',
   backgroundColor: '#111539',
-  minWidth: '445px',
-	// overflow: 'auto',
-	// fontSize: '.8em',
-	'-webkit-box-shadow': '0px 13px 23px -13px rgba(0,0,0,0.5)',
-	width: '40em',
-	// backgroundColor: 'transparent',
-	margin: 'auto',
-	marginTop: '5px',
+	padding: '5px',
 	overflowY: 'scroll',
-/*border: 'solid red',*/
 	height: '100vh',
+	boxShadow: '0 3px 8px rgba(0, 0, 0, .3)',
+	zIndex: '1',
+	transition: 'all .4s ease',
+};
+
+const menuHide = {
+	width: '0px',
+  backgroundColor: '#111539',
+	padding: '5px',
+	overflowY: 'scroll',
+	height: '100vh',
+	boxShadow: '0 3px 8px rgba(0, 0, 0, .3)',
+	zIndex: '1',
+	transition: 'all .5s ease-in',
 };
 
 export default Radium(Menu);
