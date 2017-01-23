@@ -40,11 +40,14 @@
     "react-addons-pure-render-mixin": "^15.4.2",
     "react-collapse": "^2.3.3",
     "react-dom": "^15.4.2",
+    "react-h5-video": "^1.0.4",
     "react-height": "^2.2.0",
+    "react-html5video": "^1.4.0",
     "react-motion": "^0.4.7",
+    "redux": "^3.6.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "video.js": "^5.15.1",
+    "video-react": "^0.6.2",
     "webpack": "^1.14.0"
   }
 }
