@@ -9,7 +9,7 @@ import Menu from './../views/menu/menu.jsx';
 import Video from './../views/video/video.jsx';
 import Accordion from './../views/menu/accordion.jsx';
 import Content from './../views/content/content.jsx';
-import Datastore from 'nedb';
+import db from './../../../renderer.js';
 
 export default class App extends Component {
   constructor(props) {
@@ -23,7 +23,6 @@ export default class App extends Component {
     this.state = {
       authenticated: false,
       showMenu: true,
-      db: new Datastore({ filename: './datafile', autoload: true })
     };
   }
   
@@ -48,7 +47,7 @@ export default class App extends Component {
         const newState = this.state;
         newState.authenticated = true;
         this.setState({ authenticated: newState.authenticated });
-        this.saveUserData(JSON.stringify(res));
+        this.saveUserData(res);
       }
       if (data.status === 'error') {
         document.getElementById('invalid').innerText = data.message;
@@ -57,11 +56,11 @@ export default class App extends Component {
     .catch(err => console.log(err));
   }
 
-  saveUserData(jsonStr) {
-    this.state.db.insert({ saved: jsonStr }, (err, newDoc) => {
-      if (err) console.log('ERROR?', err);
-      console.log(newDoc);
-    })
+  saveUserData(json) {
+    db.find({ _id: "etronCZB76KYtLEa" }, (err, docs) => {
+      if (err) console.log(err);
+      console.log('FOUND!:', docs);
+    });
   }
 
   playVideo(e) {
