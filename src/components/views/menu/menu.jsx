@@ -7,7 +7,7 @@ const Menu = (props) => {
 	if (props.videoData) {
 		lessons = props.videoData.map((lesson, i) => {
 			return (
-				<Lesson open={ lesson.open } contentClass={ lesson.open ? 'content content-open' : 'content' } contentTextStyle={ lesson.open ? 'content-text content-text-open' : 'content-text' } expandLesson={ props.expandLesson } playVideo={ props.playVideo } lessonData={ lesson } id={ i } key={ i }/>
+				<Lesson setCurrentVideo={ props.setCurrentVideo } open={ lesson.open } contentClass={ lesson.open ? 'content content-open' : 'content' } contentTextStyle={ lesson.open ? 'content-text content-text-open' : 'content-text' } expandLesson={ props.expandLesson } loadVideo={ props.loadVideo } lessonData={ lesson } id={ i } key={ i }/>
 			);
 		});
 	}

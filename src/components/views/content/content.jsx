@@ -6,8 +6,8 @@ import Video from './../video/video.jsx';
 const Content = (props) => {
   return (
     <div style={ container }>
-      <Menu videoData={ props.videoData } playVideo={ props.playVideo } expandLesson={ props.expandLesson } showMenu={ props.showMenu } />
-      <Video videoData={ props.videoData }/>
+      <Menu setCurrentVideo={ props.setCurrentVideo } videoData={ props.videoData } loadVideo={ props.loadVideo } expandLesson={ props.expandLesson } showMenu={ props.showMenu } />
+      <Video currentVideo={ props.currentVideo } videoData={ props.videoData }/>
     </div>
   );
 };
