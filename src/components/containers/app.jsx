@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import $ from 'jquery';
+import Login from './../views/auth/login.jsx';
 import Banner from './../views/banner/banner.jsx';
 import Nav from './../views/nav/nav.jsx';
 import Breadcrumbs from './../views/breadcrumbs/breadcrumbs.jsx';
@@ -8,17 +9,59 @@ import Menu from './../views/menu/menu.jsx';
 import Video from './../views/video/video.jsx';
 import Accordion from './../views/menu/accordion.jsx';
 import Content from './../views/content/content.jsx';
+import Datastore from 'nedb';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+    this.authenticate = this.authenticate.bind(this);
+    this.saveUserData = this.saveUserData.bind(this);
     this.playVideo = this.playVideo.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.expandLesson = this.expandLesson.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.state = {
-      showMenu: true
+      authenticated: false,
+      showMenu: true,
+      db: new Datastore({ filename: './datafile', autoload: true })
     };
+  }
+  
+  authenticate(e) {
+    e.preventDefault();
+    const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
+    const action = 'login-gre-desktop-app';
+    const user = document.getElementById('username').value;
+    const pass = document.getElementById('password').value;
+    const key = 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0';
+    const body = {
+      action: 'login-gre-desktop-app',
+      username: user,
+      password: pass,
+      key: key
+    }
+
+    $.post(URL, body)
+    .then(res => {
+      const data = JSON.parse(res);
+      if (data.status === 'success') {
+        const newState = this.state;
+        newState.authenticated = true;
+        this.setState({ authenticated: newState.authenticated });
+        this.saveUserData(JSON.stringify(res));
+      }
+      if (data.status === 'error') {
+        document.getElementById('invalid').innerText = data.message;
+      }
+    })
+    .catch(err => console.log(err));
+  }
+
+  saveUserData(jsonStr) {
+    this.state.db.insert({ saved: jsonStr }, (err, newDoc) => {
+      if (err) console.log('ERROR?', err);
+      console.log(newDoc);
+    })
   }
 
   playVideo(e) {
@@ -62,13 +105,22 @@ export default class App extends Component {
   }
 
   render() {
-    return (
-      <div style={ app }>
-        <Banner />
-        <Breadcrumbs toggleMenu={ this.toggleMenu } />
-        <Content playVideo={ this.playVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
-      </div>
-    )
+    if (!this.state.authenticated) {
+      return (
+        <div style={ app }>
+          <Login authenticate={ this.authenticate }/>
+        </div>
+      )
+    }
+    if (this.state.authenticated) {
+      return (
+        <div style={ app }>
+          <Banner />
+          <Breadcrumbs toggleMenu={ this.toggleMenu } />
+          <Content playVideo={ this.playVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
+        </div>
+      )
+    }
   }
 }
 
