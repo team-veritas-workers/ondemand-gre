@@ -40,7 +40,7 @@ function createWindow () {
     console.log('hello');
     console.log(arg);
     const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-    downloadVideo(arg, '/Users/NickHoltan/Library/Caches/veritas/' + fileName);
+    downloadVideo(arg, '/Users/NickHoltan/' + fileName);
   });
 }
 

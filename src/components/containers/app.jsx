@@ -11,7 +11,6 @@ import Video from './../views/video/video.jsx';
 import Accordion from './../views/menu/accordion.jsx';
 import Content from './../views/content/content.jsx';
 import db from './../../../renderer.js';
-//const Content = require('./../views/content/content.jsx');
 import Datastore from 'nedb';
 //const fs = require('fs');
 // const request = require('request');
@@ -25,7 +24,6 @@ export default class App extends React.Component {
     this.setUser = this.setUser.bind(this);
     this.saveUserData = this.saveUserData.bind(this);
     this.playVideo = this.playVideo.bind(this);
-    this.loadVideo = this.loadVideo.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.expandLesson = this.expandLesson.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -108,10 +106,6 @@ export default class App extends React.Component {
     document.getElementById('example_video_1').play();
   }
 
-  loadVideo(e) {
-    this.playVideo(e);
-  }
-
   toggleMenu() {
     const newState = this.state;
     newState.showMenu = !newState.showMenu;
@@ -154,7 +148,7 @@ export default class App extends React.Component {
     else {//if (this.state.authenticated) {
       return (
         <div style={ app }>
-          <Content downloadIndVid={ this.downloadIndVid } user={ this.state.user } toggleMenu={ this.state.toggleMenu } currentVideo={ this.state.currentVideo } setCurrentVideo={ this.setCurrentVideo } loadVideo={ this.loadVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
+          <Content downloadIndVid={ this.downloadIndVid } user={ this.state.user } toggleMenu={ this.state.toggleMenu } currentVideo={ this.state.currentVideo } setCurrentVideo={ this.setCurrentVideo } playVideo={ this.playVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
         </div>
       )
     }
