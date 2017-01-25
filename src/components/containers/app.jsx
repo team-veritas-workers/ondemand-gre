@@ -24,7 +24,7 @@ export default class App extends Component {
     this.expandLesson = this.expandLesson.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.state = {
-      authenticated: false,
+      authenticated: true,
       showMenu: true,
     };
   }
@@ -140,9 +140,7 @@ export default class App extends Component {
     if (this.state.authenticated) {
       return (
         <div style={ app }>
-          <Banner user={ this.state.user }/>
-          <Breadcrumbs toggleMenu={ this.toggleMenu } />
-          <Content currentVideo={ this.state.currentVideo } setCurrentVideo={ this.setCurrentVideo } loadVideo={ this.loadVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
+          <Content user={ this.state.user } toggleMenu={ this.state.toggleMenu } currentVideo={ this.state.currentVideo } setCurrentVideo={ this.setCurrentVideo } loadVideo={ this.loadVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
         </div>
       )
     }

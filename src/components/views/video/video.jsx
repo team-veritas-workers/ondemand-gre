@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Banner from './../banner/banner.jsx';
+import Breadcrumbs from './../breadcrumbs/breadcrumbs.jsx';
 
 const Video = (props) => {
   let lessonData;
@@ -13,17 +15,24 @@ const Video = (props) => {
   }
   return (
     <div style={ videoContainer }>
-      <div style={ description }>{ lessonData.lessonName } > { lessonData.videoTitle } - <span style={ italic }>{ lessonData.lessonDescription }</span></div>
-      <video id="example_video_1" controls preload="auto" width="100%" height="auto">
+      <Banner user={ props.user } lessonData={ lessonData }/>
+      <video style={ video } id="example_video_1" controls preload="auto" width="100%" height="auto">
         <source id="videoPlayer" src="https://gre-on-demand.veritasprep.com/gre_1_1.mp4" type="video/mp4" />
+        <div>
+          <span>Normal</span> | <span>1.5</span>
+          <span>Standard</span> | <span>High Definition</span>
+        </div>
       </video>
+      <div style={ video }>
+        <span>Normal</span> | <span>1.5</span>
+        <span>Standard</span> | <span>High Definition</span>
+      </div>
     </div>
   );
 };
 
 const videoContainer = {
   backgroundColor: '#FAFAFA',
-  padding: '25px',
   width: '100%'
 }
 
@@ -35,6 +44,10 @@ const description = {
 const italic = {
   fontStyle: 'italic',
   fontSize: '1em'
+}
+
+const video = {
+  margin: '25px',
 }
 
 export default Video;
