@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+//import React, { Component } from 'react';
+const React = require('react');
 import { render } from 'react-dom';
 import $ from 'jquery';
 import Login from './../views/auth/login.jsx';
@@ -9,9 +10,17 @@ import Menu from './../views/menu/menu.jsx';
 import Video from './../views/video/video.jsx';
 import Accordion from './../views/menu/accordion.jsx';
 import Content from './../views/content/content.jsx';
+<<<<<<< HEAD
 import db from './../../../renderer.js';
+=======
+//const Content = require('./../views/content/content.jsx');
+import Datastore from 'nedb';
+//const fs = require('fs');
+// const request = require('request');
+import electron, { ipcRenderer } from 'electron';
+>>>>>>> 04227a6fa822649dabbfea50850cbf5e1174233e
 
-export default class App extends Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.authenticate = this.authenticate.bind(this);
@@ -20,10 +29,18 @@ export default class App extends Component {
     this.getVideoData = this.getVideoData.bind(this);
     this.expandLesson = this.expandLesson.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
+    this.downloadIndVid = this.downloadIndVid.bind(this);
     this.state = {
       authenticated: false,
       showMenu: true,
     };
+  }
+
+  downloadIndVid(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
+    ipcRenderer.send('download-video', highDefDLVid);
   }
   
   authenticate(e) {
@@ -111,12 +128,12 @@ export default class App extends Component {
         </div>
       )
     }
-    if (this.state.authenticated) {
+    else {//if (this.state.authenticated) {
       return (
         <div style={ app }>
           <Banner />
           <Breadcrumbs toggleMenu={ this.toggleMenu } />
-          <Content playVideo={ this.playVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
+          <Content downloadIndVid={ this.downloadIndVid } playVideo={ this.playVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
         </div>
       )
     }
