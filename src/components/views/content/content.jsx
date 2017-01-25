@@ -5,7 +5,7 @@ import Video from './../video/reactVideo.jsx';
 const Content = (props) => {
   return (
     <div style={ container }>
-      <Menu user={ props.user } setCurrentVideo={ props.setCurrentVideo } videoData={ props.videoData } loadVideo={ props.loadVideo } expandLesson={ props.expandLesson } showMenu={ props.showMenu } />
+      <Menu user={ props.user } setCurrentVideo={ props.setCurrentVideo } downloadIndVid={ props.downloadIndVid } videoData={ props.videoData } loadVideo={ props.loadVideo } expandLesson={ props.expandLesson } showMenu={ props.showMenu } />
       <Video user={ props.user } toggleMenu={ props.toggleMenu } currentVideo={ props.currentVideo } videoData={ props.videoData }/>
     </div>
   );

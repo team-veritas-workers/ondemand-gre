@@ -10,7 +10,7 @@ const Lesson = (props) => {
       props.setCurrentVideo(video, props.lessonData);
     }
 
-    contents.push(<div onClick={ onClick } id={ video.name } key={i} style={ videoTitle }>{ video.title }</div>)
+    contents.push(<div onClick={ onClick } id={ video.name } key={i} style={ videoTitle }>{ video.title } <button id={ video.name } onClick={ props.downloadIndVid }>DL</button></div>)
   });
 
   return (
