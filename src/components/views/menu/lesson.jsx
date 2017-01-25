@@ -6,7 +6,6 @@ const Lesson = (props) => {
   props.lessonData.videos.forEach((video, i) => {
 
     const onClick = (e) => {
-      props.loadVideo(e);
       props.setCurrentVideo(video, props.lessonData);
     }
 
@@ -30,6 +29,7 @@ const Lesson = (props) => {
 const lesson = {
   backgroundColor: 'transparent',
   fontSize: '.8em',
+  overflow: 'auto'
 }
 
 const lessonTitle = {

@@ -1,7 +1,7 @@
 {
   "name": "electron-quick-start",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Veritas Prep Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
