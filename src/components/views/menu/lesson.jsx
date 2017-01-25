@@ -5,7 +5,7 @@ const Lesson = (props) => {
   const contents = [];
 
   props.lessonData.videos.forEach((video, i) => {
-    contents.push(<div onClick={ props.playVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title }</div>)
+    contents.push(<div onClick={ props.playVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <button id={ video.name } onClick={ props.downloadIndVid }>DL</button></div>)
   });
 
   return (
