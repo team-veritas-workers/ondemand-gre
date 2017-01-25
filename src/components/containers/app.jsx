@@ -10,6 +10,7 @@ import Menu from './../views/menu/menu.jsx';
 import Video from './../views/video/video.jsx';
 import Accordion from './../views/menu/accordion.jsx';
 import Content from './../views/content/content.jsx';
+import db from './../../../renderer.js';
 //const Content = require('./../views/content/content.jsx');
 import Datastore from 'nedb';
 //const fs = require('fs');
@@ -19,9 +20,12 @@ import electron, { ipcRenderer } from 'electron';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.setCurrentVideo = this.setCurrentVideo.bind(this);
     this.authenticate = this.authenticate.bind(this);
+    this.setUser = this.setUser.bind(this);
     this.saveUserData = this.saveUserData.bind(this);
     this.playVideo = this.playVideo.bind(this);
+    this.loadVideo = this.loadVideo.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.expandLesson = this.expandLesson.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -29,8 +33,19 @@ export default class App extends React.Component {
     this.state = {
       authenticated: false,
       showMenu: true,
-      db: new Datastore({ filename: './datafile', autoload: true })
     };
+  }
+
+  setCurrentVideo(video, lesson) {
+    const videoTitle = video.title
+    const lessonName = lesson.name;
+    const lessonDescription = lesson.description;
+    const currentVideo = {
+      videoTitle: videoTitle,
+      lessonName: lessonName,
+      lessonDescription: lessonDescription
+    }
+    this.setState({ currentVideo: currentVideo });
   }
 
   downloadIndVid(e) {
@@ -61,7 +76,8 @@ export default class App extends React.Component {
         const newState = this.state;
         newState.authenticated = true;
         this.setState({ authenticated: newState.authenticated });
-        this.saveUserData(JSON.stringify(res));
+        this.saveUserData(res);
+        this.setUser(data.user.firstname);
       }
       if (data.status === 'error') {
         document.getElementById('invalid').innerText = data.message;
@@ -70,11 +86,17 @@ export default class App extends React.Component {
     .catch(err => console.log(err));
   }
 
-  saveUserData(jsonStr) {
-    this.state.db.insert({ saved: jsonStr }, (err, newDoc) => {
-      if (err) console.log('ERROR?', err);
-      console.log(newDoc);
-    })
+  setUser(user) {
+    const newState = this.state;
+    newState.user = user;
+    this.setState({ user: newState.user })
+  }
+
+  saveUserData(json) {
+    db.insert(JSON.parse(json), (err, docs) => {
+      if (err) console.log(err);
+      console.log('Saved!');
+    });
   }
 
   playVideo(e) {
@@ -84,6 +106,10 @@ export default class App extends React.Component {
     document.getElementById('example_video_1').pause();
     document.getElementById('example_video_1').load();
     document.getElementById('example_video_1').play();
+  }
+
+  loadVideo(e) {
+    this.playVideo(e);
   }
 
   toggleMenu() {
@@ -128,9 +154,7 @@ export default class App extends React.Component {
     else {//if (this.state.authenticated) {
       return (
         <div style={ app }>
-          <Banner />
-          <Breadcrumbs toggleMenu={ this.toggleMenu } />
-          <Content downloadIndVid={ this.downloadIndVid } playVideo={ this.playVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
+          <Content downloadIndVid={ this.downloadIndVid } user={ this.state.user } toggleMenu={ this.state.toggleMenu } currentVideo={ this.state.currentVideo } setCurrentVideo={ this.setCurrentVideo } loadVideo={ this.loadVideo } videoData={ this.state.videoData } expandLesson={ this.expandLesson} showMenu={ this.state.showMenu } />
         </div>
       )
     }

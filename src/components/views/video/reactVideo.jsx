@@ -1,20 +1,48 @@
 import React, { Component } from 'react';
-import Video from 'react-h5-video';
+import Banner from './../banner/banner.jsx';
+import Breadcrumbs from './../breadcrumbs/breadcrumbs.jsx';
+import ReactPlayer from 'react-player';
 
-
-const Vid = () => {
+const Video = (props) => {
+  let lessonData;
+  if (props.currentVideo) {
+    lessonData = props.currentVideo
+  } else {
+    lessonData = {
+      lessonName: 'Foundations of GRE Logic',
+      lessonDescription: 'Build the core GMAT skills and understand what the test measures',
+      videoTitle: 'Foundations of GRE'
+    }
+  }
   return (
-    <Video sources={sources} height="auto" width="80%">
-			<h3 className="video-logo pull-right"><a href="http://glexe.com" target="_blank">LOGO</a></h3>
-			<p>Any HTML content</p>
-		</Video>
+    <div style={ videoContainer }>
+      <Banner user={ props.user } lessonData={ lessonData }/>
+      <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
+      <div style={ video }>
+        <span>Normal</span> | <span>1.5</span>
+        <span>Standard</span> | <span>High Definition</span>
+      </div>
+    </div>
   );
+};
+
+const videoContainer = {
+  backgroundColor: '#FAFAFA',
+  width: '100%'
 }
 
-const sources = ['https://gre-on-demand.veritasprep.com/gre_1_1.mp4'];
-
-const styles = {
-
+const description = {
+  backgroundColor: 'transparent',
+  fontSize: '1.8em'
 }
 
-export default Vid;
+const italic = {
+  fontStyle: 'italic',
+  fontSize: '1em'
+}
+
+const video = {
+  margin: '25px',
+}
+
+export default Video;

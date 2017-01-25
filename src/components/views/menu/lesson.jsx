@@ -2,10 +2,15 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 
 const Lesson = (props) => {
-  const contents = [];
-
+  const contents = []; 
   props.lessonData.videos.forEach((video, i) => {
-    contents.push(<div onClick={ props.playVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <button id={ video.name } onClick={ props.downloadIndVid }>DL</button></div>)
+
+    const onClick = (e) => {
+      props.loadVideo(e);
+      props.setCurrentVideo(video, props.lessonData);
+    }
+
+    contents.push(<div onClick={ onClick } id={ video.name } key={i} style={ videoTitle }>{ video.title } <button id={ video.name } onClick={ props.downloadIndVid }>DL</button></div>)
   });
 
   return (
