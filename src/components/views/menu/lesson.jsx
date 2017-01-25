@@ -99,14 +99,14 @@ const lessonContentText = {
 }
 
 const lessonContentTextOpen = {
-  overflow: 'auto',
+  overflow: 'hidden',
   visibility: 'visible',
   opacity: '1',
   // transition: 'all 1s ease-in',
 }
 
 const videoTitle = {
-  overflowY: 'scroll',
+  overflowY: 'auto',
   color: 'white',
   margin: '-1px',
 	padding: '10px 40px 10px 10px',
