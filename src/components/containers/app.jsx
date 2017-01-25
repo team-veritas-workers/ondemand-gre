@@ -31,7 +31,7 @@ export default class App extends React.Component {
     this.toggleMenu = this.toggleMenu.bind(this);
     this.downloadIndVid = this.downloadIndVid.bind(this);
     this.state = {
-      authenticated: false,
+      authenticated: true,
       showMenu: true,
     };
   }
