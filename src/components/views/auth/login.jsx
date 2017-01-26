@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 
 const Login = (props) => {
+
+  
+  
   return (
     <div style={ container }>
       <img height="auto" width="100%" className='logo' src={ require('../../../assets/hi-def-logo.png') } />

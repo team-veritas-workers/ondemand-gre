@@ -9,12 +9,16 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const ipcMain = electron.ipcMain;
+const {session} = require('electron');
 const isOnline = require('is-online');
 
 const encryptor = require('file-encryptor');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+
+
 
 function createWindow () {
   // Create the browser window.
@@ -40,13 +44,53 @@ function createWindow () {
   
 
 
-  
+  ipcMain.on('download-video', (event, arg) => {
+    console.log('hello');
+    console.log(arg);
+    const fileName = arg.substring(arg.lastIndexOf('/') + 1);
+    downloadVideo(arg, app.getAppPath() + '/videos/' + fileName);
+  });
+
+  const ses = session.fromPartition('persist:name').cookies;
+
+
+ ipcMain.on('save-user', (event, arg) => {
+      console.log(arg)
+   
+      const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, expirationDate: 1531036000}
+
+      ses.set(cookie, (error) => {
+        if (error) console.error(error)
+      });
+  })
+
+   ipcMain.on('logout', function(event, arg){
+
+      ses.remove('http://www.auth.com', arg.name ,function(data){console.log(data)})
+
+   })
+
+  ipcMain.on('check-cookie', function(event){
+
+  console.log("checking cookie")
+    ses.get({}, function(error, cookies) {
+        console.dir(cookies);
+        if(cookies){
+          event.sender.send('cookie-exists',cookies)
+        }
+        if (error) {
+            console.dir(error);
+        }
+    })
+  })
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
+
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -56,6 +100,8 @@ app.on('window-all-closed', function () {
     app.quit();
   }
 });
+
+
 
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
@@ -101,9 +147,9 @@ function downloadVideo(url, targetPath) {
       isOnline().then((online) => {
         if (online) {
           console.log('thisdasd', app.getAppPath())
-          // encryptor.encryptFile(app.getAppPath() + '/videos/gre_intro.mp4', 'encrypted.dat', key, function(err) {
-          //   console.log('bye')
-          // });
+          encryptor.encryptFile(app.getAppPath() + '/videos/gre_intro.mp4', 'encrypted.dat', key, function(err) {
+            console.log('bye')
+          });
            encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
           const videoUrl = 'https://gre-on-demand.veritasprep.com/' + arg;
           event.sender.send('play-video', videoUrl);
