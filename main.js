@@ -101,9 +101,9 @@ function downloadVideo(url, targetPath) {
       isOnline().then((online) => {
         if (online) {
           console.log('thisdasd', app.getAppPath())
-          // encryptor.encryptFile(app.getAppPath() + '/videos/gre_intro.mp4', 'encrypted.dat', key, function(err) {
-          //   console.log('bye')
-          // });
+          encryptor.encryptFile(app.getAppPath() + '/videos/gre_intro.mp4', 'encrypted.dat', key, function(err) {
+            console.log('bye')
+          });
            encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
           const videoUrl = 'https://gre-on-demand.veritasprep.com/' + arg;
           event.sender.send('play-video', videoUrl);
