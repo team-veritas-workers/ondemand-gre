@@ -20,7 +20,7 @@ const Video = (props) => {
     <div style={ videoContainer }>
       <Banner user={ props.user } lessonData={ lessonData }/>
       <video style={ video } id="example_video_1" controls preload="auto" width="100%" height="auto">
-        <source id="videoPlayer" src="https://gre-on-demand.veritasprep.com/gre_1_1.mp4" type="video/mp4" />
+        <source id="videoPlayer" src="https://gre-on-demand.veritasprep.com/gre_7_2.mp4" type="video/mp4" />
         <div>
           <span>Normal</span> | <span>1.5</span>
           <span>Standard</span> | <span>High Definition</span>
