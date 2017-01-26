@@ -11,6 +11,7 @@ const fs = require('fs');
 const ipcMain = electron.ipcMain;
 const isOnline = require('is-online');
 
+const encryptor = require('file-encryptor');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -99,6 +100,11 @@ function downloadVideo(url, targetPath) {
     } else {
       isOnline().then((online) => {
         if (online) {
+          console.log('thisdasd', app.getAppPath())
+          // encryptor.encryptFile(app.getAppPath() + '/videos/gre_intro.mp4', 'encrypted.dat', key, function(err) {
+          //   console.log('bye')
+          // });
+           encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
           const videoUrl = 'https://gre-on-demand.veritasprep.com/' + arg;
           event.sender.send('play-video', videoUrl);
         } else {
@@ -107,6 +113,22 @@ function downloadVideo(url, targetPath) {
       })
     }
   });
+
+
+
+var key = 'My Super Secret Key';
+
+// // Encrypt file.
+// encryptor.encryptFile('/Users/NickHoltan/Desktop/gre_intro.mp4', 'encrypted.dat', key, function(err) {
+//   // Encryption complete.
+// });
+
+
+
+// Decrypt file.
+// encryptor.decryptFile('encrypted.dat', 'output_file.txt', key, function(err) {
+//   // Decryption complete.
+// });
 
   
 
