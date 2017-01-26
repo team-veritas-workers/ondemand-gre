@@ -6,8 +6,8 @@ const Lesson = (props) => {
   props.lessonData.videos.forEach((video, i) => {
 
     const onClick = (e) => {
-      props.loadVideo(e);
       props.setCurrentVideo(video, props.lessonData);
+      props.playVideo(e);
     }
 
     contents.push(<div onClick={ onClick } id={ video.name } key={i} style={ videoTitle }>{ video.title } <button id={ video.name } onClick={ props.downloadIndVid }>DL</button></div>)
@@ -30,6 +30,7 @@ const Lesson = (props) => {
 const lesson = {
   backgroundColor: 'transparent',
   fontSize: '.8em',
+  overflow: 'auto'
 }
 
 
@@ -107,7 +108,7 @@ const lessonContentTextOpen = {
 }
 
 const videoTitle = {
-  overflowY: 'scroll',
+  overflowY: 'auto',
   color: 'white',
   margin: '-1px',
 	padding: '10px 40px 10px 10px',

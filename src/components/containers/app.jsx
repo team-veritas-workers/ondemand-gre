@@ -20,6 +20,7 @@ export default class App extends Component {
     this.authenticate = this.authenticate.bind(this);
     this.setUser = this.setUser.bind(this);
     this.saveUserData = this.saveUserData.bind(this);
+    this.playVideo = this.playVideo.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     // MAIN METHODS
     // SHOW/HIDE
@@ -95,6 +96,23 @@ export default class App extends Component {
     .catch(err => console.log(err));
   }
 
+  playVideo(e) {
+    const fileName = `${ e.target.id }.mp4`;
+    
+    ipcRenderer.on('play-video', (event, arg)=> {
+      console.log('videoPath:', arg);
+      document.getElementById('videoPlayer').src = arg;
+      document.getElementById('example_video_1').pause();
+      document.getElementById('example_video_1').load();
+      document.getElementById('example_video_1').play();
+    })
+    ipcRenderer.once('offline-vid-error', () => {
+    console.log('inside app.jsx for error of not online')
+      alert('You are offline and selected video has not been downloaded');
+    })
+    ipcRenderer.send('get-video', fileName);
+  }
+
   // SHOW/HIDE
   toggleMenu() {
     const newState = this.state;
@@ -121,6 +139,7 @@ export default class App extends Component {
   loadVideo(e) {
     this.playVideo(e);
   }
+
   setCurrentVideo(video, lesson) {
     const videoTitle = video.title
     const lessonName = lesson.name;
@@ -163,7 +182,7 @@ export default class App extends Component {
             toggleMenu={ this.state.toggleMenu }
             currentVideo={ this.state.currentVideo }
             setCurrentVideo={ this.setCurrentVideo }
-            loadVideo={ this.loadVideo }
+            playVideo={ this.playVideo }
             videoData={ this.state.videoData }
             expandLesson={ this.expandLesson}
             showMenu={ this.state.showMenu }

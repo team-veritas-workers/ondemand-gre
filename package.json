@@ -1,7 +1,7 @@
 {
   "name": "electron-quick-start",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Veritas Prep Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -31,7 +31,9 @@
     "body-parser": "^1.16.0",
     "css-loader": "^0.26.1",
     "express": "^4.14.0",
+    "file-encryptor": "^0.1.1",
     "file-loader": "^0.9.0",
+    "is-online": "^6.0.1",
     "jquery": "^3.1.1",
     "nedb": "^1.8.0",
     "nodemon": "^1.11.0",
