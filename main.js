@@ -32,7 +32,7 @@ function createWindow () {
   }));
 
   // Open the DevTools.
- 
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -48,7 +48,7 @@ function createWindow () {
     console.log('hello');
     console.log(arg);
     const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-    downloadVideo(arg, '/Users/canoc/Library/Caches/veritas/' + fileName);
+    downloadVideo(arg, app.getAppPath() + '/videos/' + fileName);
   });
 
   const ses = session.fromPartition('persist:name').cookies;
@@ -147,9 +147,9 @@ function downloadVideo(url, targetPath) {
       isOnline().then((online) => {
         if (online) {
           console.log('thisdasd', app.getAppPath())
-          // encryptor.encryptFile(app.getAppPath() + '/videos/gre_intro.mp4', 'encrypted.dat', key, function(err) {
-          //   console.log('bye')
-          // });
+          encryptor.encryptFile(app.getAppPath() + '/videos/gre_intro.mp4', 'encrypted.dat', key, function(err) {
+            console.log('bye')
+          });
            encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
           const videoUrl = 'https://gre-on-demand.veritasprep.com/' + arg;
           event.sender.send('play-video', videoUrl);
