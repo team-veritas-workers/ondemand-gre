@@ -32,6 +32,7 @@ const lesson = {
   fontSize: '.8em',
 }
 
+
 const lessonTitle = {
   backgroundColor: 'transparent',
   height: '40px',
@@ -95,11 +96,11 @@ const lessonContentOpen = {
 const lessonContentText = {
   visibility: 'hidden',
   opacity: '0',
-  overflow: 'auto',
+  overflow: 'hidden',
 }
 
 const lessonContentTextOpen = {
-  overflow: 'auto',
+  overflow: 'hidden',
   visibility: 'visible',
   opacity: '1',
   // transition: 'all 1s ease-in',

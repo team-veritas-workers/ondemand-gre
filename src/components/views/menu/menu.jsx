@@ -19,9 +19,18 @@ const Menu = (props) => {
 				<img width="100%" height="auto" src={ logoWhite } />
 				<span style={ user }>{ props.user ? props.user : "Dev Mode" }</span>
 			</div>
-			{ lessons }
+			<div style={ lessonsContentBox }>
+				{ lessons }
+			</div>
     </div>
   );
+}
+
+const lessonsContentBox = {
+	padding: '0',
+	margin: '0',
+	height: '100%',
+	overflow: 'scroll',
 }
 
 const user = {
@@ -40,9 +49,10 @@ const options = {
 
 const menu = {
 	width: '480px',
+	minWidth: '380px',
   backgroundColor: '#111539',
 	padding: '5px',
-	overflowY: 'scroll',
+	// overflowY: 'scroll',
 	height: '100vh',
 	boxShadow: '0 3px 8px rgba(0, 0, 0, .3)',
 	zIndex: '2',
@@ -53,7 +63,7 @@ const menuHide = {
 	width: '0px',
   backgroundColor: '#111539',
 	padding: '5px',
-	overflowY: 'scroll',
+	// overflowY: 'scroll',
 	height: '100vh',
 	boxShadow: '0 3px 8px rgba(0, 0, 0, .3)',
 	zIndex: '1',
