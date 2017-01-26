@@ -50,6 +50,7 @@
     "react-player": "^0.14.1",
     "redux": "^3.6.0",
     "request": "^2.79.0",
+    "screenfull": "^3.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "video-react": "^0.6.2",

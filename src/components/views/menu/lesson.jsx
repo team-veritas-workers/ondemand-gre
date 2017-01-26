@@ -33,6 +33,7 @@ const lesson = {
   overflow: 'auto'
 }
 
+
 const lessonTitle = {
   backgroundColor: 'transparent',
   height: '40px',
@@ -96,7 +97,7 @@ const lessonContentOpen = {
 const lessonContentText = {
   visibility: 'hidden',
   opacity: '0',
-  overflow: 'auto',
+  overflow: 'hidden',
 }
 
 const lessonContentTextOpen = {

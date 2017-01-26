@@ -20,18 +20,19 @@ const Menu = (props) => {
 				<span style={ user }>{ props.user ? props.user : "Dev Mode" }</span>
 			</div>
 			<div style={ lessonsContentBox }>
-					{ lessons }
+				{ lessons }
 			</div>
     </div>
   );
 }
 
-
 const lessonsContentBox = {
 	padding: '0',
 	margin: '0',
 	height: '100%',
-	overflow: 'auto',
+	// CHECK IF SCROLL WORKS
+	overflow: 'scroll',
+	// overflow: 'auto',
 }
 const user = {
 	marginLeft: '10px'
@@ -49,6 +50,7 @@ const options = {
 
 const menu = {
 	width: '480px',
+	minWidth: '380px',
   backgroundColor: '#111539',
 	padding: '5px',
 	overflowY: 'hidden',
