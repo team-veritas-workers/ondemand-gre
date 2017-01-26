@@ -5,6 +5,7 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 const Banner = (props) => {
   return (
     <div style={ banner }>
+
       <span style={ text }>{ props.lessonData.lessonName } | { props.lessonData.videoTitle }</span>
       <span style={ greeting }>{ props.user ? `Hello ${props.user}` : "Dev Mode" }</span>
     </div>
