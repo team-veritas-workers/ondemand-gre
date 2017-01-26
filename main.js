@@ -32,7 +32,7 @@ function createWindow () {
   }));
 
   // Open the DevTools.
- 
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -48,7 +48,7 @@ function createWindow () {
     console.log('hello');
     console.log(arg);
     const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-    downloadVideo(arg, '/Users/canoc/Library/Caches/veritas/' + fileName);
+    downloadVideo(arg, app.getAppPath() + '/videos/' + fileName);
   });
 
   const ses = session.fromPartition('persist:name').cookies;
