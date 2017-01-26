@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Menu from './../menu/menu.jsx';
-import Video from './../video/video.jsx';
+import Video from './../video/reactVideo.jsx';
 
 const Content = (props) => {
   return (
