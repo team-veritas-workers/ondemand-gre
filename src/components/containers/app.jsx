@@ -98,12 +98,20 @@ export default class App extends React.Component {
   }
 
   playVideo(e) {
-    const highDef = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
-    const stdDef= `https://gre-on-demand.veritasprep.com/360p_${ e.target.id }.mp4`;
-    document.getElementById('videoPlayer').src = highDef;
-    document.getElementById('example_video_1').pause();
-    document.getElementById('example_video_1').load();
-    document.getElementById('example_video_1').play();
+    const fileName = `${ e.target.id }.mp4`;
+    
+    ipcRenderer.on('play-video', (event, arg)=> {
+      console.log('videoPath:', arg);
+      document.getElementById('videoPlayer').src = arg;
+      document.getElementById('example_video_1').pause();
+      document.getElementById('example_video_1').load();
+      document.getElementById('example_video_1').play();
+    })
+    ipcRenderer.once('offline-vid-error', () => {
+    console.log('inside app.jsx for error of not online')
+      alert('You are offline and selected video has not been downloaded');
+    })
+    ipcRenderer.send('get-video', fileName);
   }
 
   toggleMenu() {

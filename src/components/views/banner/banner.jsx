@@ -3,7 +3,6 @@ import Radium from 'radium';
 import logoWhite from './../../../assets/veritas-logo-white.png';
 
 const Banner = (props) => {
-  console.log(props);
   return (
     <div style={ banner }>
       <span style={ text }>{ props.lessonData.lessonName } | { props.lessonData.videoTitle }</span>

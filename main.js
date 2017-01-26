@@ -9,6 +9,7 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const ipcMain = electron.ipcMain;
+const isOnline = require('is-online');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -35,13 +36,10 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   })
+  
 
-  ipcMain.on('download-video', (event, arg) => {
-    console.log('hello');
-    console.log(arg);
-    const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-    downloadVideo(arg, '/Users/NickHoltan/' + fileName);
-  });
+
+  
 }
 
 // This method will be called when Electron has finished
@@ -81,6 +79,38 @@ function downloadVideo(url, targetPath) {
     console.log("Video done downloading!");
   });
 }
+
+  ipcMain.on('download-video', (event, arg) => {
+    const fileName = arg.substring(arg.lastIndexOf('/') + 1);
+    if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+      fs.mkdirSync(app.getAppPath() + '/videos/');
+    }
+    downloadVideo(arg, app.getAppPath() + '/videos/' + fileName);
+    });
+ 
+  ipcMain.on('get-video', (event, arg) => {
+    // console.log('this is app path:' , app.getAppPath());
+    if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+      fs.mkdirSync(app.getAppPath() + '/videos/');
+    }
+    const filePath = app.getAppPath() + '/videos/' + arg;
+    if (fs.existsSync(filePath)) {
+      event.sender.send('play-video', filePath);
+    } else {
+      isOnline().then((online) => {
+        if (online) {
+          const videoUrl = 'https://gre-on-demand.veritasprep.com/' + arg;
+          event.sender.send('play-video', videoUrl);
+        } else {
+          event.sender.send('offline-vid-error');
+        }
+      })
+    }
+  });
+
+  
+
+
 
 
 
