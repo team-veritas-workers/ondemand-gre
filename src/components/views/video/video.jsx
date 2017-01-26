@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Banner from './../banner/banner.jsx';
 import Breadcrumbs from './../breadcrumbs/breadcrumbs.jsx';
 
+
 const Video = (props) => {
   console.log('hi');
   console.log(props.currentVideo);
@@ -18,7 +19,12 @@ const Video = (props) => {
   }
   return (
     <div style={ videoContainer }>
-      <Banner user={ props.user } lessonData={ lessonData }/>
+
+
+      <Banner logOutStuff={props.logOutStuff} user={ props.user } lessonData={ lessonData }/>
+          {console.log("video before abnner logger", props.logOutStuff)}
+       
+
       <video style={ video } id="example_video_1" controls preload="auto" width="100%" height="auto">
         <source id="videoPlayer" src="https://gre-on-demand.veritasprep.com/gre_7_2.mp4" type="video/mp4" />
         <div>

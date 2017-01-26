@@ -32,12 +32,67 @@ export default class App extends Component {
     this.loadVideo = this.loadVideo.bind(this);
     // DOWNLOAD VIDEO
     this.downloadIndVid = this.downloadIndVid.bind(this);
+
+    this.cookieChecker = this.cookieChecker.bind(this);
+    this.logout = this.logout.bind(this);
+
     // VIDEO CONTROLS
     // STATE
+
     this.state = {
       authenticated: true,
       showMenu: true,
     };
+  }
+
+  setCurrentVideo(video, lesson) {
+    const videoTitle = video.title;
+    const lessonName = lesson.name;
+    const lessonDescription = lesson.description;
+    const currentVideo = {
+      videoTitle: videoTitle,
+      lessonName: lessonName,
+      lessonDescription: lessonDescription
+    }
+    this.setState({ currentVideo: currentVideo });
+  }
+
+  logout(){
+   // this.setState({logout:true});
+    ipcRenderer.send('logout',{name: this.state.user});
+    this.setState({authenticated:false})
+    
+  }
+
+  downloadIndVid(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
+    ipcRenderer.send('download-video', highDefDLVid);
+  }
+
+  cookieChecker(state){
+    console.log("where is my cookie!!!!");
+    console.log(this.state.authenticated);
+
+
+      ipcRenderer.send('check-cookie')
+      ipcRenderer.on('cookie-exists', function(event,arg){
+        console.log("cookie was received");
+        if (arg.length !== 0){
+          console.log("arg", arg)
+         // const newState = state;
+         // console.log('newState', newState);
+          //newState.authenticated = true;
+          console.log("this",this);
+          
+          this.setState({authenticated: true});
+          console.log("arg.name",arg[0].name)
+          this.setUser(arg[0].name);
+
+        }
+      }.bind(this))
+
   }
   // LOGIN METHODS
   authenticate(e) {
@@ -57,7 +112,7 @@ export default class App extends Component {
         const newState = this.state;
         newState.authenticated = true;
         this.setState({ authenticated: newState.authenticated });
-        this.saveUserData(res);
+        this.saveUserData(res, data.user.firstname);
         this.setUser(data.user.firstname);
       }
       if (data.status === 'error') {
@@ -70,12 +125,13 @@ export default class App extends Component {
   setUser(user) {
     const newState = this.state;
     newState.user = user;
+        console.log("we are setting user!!!!!", user, newState)
     this.setState({ user: newState.user })
   }
 
-  saveUserData(json) {
-    console.log(json);
-    console.log(JSON.parse(json));
+  saveUserData(json,firstname) {
+    console.log("user info", JSON.parse(json))
+    ipcRenderer.send('save-user', {email: JSON.parse(json).user.email, user: firstname })
     db.insert(JSON.parse(json), (err, docs) => {
       if (err) console.log(err);
       console.log('Saved!');
@@ -140,7 +196,9 @@ export default class App extends Component {
     this.playVideo(e);
   }
 
-  setCurrentVideo(video, lesson) {
+  
+        
+        Video(video, lesson) {
     const videoTitle = video.title
     const lessonName = lesson.name;
     const lessonDescription = lesson.description;
@@ -159,7 +217,10 @@ export default class App extends Component {
     ipcRenderer.send('download-video', highDefDLVid);
   }
   
+ 
+
   componentDidMount() {
+    this.cookieChecker(this.state);
     this.getVideoData();
   }
 
@@ -177,6 +238,9 @@ export default class App extends Component {
       return (
         <div style={ app }>
           <Content
+            authenticate={this.authenticate}
+            stateLog={this.state.logout}
+            logger={this.logout}
             downloadIndVid={ this.downloadIndVid }
             user={ this.state.user }
             toggleMenu={ this.state.toggleMenu }

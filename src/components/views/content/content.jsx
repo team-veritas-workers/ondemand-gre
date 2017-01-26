@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Menu from './../menu/menu.jsx';
 import Video from './../video/video.jsx';
+import Login from './../auth/login.jsx'
+import electron, {ipcRenderer} from 'electron'
 
 const Content = (props) => {
-  return (
+
+	  return (
     <div style={ container }>
-      
       <Menu
         user={ props.user }
         setCurrentVideo={ props.setCurrentVideo }
@@ -15,6 +17,7 @@ const Content = (props) => {
         expandLesson={ props.expandLesson }
         showMenu={ props.showMenu } />
       <Video
+        logOutStuff={props.logger}
         user={ props.user }
         toggleMenu={ props.toggleMenu }
         currentVideo={ props.currentVideo }
@@ -28,8 +31,12 @@ const Content = (props) => {
         onSeekChange = { props.onSeekChange }
         onSeekMouseUp = { props.onSeekMouseUp }
       />
+      <button onClick={function(){props.logger()}}>Logout</button>
     </div>
   );
+
+
+
 };
 
 const container = {
