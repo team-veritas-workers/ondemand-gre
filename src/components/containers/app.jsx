@@ -87,7 +87,6 @@ export default class App extends Component {
           console.log("this",this);
           
           this.setState({authenticated: true});
-          console.log("arg.name",arg[0].name)
           this.setUser(arg[0].name);
 
         }
@@ -125,7 +124,7 @@ export default class App extends Component {
   setUser(user) {
     const newState = this.state;
     newState.user = user;
-        console.log("we are setting user!!!!!", user, newState)
+        //console.log("we are setting user!!!!!", user, newState)
     this.setState({ user: newState.user })
   }
 

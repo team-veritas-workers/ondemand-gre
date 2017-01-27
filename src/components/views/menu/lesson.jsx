@@ -10,7 +10,7 @@ const Lesson = (props) => {
       props.playVideo(e);
     }
 
-    contents.push(<div onClick={ onClick } id={ video.name } key={i} style={ videoTitle }>{ video.title } <button id={ video.name } onClick={ props.downloadIndVid }>DL</button></div>)
+    contents.push(<div onClick={ onClick } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ button1 } id={ video.name } onClick={ props.downloadIndVid }></span></div>)
   });
 
   return (
@@ -56,11 +56,15 @@ const lessonTitle = {
 }
 
 const downloadIcon = {
-  height: '13px',
-  backgroundSize: '13px, 13px',
-  backgroundImage: `url(http://files.softicons.com/download/application-icons/ios7-style-icons-by-matias-melian/png/256x256/DownloadsFolder.png)`,
+  height: '15px',
+  backgroundSize: '15px, 15px',
+ // backgroundImage: `url(http://files.softicons.com/download/application-icons/ios7-style-icons-by-matias-melian/png/256x256/DownloadsFolder.png)`,
+  // backgroundImage: `url(http://www.lawngames.co.za/images/download/dl2.png)`,
+  backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
   backgroundRepeat: 'no-repeat',
-  paddingLeft: '20px',
+  paddingLeft: '22px',
+ 
+ 
 }
 
 const titleText = {
@@ -114,6 +118,7 @@ const videoTitle = {
 	padding: '10px 40px 10px 10px',
 	listStyle: 'none',
 	backgroundImage: 'url("http://www.clipartbest.com/cliparts/9cR/RAd/9cRRAdooi.png")',
+
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'right 10px center',
 	backgroundSize: '16px',
@@ -122,6 +127,16 @@ const videoTitle = {
     backgroundColor: 'green',
     cursor: 'pointer',
   }
+}
+
+const button1 = {
+  height: '15px',
+  backgroundSize: '15px, 15px',
+  //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
+  backgroundRepeat: 'no-repeat',
+  paddingLeft: '20px',
+  marginLeft: '3px',
+  backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
 }
 
 export default Radium(Lesson);
