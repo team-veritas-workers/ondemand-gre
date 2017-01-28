@@ -5,20 +5,50 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 const Banner = (props) => {
   return (
     <div style={ banner }>
-
-      <span style={ text }>{ props.lessonData.lessonName } | { props.lessonData.videoTitle }</span>
-      <span style={ greeting }>{ props.user ? `Hello ${props.user}` : "Dev Mode" }</span>
+      <div style={ titles }>
+        <div style={ title }>{ props.lessonData.videoTitle }</div>
+        <div style={ subtitle }>{ props.lessonData.lessonName }</div>
+      </div>
+      <div style={ greeting }>{ props.user ? `Hi ${ props.user }` : "Dev Mode" }</div>
     </div>
   );
 };
 
-const text = {
+const titles = {
+  display: 'flex',
+  alignItems: 'center',
+  height: '100%',
+  flexGrow: '1',
+  zIndex: '2',
+  opacity: '.7',
+}
+
+const title = {
+  display: 'flex',
+  alignItems: 'center',
   fontSize: '1.4em',
-  color: '#999999',
-  marginLeft: '20px'
+  color: '#444',
+  height: '40px',
+  padding: '0 15px',
+  borderRight: '2px solid #EAEAEA'
+}
+
+const subtitle = {
+  display: 'flex',
+  alignItems: 'center',
+
+  fontSize: '.8em',
+  color: '#9A9A9A',
+  fontStyle: 'italic',
+  height: '40px',
+  padding: '0 15px'
 }
 
 const banner = {
+  position: 'absolute',
+  width: '100%',
+  top: '0',
+  left: '0',
   backgroundColor: '#FAFAFA',
   display: 'flex',
   flexDirection: 'row',
@@ -31,11 +61,11 @@ const banner = {
 }
 
 const greeting = {
+  height: '100%',
   color: '#999999',
   display: 'flex',
   alignItems: 'center',
-  position: 'absolute',
-  right: '20px'
+  padding: '20px',
 }
 
 const logo = {

@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import Radium from 'radium';
 import Banner from './../banner/banner.jsx';
 import Breadcrumbs from './../breadcrumbs/breadcrumbs.jsx';
 import ReactPlayer from 'react-player';
 import Duration from './duration.jsx';
+import screenfull from 'screenfull';
+import playButton from './../../../assets/play_icon.png';
+import pauseButton from './../../../assets/pause_icon.png';
+import volumeIcon from './../../../assets/volume_icon.png';
+import muteIcon from './../../../assets/mute_icon.png';
+import fullscreenIcon from './../../../assets/fullscreen_icon.png';
 
-import { findDOMNode } from 'react-dom'
-import screenfull from 'screenfull'
 
 class Video extends Component {
-  constructor() {
-    super();
-    this.load = this.load.bind(this);
-    this.setPlayer = this.setPlayer.bind(this);
+  constructor(props) {
+    super(props);
     this.playPause = this.playPause.bind(this);
     this.setVolume = this.setVolume.bind(this);
     this.mute = this.mute.bind(this);
@@ -22,13 +25,10 @@ class Video extends Component {
     this.onSeekMouseUp = this.onSeekMouseUp.bind(this);
     this.onProgress = this.onProgress.bind(this);
     this.onClickFullscreen = this.onClickFullscreen.bind(this);
-    this.onConfigSubmit = this.onConfigSubmit.bind(this);
-    this.renderLoadButton = this.renderLoadButton.bind(this);
     this.state = {
-      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
       playing: true,
       mute: 0,
-      volume: 0.8,
+      volume: 0.1,
       loaded: 0,
       played: 0,
       duration: 0,
@@ -37,164 +37,93 @@ class Video extends Component {
     };
   }
 
-  // VIDEO CONTROLS 
-  load(location) {
-    this.setState({
-      url: location,
-      played: 0,
-      loaded: 0
-    });
-  }
-
-  setPlayer(instance) {
-    const newState = this.state;
-    newState.player = instance;
-    this.setState(newState);
-  }
-
-  playPause(){
-    const newState = this.state;
-    this.state.playing = !this.state.playing;
-    this.setState(newState);
+  playPause() { 
+    this.setState({ playing: !this.state.playing });
   }
 
   setVolume(e) {
-    const newState = this.state;
-    newState.volume = parseFloat(e.target.value);
+    this.setState({ volume: parseFloat(e.target.value) });
   }
 
-  mute(e) {
-    const newState = this.state;
-    if (newState.volume) {
-      newState.mute = newState.volume;
-      newState.volume = 0;
-    } else {
-      newState.volume = newState.mute;
-      newState.mute = 0;
-    }
-    this.setState(newState);
+  mute() {
+    this.state.volume
+    ? this.setState({ mute: this.state.volume, volume: 0 })
+    : this.setState({ volume: this.state.mute, mute: 0 });
   }
 
   setPlaybackRate(e) {
-    const newState = this.state;
-    newState.playbackRate = parseFloat(e.target.value);
-    this.setState(newState);
+    this.setState({ playbackRate: parseFloat(e.target.value) })
   }
 
   onSeekMouseDown(e) {
-    console.log('DOWN');
-    const newState = this.state;
-    newState.seeking = true;
-    this.setState(newState);
+    this.setState({ seeking: true });
   }
 
   onSeekChange(e) {
-    console.log('CHANGE');
-    const newState = this.state;
-    newState.played = parseFloat(e.target.value);
-    this.setState(newState);
+    this.setState({ played: parseFloat(e.target.value) });
   }
 
   onSeekMouseUp(e) {
-    const newState = this.state;
-    newState.seeking = false;
-    this.setState(newState);
+    this.setState({ seeking: false });
     this.player.seekTo(parseFloat(e.target.value));
   }
 
   onProgress(state) {
-    if (!this.state.seeking) {
-      this.setState(state);
-    }
+    !this.state.seeking ? this.setState(state) : null;
   }
 
   onClickFullscreen() {
     screenfull.request(findDOMNode(this.player)); 
   }
 
-  onConfigSubmit() {
-    let config;
-    try {
-      config = JSON.parse(this.configInput.value);
-    }
-    catch (err) {
-      config = {};
-      console.error('Error setting config:', err);
-    }
-
-    this.setState(config);
-  }
-
-  renderLoadButton(url, label) {
-    return (
-      <button onClick={ () => this.load(url) }>
-        { label }
-      </button>
-    )
-  }
-  // LIFECYCLE METHODS
-
   render() {
-
-    let lessonData;
-    let player;
-
-    if (this.props.currentVideo) {
-      lessonData = this.props.currentVideo
-    } else {
-      lessonData = {
-        lessonName: 'Foundations of GRE Logic',
-        lessonDescription: 'Build the core GMAT skills and understand what the test measures',
-        videoTitle: 'Foundations of GRE'
-      }
-    }
+    const defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' }
+    const lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
 
     return (
-      <div style={ videoContainer }>
+      <div style={ contentContainer }>
         <Banner user={ this.props.user } lessonData={ lessonData }/>
           <div style={ videoComponent }>
             <ReactPlayer
-              height="100%"
-              width="100%"
-              ref={ player => this.player = player }
-              url='https://gre-on-demand.veritasprep.com/gre_1_1.mp4'
-              className='react-player'
-              playing={ this.state.playing }
+              height = "100%"
+              width = "100%"
+              ref = { player => this.player = player }
+              url = { this.props.url }
+              className = 'react-player'
               playbackRate = { this.state.playbackRate }
+              playing = { this.state.playing }
               volume = { this.state.volume }
-              onReady={ () => console.log('Ready to play...') }
-              onStart={ () => console.log('Video started!') }
-              onReady={ () => console.log('onReady') }
-              onStart={ () => console.log('onStart' )}
-              onPlay={ () => this.setState({ playing: true }) }
-              onPause={ () => this.setState({ playing: false }) }
-              onBuffer={ () => console.log('onBuffer') }
-              onEnded={ () => this.setState({ playing: false }) }
-              onError={ e => console.log('onError', e) }
-              onProgress={ this.onProgress }
-              onDuration={ duration => this.setState({ duration }) }/>
+              onProgress = { this.onProgress }
+              onDuration = { duration => this.setState({ duration }) }
+              onPlay = { () => this.setState({ playing: true }) }
+              onPause = { () => this.setState({ playing: false }) }
+              onEnded = { () => this.setState({ playing: false }) }
+              onBuffer = { () => console.log('onBuffer') }
+              onReady = { () => console.log('Ready to play...') }
+              onStart = { () => console.log('Video started!') }
+              onError = { e => console.log('onError', e) }
+            />
             <div style={ overlay }>
               <div style={ controls }>
-                <button style={ videoButton } onClick={ this.playPause }>{ !this.state.playing ? <span>&#9658;</span> : <span>&#10074;&#10074;</span> }</button>
-                <input
-                  style={ seeker }
-                  type='range' min={ 0 } max={ 1 } step='any'
-                  value={ this.state.played }
-                  onMouseDown={ this.onSeekMouseDown }
-                  onChange={ this.onSeekChange }
-                  onMouseUp={ this.onSeekMouseUp }
-                />
-                <Duration seconds={ this.state.duration * this.state.played } /> / 
-                <Duration seconds={ this.state.duration } />
-                <button onClick={ this.setPlaybackRate } value={ 1 }>Normal</button>
-                <button onClick={ this.setPlaybackRate } value={ 1.5 }>1.5x</button>
-                <button onClick={ this.mute }>Mute</button>
-                <input
-                  type='range' min={ 0 } max={ 1 } step='any'
-                  value={ this.state.volume }
-                  onChange={ this.setVolume }
-                />
-                <button style={ videoButton } onClick={ this.onClickFullscreen }><span>&#9645;</span></button>
+                <div style={ playPauseContainer }>
+                  <button key="playPause" style={ button } onClick={ this.playPause }>{ !this.state.playing ? <img src={ playButton } height="59%" width="auto" /> : <img src={ pauseButton } height="59%" width="auto"  /> }</button>
+                </div>
+                <div style={ timeTracker }>
+                  <Duration seconds={ this.state.duration * this.state.played } /> / 
+                  <Duration seconds={ this.state.duration } />
+                  <input style={ seeker } type='range' min={ 0 } max={ 1 } step='any' value={ this.state.played } onMouseDown={ this.onSeekMouseDown } onChange={ this.onSeekChange } onMouseUp={ this.onSeekMouseUp }/>
+                </div>
+                <div style={ playbackContainer }>
+                  <button style={ this.state.playbackRate  === 1.0 ? button : inactive } key="playbackNormal" onClick={ this.setPlaybackRate } value={ 1 }>Normal</button>
+                  <button style={ this.state.playbackRate  === 1.5 ? button : inactive } key="playbackFast" onClick={ this.setPlaybackRate } value={ 1.5 }>1.5x</button>
+                </div>
+                <div style={ volumeContainer }>
+                  <button key="mute" style={ button } onClick={ this.mute }><img height="59%" width="auto" src={ this.state.volume === 0 ? muteIcon : volumeIcon } /></button>
+                  <input style={ seekerVol } type='range' min={ 0 } max={ 1 } step='any' value={ this.state.volume } onChange={ this.setVolume }/>
+                </div>
+                <div style={ fullscreenContainer }>
+                  <button key="fullscreen" style={ button } onClick={ this.onClickFullscreen }><img height="59%" width="auto" src={ fullscreenIcon } /></button>
+                </div>
               </div>
             </div>
           </div>
@@ -202,18 +131,42 @@ class Video extends Component {
     );
   }
 }
-
+// CONTAINERS
 const videoComponent = {
-  border: '1px solid #333',
   position: 'relative',
-  height: '500px',
   width: '100%',
 }
 
-const seeker = {
-  width: '50%',
+const contentContainer = {
+  position: 'relative',
+  padding: '114px 25px',
+  width: '100%',
+  backgroundColor: '#FAFAFA'
+}
+const fullscreenContainer = {
+  display: 'flex',
+  alignItems: 'center',
 }
 
+const volumeContainer = {
+  display: 'flex',
+  alignItems: 'center',
+}
+
+const playbackContainer = {
+  color: '#FFF',
+  fontSize: '1.2em',
+  minWidth: '100px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}
+
+const playPauseContainer = {
+  display: 'flex',
+  alignItems: 'center',
+}
+// OVERLAY AND CONTROLS
 const overlay = {
   display: 'flex',
   flexDirection: 'column',
@@ -234,19 +187,58 @@ const overlay = {
 }
 
 const controls = {
-  backgroundColor: 'blue',
+  height: '32px',
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  color: '#EAEAEA',
+  backgroundColor: 'rgba(17, 21, 37, .8)',
   bottom: '0',
 }
-
-const videoButton = {
-  height: '40px',
-  width: '40px',
-  fontSize: '1.2em'
+// DURATION AND SEEKER BAR
+const timeTracker = {
+  display: 'flex',
+  alignItems: 'center',
+  flexGrow: '2',
+  margin: '5px',
+  fontSize: '12px',
 }
 
-const videoContainer = {
-  backgroundColor: '#FAFAFA',
-  width: '100%',
+const seeker = {
+  display: 'flex',
+  flexGrow: '2',
+  alignItems: 'center',
+}
+
+// VOLUME CONTROLS AND MUTE
+const seekerVol = {
+  width: '100%'
+}
+
+const button = {
+  color: 'white',
+  outline: 'none',
+  backgroundColor: 'transparent',
+  height: '32px',
+  width: '32px',
+  fontSize: '.5em',
+  margin: '2px',
+  borderRadius: '4px',
+  borderStyle: 'none',
+  transition: 'all .1s linear',
+}
+
+const inactive = {
+  color: '#333',
+  outline: 'none',
+  backgroundColor: 'transparent',
+  height: '32px',
+  width: '32px',
+  fontSize: '.5em',
+  margin: '2px',
+  borderRadius: '4px',
+  borderStyle: 'none',
+  transition: 'all .1s linear',
 }
 
 const description = {
@@ -257,10 +249,6 @@ const description = {
 const italic = {
   fontStyle: 'italic',
   fontSize: '1em'
-}
-
-const video = {
-  margin: '25px',
 }
 
 export default Radium(Video);
