@@ -38,8 +38,9 @@ const Video = (props) => {
 };
 
 const videoContainer = {
-  backgroundColor: '#FAFAFA',
-  width: '100%'
+  backgroundColor: 'orange',
+  width: '100%',
+
 }
 
 const description = {

@@ -22,7 +22,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1300, height: 800});
+  mainWindow = new BrowserWindow({ width: 1280, height: 800, minWidth: 1024, minHeight: 768 });
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -48,7 +48,7 @@ function createWindow () {
     console.log('hello');
     console.log(arg);
     const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-    downloadVideo(arg, app.getAppPath() + '/videos/' + fileName);
+    downloadVideo(arg, app.getAppPath() + '/downloads/' + fileName);
   });
 
   const ses = session.fromPartition('persist:name').cookies;
