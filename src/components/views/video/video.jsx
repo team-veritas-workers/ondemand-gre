@@ -19,7 +19,7 @@ const Video = (props) => {
 
 
       <Banner logOutStuff={props.logOutStuff} user={ props.user } lessonData={ lessonData }/>
-          {console.log("video before abnner logger", props.logOutStuff)}
+          
        
 
       <video style={ video } id="example_video_1" controls preload="auto" width="100%" height="auto">

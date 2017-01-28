@@ -5,10 +5,11 @@ import Login from './../auth/login.jsx'
 import electron, {ipcRenderer} from 'electron'
 
 const Content = (props) => {
-  const { url, playVideo, user, setCurrentVideo, downloadIndVid, videoData, expandLesson, showMenu, logger, toggleMenu, currentVideo } = props;
+  const { downloadAllLessson, url, playVideo, user, setCurrentVideo, downloadIndVid, videoData, expandLesson, showMenu, logger, toggleMenu, currentVideo } = props;
   return (
   <div style={ container }>
     <Menu
+      downloadAllLessson={ downloadAllLessson }
       user = { user }
       setCurrentVideo = { setCurrentVideo }
       downloadIndVid = { downloadIndVid }
@@ -25,6 +26,7 @@ const Content = (props) => {
       url = { url }
     />
   </div>
+  // <button onClick={function(){props.logger()}}>Logout</button>
   );
 };
 
