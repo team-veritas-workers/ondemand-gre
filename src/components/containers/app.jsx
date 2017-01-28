@@ -137,8 +137,9 @@ export default class App extends Component {
     .catch(err => console.log(err));
   }
 
-  playVideo(event) {
-    const fileName = `${ event.target.id }.mp4`;
+  playVideo(e) {
+    const fileName = `${ e.target.id }.mp4`;
+    console.log(fileName)
     ipcRenderer.on('play-video', (event, arg)=> {
       console.log('this is : videoPath:', arg);
       document.getElementById('videoPlayer').src = arg;
@@ -167,22 +168,7 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
 
-  loadVideo(e) {
-    this.playVideo(e);
-  }
-
-  
-  playVideo(video, lesson) {
-    const videoTitle = video.title
-    const lessonName = lesson.name;
-    const lessonDescription = lesson.description;
-    const currentVideo = {
-      videoTitle: videoTitle,
-      lessonName: lessonName,
-      lessonDescription: lessonDescription
-    }
-    this.setState({ currentVideo: currentVideo });
-  }
+ 
   // DOWNLOAD VIDEO
   downloadIndVid(e) {
     console.log(e.target.id)

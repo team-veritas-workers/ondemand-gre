@@ -31,7 +31,7 @@ const Content = (props) => {
 };
 
 const container = {
-  backgroundColor: 'blue',
+  backgroundColor: '#111539',
   display: 'flex',
   flexDirection: 'row',
   flex: '2',

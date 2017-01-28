@@ -6,14 +6,15 @@ const Lesson = (props) => {
   props.lessonData.videos.forEach((video, i) => {
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
-      props.playVideo(e);
+      props.playVideo(e, props.lessonData);
     }
     // contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } {/*<span id={ video.name } onClick={ props.downloadIndVid }>DL</button>*/}</div>)
-    contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ button1 } id={ video.name } onClick={ props.downloadIndVid }></span></div>)
+    contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ downloadIndVideoButton } id={ video.name } onClick={ props.downloadIndVid }></span></div>)
   });
 
 
   const grabAllVideoNames = () => {
+    console.log(props.lessonData)
     function videoNames() {
       const allVideoNames = []; 
       //console.log(lessons[0].props.lessonData.videos)
@@ -45,7 +46,7 @@ const Lesson = (props) => {
 
 const lesson = {
   backgroundColor: 'transparent',
-  fontSize: '.8em',
+  fontSize: '.9em',
   overflow: 'auto'
 }
 
@@ -142,7 +143,7 @@ const videoTitle = {
   }
 }
 
-const button1 = {
+const downloadIndVideoButton = {
   height: '15px',
   backgroundSize: '15px, 15px',
   //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
