@@ -222,8 +222,8 @@ export default class App extends Component {
     videoNames.forEach((video)=> {
      ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
     })
-    videoNames.preventDefault();
-    videoNames.stopPropagation();
+    // videoNames.preventDefault();
+    // videoNames.stopPropagation();
     // ipcRenderer.send('download-All-lesson-video', highDefDLVid);
   }
  

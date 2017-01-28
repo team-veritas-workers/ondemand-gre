@@ -24,7 +24,7 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1300, height: 800});
+  mainWindow = new BrowserWindow({width: 1280, height: 800});
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -45,13 +45,13 @@ function createWindow () {
   })
   
 
-
-  ipcMain.on('download-video', (event, arg) => {
-    console.log('hello download-video');
-    console.log(arg);
-    const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-    downloadVideo(arg, app.getAppPath() + '/videos/' + fileName)
-  });
+  // MSG= below i don't believe we are using this and I don't think it should be here. delete?
+  // ipcMain.on('download-video', (event, arg) => {
+  //   console.log('hello download-video');
+  //   console.log(arg);
+  //   const fileName = arg.substring(arg.lastIndexOf('/') + 1);
+  //   downloadVideo(arg, app.getAppPath() + '/videos/' + fileName)
+  // });
 
   const ses = session.fromPartition('persist:name').cookies;
 
@@ -139,7 +139,7 @@ function downloadVideo(url, targetPath) {
 
   });
 }
-console.log(useThis)
+// console.log(useThis)
 
   ipcMain.on('download-video', (event, arg) => {
     const fileName = arg.substring(arg.lastIndexOf('/') + 1);
@@ -172,14 +172,12 @@ console.log(useThis)
 
 
 
-var key = 'My Super Secret Key';
+// var key = 'My Super Secret Key';
 
 // // Encrypt file.
 // encryptor.encryptFile('/Users/NickHoltan/Desktop/gre_intro.mp4', 'encrypted.dat', key, function(err) {
 //   // Encryption complete.
 // });
-
-
 
 // Decrypt file.
 // encryptor.decryptFile('encrypted.dat', 'output_file.txt', key, function(err) {

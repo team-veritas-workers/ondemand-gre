@@ -15,16 +15,14 @@ const Lesson = (props) => {
 
 
   const grabAllVideoNames = () => {
-    console.log('here', props)
-   
     function videoNames() {
-       const allVideoNames = []; 
+      const allVideoNames = []; 
       //console.log(lessons[0].props.lessonData.videos)
       props.lessonData.videos.forEach((video, i) => {
         allVideoNames.push(video.name)
       })
       console.log('this is the array allVideoNames' , allVideoNames)
-      return allVideoNames
+      return allVideoNames;
     }
     
     props.downloadAllLessson(videoNames());
