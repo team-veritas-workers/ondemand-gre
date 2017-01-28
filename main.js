@@ -24,7 +24,8 @@ let mainWindow;
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1280, height: 800});
+  mainWindow = new BrowserWindow({ width: 1280, height: 800, minWidth: 1024, minHeight: 768 });
+
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -44,7 +45,6 @@ function createWindow () {
     mainWindow = null;
   })
   
-
   // MSG= below i don't believe we are using this and I don't think it should be here. delete?
   // ipcMain.on('download-video', (event, arg) => {
   //   console.log('hello download-video');

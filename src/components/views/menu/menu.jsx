@@ -17,7 +17,6 @@ const Menu = (props) => {
 		<div style={ props.showMenu ? menu : menuHide }>
 			<div style={ options }>
 				<img width="100%" height="auto" src={ logoWhite } />
-				<span style={ user }>{ props.user ? props.user : "Dev Mode" }</span>
 			</div>
 			<div style={ lessonsContentBox }>
 				{ lessons }
@@ -30,10 +29,10 @@ const lessonsContentBox = {
 	padding: '0',
 	margin: '0',
 	height: '100%',
-	// CHECK IF SCROLL WORKS
+	width: '100%',
 	overflow: 'scroll',
-	// overflow: 'auto',
 }
+
 const user = {
 	marginLeft: '10px'
 }
@@ -50,7 +49,6 @@ const options = {
 
 const menu = {
 	width: '480px',
-	minWidth: '380px',
   backgroundColor: '#111539',
 	padding: '5px',
 	overflowY: 'hidden',

@@ -20,7 +20,6 @@ export default class App extends Component {
     this.authenticate = this.authenticate.bind(this);
     this.setUser = this.setUser.bind(this);
     this.saveUserData = this.saveUserData.bind(this);
-    this.playVideo = this.playVideo.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     // MAIN METHODS
     // SHOW/HIDE
@@ -29,7 +28,6 @@ export default class App extends Component {
     // PLAY VIDEO
     this.setCurrentVideo = this.setCurrentVideo.bind(this);
     this.playVideo = this.playVideo.bind(this);
-    this.loadVideo = this.loadVideo.bind(this);
     // DOWNLOAD VIDEO
     this.downloadIndVid = this.downloadIndVid.bind(this);
     this.downloadAllLessson = this.downloadAllLessson.bind(this);
@@ -40,21 +38,21 @@ export default class App extends Component {
     // STATE
 
     this.state = {
-      authenticated: true,
+      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
+      authenticated: false,
       showMenu: true,
     };
   }
 
   setCurrentVideo(video, lesson) {
-    const videoTitle = video.title;
-    const lessonName = lesson.name;
-    const lessonDescription = lesson.description;
+    const URL = `https://gre-on-demand.veritasprep.com/${ video.name }.mp4`
     const currentVideo = {
-      videoTitle: videoTitle,
-      lessonName: lessonName,
-      lessonDescription: lessonDescription
+      videoTitle: video.title,
+      videoName: video.name,
+      lessonName: lesson.name,
+      lessonDescription: lesson.description
     }
-    this.setState({ currentVideo: currentVideo });
+    this.setState({ url: URL, currentVideo: currentVideo });
   }
 
   logout(){
@@ -72,26 +70,15 @@ export default class App extends Component {
   // }
 
   cookieChecker(state) {
-    //console.log("where is my cookie!!!!");
     console.log(this.state.authenticated);
-
-
       ipcRenderer.send('check-cookie')
       ipcRenderer.on('cookie-exists', function(event,arg){
         console.log("cookie was received");
         if (arg.length !== 0){
-          console.log("arg", arg)
-         // const newState = state;
-         // console.log('newState', newState);
-          //newState.authenticated = true;
-          console.log("this",this);
-          
           this.setState({authenticated: true});
           this.setUser(arg[0].name);
-
         }
       }.bind(this))
-
   }
   // LOGIN METHODS
   authenticate(e) {
@@ -124,16 +111,15 @@ export default class App extends Component {
   setUser(user) {
     const newState = this.state;
     newState.user = user;
-        //console.log("we are setting user!!!!!", user, newState)
     this.setState({ user: newState.user })
   }
 
   saveUserData(json,firstname) {
-    console.log("user info", JSON.parse(json))
+    // console.log("user info", JSON.parse(json))
     ipcRenderer.send('save-user', {email: JSON.parse(json).user.email, user: firstname })
     db.insert(JSON.parse(json), (err, docs) => {
       if (err) console.log(err);
-      console.log('Saved!');
+      // console.log('Saved!');
     });
   }
 
@@ -180,23 +166,13 @@ export default class App extends Component {
     newState[index].open = !newState[index].open;
     this.setState({ videoData: newState });
   }
-  // PLAY VIDEO
-  // playVideo(e) {
-  //   const highDef = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
-  //   const stdDef= `https://gre-on-demand.veritasprep.com/360p_${ e.target.id }.mp4`;
-  //   document.getElementById('videoPlayer').src = highDef;
-  //   document.getElementById('example_video_1').pause();
-  //   document.getElementById('example_video_1').load();
-  //   document.getElementById('example_video_1').play();
-  // }
 
   loadVideo(e) {
     this.playVideo(e);
   }
 
   
-        
-        Video(video, lesson) {
+  playVideo(video, lesson) {
     const videoTitle = video.title
     const lessonName = lesson.name;
     const lessonDescription = lesson.description;
@@ -226,13 +202,12 @@ export default class App extends Component {
     // videoNames.stopPropagation();
     // ipcRenderer.send('download-All-lesson-video', highDefDLVid);
   }
- 
-
+  
   componentDidMount() {
     this.cookieChecker(this.state);
     this.getVideoData();
   }
-
+  
   render() {
     // LOGIN FIRST, PLEASE!
     if (!this.state.authenticated) {
@@ -260,6 +235,7 @@ export default class App extends Component {
             videoData={ this.state.videoData }
             expandLesson={ this.expandLesson}
             showMenu={ this.state.showMenu }
+            url={ this.state.url }
           />
         </div>
       )

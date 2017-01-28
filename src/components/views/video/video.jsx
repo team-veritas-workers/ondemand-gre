@@ -4,9 +4,6 @@ import Breadcrumbs from './../breadcrumbs/breadcrumbs.jsx';
 
 
 const Video = (props) => {
-  // console.log('hi');
-  // console.log(props.currentVideo);
-  // console.log(props.playVideo);
   let lessonData;
   if (props.currentVideo) {
     lessonData = props.currentVideo
@@ -41,8 +38,9 @@ const Video = (props) => {
 };
 
 const videoContainer = {
-  backgroundColor: '#FAFAFA',
-  width: '100%'
+  backgroundColor: 'orange',
+  width: '100%',
+
 }
 
 const description = {
