@@ -32,7 +32,7 @@ export default class App extends Component {
     this.loadVideo = this.loadVideo.bind(this);
     // DOWNLOAD VIDEO
     this.downloadIndVid = this.downloadIndVid.bind(this);
-
+    this.downloadAllLessson = this.downloadAllLessson.bind(this);
     this.cookieChecker = this.cookieChecker.bind(this);
     this.logout = this.logout.bind(this);
 
@@ -63,16 +63,16 @@ export default class App extends Component {
     this.setState({authenticated:false})
     
   }
+// I think we can delete this as it is also below
+  // downloadIndVid(e) {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
+  //   ipcRenderer.send('download-video', highDefDLVid);
+  // }
 
-  downloadIndVid(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
-    ipcRenderer.send('download-video', highDefDLVid);
-  }
-
-  cookieChecker(state){
-    console.log("where is my cookie!!!!");
+  cookieChecker(state) {
+    //console.log("where is my cookie!!!!");
     console.log(this.state.authenticated);
 
 
@@ -87,7 +87,6 @@ export default class App extends Component {
           console.log("this",this);
           
           this.setState({authenticated: true});
-          console.log("arg.name",arg[0].name)
           this.setUser(arg[0].name);
 
         }
@@ -125,7 +124,7 @@ export default class App extends Component {
   setUser(user) {
     const newState = this.state;
     newState.user = user;
-        console.log("we are setting user!!!!!", user, newState)
+        //console.log("we are setting user!!!!!", user, newState)
     this.setState({ user: newState.user })
   }
 
@@ -152,11 +151,10 @@ export default class App extends Component {
     .catch(err => console.log(err));
   }
 
-  playVideo(e) {
-    const fileName = `${ e.target.id }.mp4`;
-    
+  playVideo(event) {
+    const fileName = `${ event.target.id }.mp4`;
     ipcRenderer.on('play-video', (event, arg)=> {
-      console.log('videoPath:', arg);
+      console.log('this is : videoPath:', arg);
       document.getElementById('videoPlayer').src = arg;
       document.getElementById('example_video_1').pause();
       document.getElementById('example_video_1').load();
@@ -183,14 +181,14 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
   // PLAY VIDEO
-  playVideo(e) {
-    const highDef = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
-    const stdDef= `https://gre-on-demand.veritasprep.com/360p_${ e.target.id }.mp4`;
-    document.getElementById('videoPlayer').src = highDef;
-    document.getElementById('example_video_1').pause();
-    document.getElementById('example_video_1').load();
-    document.getElementById('example_video_1').play();
-  }
+  // playVideo(e) {
+  //   const highDef = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
+  //   const stdDef= `https://gre-on-demand.veritasprep.com/360p_${ e.target.id }.mp4`;
+  //   document.getElementById('videoPlayer').src = highDef;
+  //   document.getElementById('example_video_1').pause();
+  //   document.getElementById('example_video_1').load();
+  //   document.getElementById('example_video_1').play();
+  // }
 
   loadVideo(e) {
     this.playVideo(e);
@@ -211,12 +209,23 @@ export default class App extends Component {
   }
   // DOWNLOAD VIDEO
   downloadIndVid(e) {
+    console.log(e.target.id)
     e.preventDefault();
     e.stopPropagation();
     const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
     ipcRenderer.send('download-video', highDefDLVid);
   }
   
+  downloadAllLessson(videoNames) {
+    console.log('downloadAllLessson icon has been clicked')
+    console.log('this is on app side', videoNames)
+    videoNames.forEach((video)=> {
+     ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
+    })
+    // videoNames.preventDefault();
+    // videoNames.stopPropagation();
+    // ipcRenderer.send('download-All-lesson-video', highDefDLVid);
+  }
  
 
   componentDidMount() {
@@ -241,6 +250,7 @@ export default class App extends Component {
             authenticate={this.authenticate}
             stateLog={this.state.logout}
             logger={this.logout}
+            downloadAllLessson={ this.downloadAllLessson }
             downloadIndVid={ this.downloadIndVid }
             user={ this.state.user }
             toggleMenu={ this.state.toggleMenu }

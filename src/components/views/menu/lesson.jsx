@@ -5,18 +5,35 @@ const Lesson = (props) => {
   const contents = []; 
   props.lessonData.videos.forEach((video, i) => {
 
-    const onClick = (e) => {
+    const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
       props.playVideo(e);
     }
 
-    contents.push(<div onClick={ onClick } id={ video.name } key={i} style={ videoTitle }>{ video.title } <button id={ video.name } onClick={ props.downloadIndVid }>DL</button></div>)
+    contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ button1 } id={ video.name } onClick={ props.downloadIndVid }></span></div>)
   });
+
+
+  const grabAllVideoNames = () => {
+    function videoNames() {
+      const allVideoNames = []; 
+      //console.log(lessons[0].props.lessonData.videos)
+      props.lessonData.videos.forEach((video, i) => {
+        allVideoNames.push(video.name)
+      })
+      console.log('this is the array allVideoNames' , allVideoNames)
+      return allVideoNames;
+    }
+    
+    props.downloadAllLessson(videoNames());
+}
+
+
 
   return (
       <div style={ lesson }>
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
-          <span style={ downloadIcon }></span>
+          <span style={ downloadIcon } onClick={ grabAllVideoNames } ></span>
           <span style={ titleText }>{ props.lessonData.name }</span></div>
         <div style={ !props.open ? lessonContent : lessonContentOpen  }>
           <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen  }>
@@ -56,11 +73,16 @@ const lessonTitle = {
 }
 
 const downloadIcon = {
-  height: '13px',
-  backgroundSize: '13px, 13px',
-  backgroundImage: `url(http://files.softicons.com/download/application-icons/ios7-style-icons-by-matias-melian/png/256x256/DownloadsFolder.png)`,
+  height: '15px',
+  backgroundSize: '15px, 15px',
+ // backgroundImage: `url(http://files.softicons.com/download/application-icons/ios7-style-icons-by-matias-melian/png/256x256/DownloadsFolder.png)`,
+  // backgroundImage: `url(http://www.lawngames.co.za/images/download/dl2.png)`,
+  backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
   backgroundRepeat: 'no-repeat',
-  paddingLeft: '20px',
+  paddingLeft: '22px',
+  
+ 
+ 
 }
 
 const titleText = {
@@ -113,7 +135,8 @@ const videoTitle = {
   margin: '-1px',
 	padding: '10px 40px 10px 10px',
 	listStyle: 'none',
-	backgroundImage: 'url("http://www.clipartbest.com/cliparts/9cR/RAd/9cRRAdooi.png")',
+	//backgroundImage: 'url("http://www.clipartbest.com/cliparts/9cR/RAd/9cRRAdooi.png")',
+
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'right 10px center',
 	backgroundSize: '16px',
@@ -122,6 +145,17 @@ const videoTitle = {
     backgroundColor: 'green',
     cursor: 'pointer',
   }
+}
+
+const button1 = {
+  height: '15px',
+  backgroundSize: '15px, 15px',
+  //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
+  backgroundRepeat: 'no-repeat',
+  paddingLeft: '20px',
+  marginLeft: '4px',
+  backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
+  
 }
 
 export default Radium(Lesson);
