@@ -27,7 +27,7 @@ export default class App extends Component {
     this.expandLesson = this.expandLesson.bind(this);
     // PLAY VIDEO
     this.setCurrentVideo = this.setCurrentVideo.bind(this);
-    this.playVideo = this.playVideo.bind(this);
+    // this.playVideo = this.playVideo.bind(this);
     // DOWNLOAD VIDEO
     this.downloadIndVid = this.downloadIndVid.bind(this);
     this.downloadAllLessson = this.downloadAllLessson.bind(this);
@@ -45,15 +45,43 @@ export default class App extends Component {
   }
 
   setCurrentVideo(video, lesson) {
+    const fileName = `../videos/${ video.name }.mp4`
     const URL = `https://gre-on-demand.veritasprep.com/${ video.name }.mp4`
+
     const currentVideo = {
       videoTitle: video.title,
       videoName: video.name,
       lessonName: lesson.name,
       lessonDescription: lesson.description
     }
-    this.setState({ url: URL, currentVideo: currentVideo });
+
+    ipcRenderer.once('play-video', (event, arg) => {
+      this.setState({ url: fileName, currentVideo: currentVideo });
+    })
+
+    ipcRenderer.once('offline-vid-error', () => {
+      console.log('inside app.jsx for error of not online');
+      alert('you are offline and selected video has not been downloaded');
+    });
+
+    ipcRenderer.send('get-video', fileName);
   }
+
+  //  playVideo(e) {
+  //   const fileName = `${ e.target.id }.mp4`;
+  //   ipcRenderer.on('play-video', (event, arg)=> {
+  //     console.log('this is : videoPath:', arg);
+  //     document.getElementById('videoPlayer').src = arg;
+  //     document.getElementById('example_video_1').pause();
+  //     document.getElementById('example_video_1').load();
+  //     document.getElementById('example_video_1').play();
+  //   })
+  //   ipcRenderer.once('offline-vid-error', () => {
+  //   console.log('inside app.jsx for error of not online')
+  //     alert('You are offline and selected video has not been downloaded');
+  //   })
+  //   ipcRenderer.send('get-video', fileName);
+  // }
 
   logout(){
    // this.setState({logout:true});
@@ -137,22 +165,6 @@ export default class App extends Component {
     .catch(err => console.log(err));
   }
 
-  playVideo(event) {
-    const fileName = `${ event.target.id }.mp4`;
-    ipcRenderer.on('play-video', (event, arg)=> {
-      console.log('this is : videoPath:', arg);
-      document.getElementById('videoPlayer').src = arg;
-      document.getElementById('example_video_1').pause();
-      document.getElementById('example_video_1').load();
-      document.getElementById('example_video_1').play();
-    })
-    ipcRenderer.once('offline-vid-error', () => {
-    console.log('inside app.jsx for error of not online')
-      alert('You are offline and selected video has not been downloaded');
-    })
-    ipcRenderer.send('get-video', fileName);
-  }
-
   // SHOW/HIDE
   toggleMenu() {
     const newState = this.state;
@@ -167,22 +179,22 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
 
-  loadVideo(e) {
-    this.playVideo(e);
-  }
+  // loadVideo(e) {
+  //   this.playVideo(e);
+  // }
 
   
-  playVideo(video, lesson) {
-    const videoTitle = video.title
-    const lessonName = lesson.name;
-    const lessonDescription = lesson.description;
-    const currentVideo = {
-      videoTitle: videoTitle,
-      lessonName: lessonName,
-      lessonDescription: lessonDescription
-    }
-    this.setState({ currentVideo: currentVideo });
-  }
+  // playVideo(video, lesson) {
+  //   const videoTitle = video.title
+  //   const lessonName = lesson.name;
+  //   const lessonDescription = lesson.description;
+  //   const currentVideo = {
+  //     videoTitle: videoTitle,
+  //     lessonName: lessonName,
+  //     lessonDescription: lessonDescription
+  //   }
+  //   this.setState({ currentVideo: currentVideo });
+  // }
   // DOWNLOAD VIDEO
   downloadIndVid(e) {
     console.log(e.target.id)
@@ -231,7 +243,7 @@ export default class App extends Component {
             toggleMenu={ this.state.toggleMenu }
             currentVideo={ this.state.currentVideo }
             setCurrentVideo={ this.setCurrentVideo }
-            playVideo={ this.playVideo }
+
             videoData={ this.state.videoData }
             expandLesson={ this.expandLesson}
             showMenu={ this.state.showMenu }
