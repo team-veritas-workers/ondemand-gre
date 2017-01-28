@@ -5,20 +5,11 @@ import Login from './../auth/login.jsx'
 import electron, {ipcRenderer} from 'electron'
 
 const Content = (props) => {
-  const { downloadAllLessson, url, playVideo, user, setCurrentVideo, downloadIndVid, videoData, expandLesson, showMenu, logger, toggleMenu, currentVideo } = props;
+  const { downloadAllLessson, url, user, setCurrentVideo, downloadIndVid, videoData, expandLesson, showMenu, logger, toggleMenu, currentVideo } = props;
   return (
   <div style={ container }>
-    <Menu
-      downloadAllLessson={ downloadAllLessson }
-      user = { user }
-      setCurrentVideo = { setCurrentVideo }
-      downloadIndVid = { downloadIndVid }
-      videoData = { videoData }
-      playVideo = { playVideo }
-      expandLesson = { expandLesson }
-      showMenu = { showMenu } />
-    <Video
-      logOutStuff = {logger}
+    <Menu downloadAllLessson={ downloadAllLessson } user = { user } setCurrentVideo = { setCurrentVideo } downloadIndVid = { downloadIndVid } videoData = { videoData } expandLesson = { expandLesson } showMenu = { showMenu } />
+    <Video logOutStuff = {logger}
       user = { user }
       toggleMenu = { toggleMenu }
       currentVideo = { currentVideo }
