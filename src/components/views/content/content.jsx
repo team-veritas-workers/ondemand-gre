@@ -11,6 +11,7 @@ const Content = (props) => {
       <Menu
         user={ props.user }
         setCurrentVideo={ props.setCurrentVideo }
+        downloadAllLessson={props.downloadAllLessson }
         downloadIndVid={ props.downloadIndVid }
         videoData={ props.videoData }
         playVideo={ props.playVideo }

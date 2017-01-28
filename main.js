@@ -129,13 +129,13 @@ function downloadVideo(url, targetPath) {
     console.log("Video done downloading!");
     console.log('this is out:' , out.path)
 
-    encryptor.encryptFile(out.path, 'encrypted.dat', key, function(err) {
-      console.log('bye')
-      console.log('this is out2222:' , out.path)
-      useThis = 'encrypted.dat'
-      fs.unlinkSync(out.path)
+    // encryptor.encryptFile(out.path, 'encrypted.dat', key, function(err) {
+    //   console.log('bye')
+    //   console.log('this is out2222:' , out.path)
+    //   useThis = 'encrypted.dat'
+    //   fs.unlinkSync(out.path)
       
-    });
+    // });
 
   });
 }
