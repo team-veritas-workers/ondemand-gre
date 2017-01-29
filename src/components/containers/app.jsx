@@ -16,27 +16,17 @@ import electron, { ipcRenderer } from 'electron';
 export default class App extends Component {
   constructor(props) {
     super(props);
-    // LOGIN METHODS
     this.authenticate = this.authenticate.bind(this);
     this.setUser = this.setUser.bind(this);
     this.saveUserData = this.saveUserData.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
-    // MAIN METHODS
-    // SHOW/HIDE
     this.toggleMenu = this.toggleMenu.bind(this);
     this.expandLesson = this.expandLesson.bind(this);
-    // PLAY VIDEO
     this.setCurrentVideo = this.setCurrentVideo.bind(this);
-    // this.playVideo = this.playVideo.bind(this);
-    // DOWNLOAD VIDEO
     this.downloadIndVid = this.downloadIndVid.bind(this);
     this.downloadAllLessson = this.downloadAllLessson.bind(this);
     this.cookieChecker = this.cookieChecker.bind(this);
     this.logout = this.logout.bind(this);
-
-    // VIDEO CONTROLS
-    // STATE
-
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
       authenticated: false,
@@ -45,8 +35,8 @@ export default class App extends Component {
   }
 
   setCurrentVideo(video, lesson) {
-    const fileName = `../videos/${ video.name }.mp4`
-    const URL = `https://gre-on-demand.veritasprep.com/${ video.name }.mp4`
+    const fileName = `${ video.name }.mp4`
+    // const URL = `https://gre-on-demand.veritasprep.com/${ video.name }.mp4`
 
     const currentVideo = {
       videoTitle: video.title,
@@ -56,7 +46,7 @@ export default class App extends Component {
     }
 
     ipcRenderer.once('play-video', (event, arg) => {
-      this.setState({ url: fileName, currentVideo: currentVideo });
+      this.setState({ url: arg, currentVideo: currentVideo });
     })
 
     ipcRenderer.once('offline-vid-error', () => {
@@ -67,35 +57,10 @@ export default class App extends Component {
     ipcRenderer.send('get-video', fileName);
   }
 
-  //  playVideo(e) {
-  //   const fileName = `${ e.target.id }.mp4`;
-  //   ipcRenderer.on('play-video', (event, arg)=> {
-  //     console.log('this is : videoPath:', arg);
-  //     document.getElementById('videoPlayer').src = arg;
-  //     document.getElementById('example_video_1').pause();
-  //     document.getElementById('example_video_1').load();
-  //     document.getElementById('example_video_1').play();
-  //   })
-  //   ipcRenderer.once('offline-vid-error', () => {
-  //   console.log('inside app.jsx for error of not online')
-  //     alert('You are offline and selected video has not been downloaded');
-  //   })
-  //   ipcRenderer.send('get-video', fileName);
-  // }
-
   logout(){
-   // this.setState({logout:true});
     ipcRenderer.send('logout',{name: this.state.user});
     this.setState({authenticated:false})
-    
   }
-// I think we can delete this as it is also below
-  // downloadIndVid(e) {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
-  //   ipcRenderer.send('download-video', highDefDLVid);
-  // }
 
   cookieChecker(state) {
     console.log(this.state.authenticated);
@@ -108,7 +73,7 @@ export default class App extends Component {
         }
       }.bind(this))
   }
-  // LOGIN METHODS
+
   authenticate(e) {
     e.preventDefault();
     const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
@@ -152,21 +117,18 @@ export default class App extends Component {
   }
 
   getVideoData() {
-    const URL = 'https://www.veritasprep.com/api/desktop-app/get_playlist.php';
-    const body = { type: 'desktop', account: 'GRE' };
-    $.post(URL, body)
-    .then(res => {
-      const accordion = JSON.parse(res).map(item => {
-        item.open = false;
-        return item;
+    ipcRenderer.send('get-video-data');
+    ipcRenderer.once('load-video-data', (event, arg) => {
+      const videoData = JSON.parse(arg).map(lesson => {
+        lesson.open = false;
+        return lesson;
       });
-      this.setState({ videoData: accordion });
-    })
-    .catch(err => console.log(err));
+      this.setState({ videoData: videoData })
+    });
   }
 
   // SHOW/HIDE
-  toggleMenu() {
+  toggleMenu() {  
     const newState = this.state;
     newState.showMenu = !newState.showMenu;
     this.setState({ showMenu: newState.showMenu });
@@ -179,23 +141,6 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
 
-  // loadVideo(e) {
-  //   this.playVideo(e);
-  // }
-
-  
-  // playVideo(video, lesson) {
-  //   const videoTitle = video.title
-  //   const lessonName = lesson.name;
-  //   const lessonDescription = lesson.description;
-  //   const currentVideo = {
-  //     videoTitle: videoTitle,
-  //     lessonName: lessonName,
-  //     lessonDescription: lessonDescription
-  //   }
-  //   this.setState({ currentVideo: currentVideo });
-  // }
-  // DOWNLOAD VIDEO
   downloadIndVid(e) {
     console.log(e.target.id)
     e.preventDefault();
@@ -210,9 +155,6 @@ export default class App extends Component {
     videoNames.forEach((video)=> {
      ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
     })
-    // videoNames.preventDefault();
-    // videoNames.stopPropagation();
-    // ipcRenderer.send('download-All-lesson-video', highDefDLVid);
   }
   
   componentDidMount() {

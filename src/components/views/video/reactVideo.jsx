@@ -28,7 +28,7 @@ class Video extends Component {
     this.state = {
       playing: true,
       mute: 0,
-      volume: 0.1,
+      volume: 0.0,
       loaded: 0,
       played: 0,
       duration: 0,
