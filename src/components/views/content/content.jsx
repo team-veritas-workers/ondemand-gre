@@ -8,7 +8,7 @@ const Content = (props) => {
   const { downloadAllLessson, url, user, setCurrentVideo, downloadIndVid, videoData, expandLesson, showMenu, logger, toggleMenu, currentVideo } = props;
   return (
   <div style={ container }>
-    <Menu downloadAllLessson={ downloadAllLessson } user = { user } setCurrentVideo = { setCurrentVideo } downloadIndVid = { downloadIndVid } videoData = { videoData } expandLesson = { expandLesson } showMenu = { showMenu } currentVideo={ currentVideo }/>
+    <Menu downloadAllLessson={ downloadAllLessson } user={ user } setCurrentVideo={ setCurrentVideo } activeLesson={ props.activeLesson } downloadIndVid={ downloadIndVid } videoData={ videoData } expandLesson={ expandLesson } showMenu={ showMenu } currentVideo={ currentVideo }/>
     <Video logOutStuff = {logger}
       user = { user }
       toggleMenu = { toggleMenu }

@@ -7,9 +7,7 @@ const Lesson = (props) => {
   props.lessonData.videos.forEach((video, i) => {
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
-      // props.playVideo(e, props.lessonData);
     }
-    // contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } {/*<span id={ video.name } onClick={ props.downloadIndVid }>DL</button>*/}</div>)
     contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ abs }><span style={ download } id={ video.name } onClick={ props.downloadIndVid }><span style={ complete }></span></span></span></div>)
   });
 
@@ -124,7 +122,6 @@ const lessonContentTextOpen = {
   overflow: 'hidden',
   visibility: 'visible',
   opacity: '1',
-  // transition: 'all 1s ease-in',
 }
 
 const videoTitle = {

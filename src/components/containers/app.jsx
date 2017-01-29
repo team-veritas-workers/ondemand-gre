@@ -30,7 +30,7 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
-      authenticated: false,
+      authenticated: true,
       showMenu: true,
     };
   }
@@ -72,7 +72,7 @@ export default class App extends Component {
     axios.post(URL, qs.stringify(body))
     .then(res => {
       console.log(res.data);
-      if (res.data.status === 'success') this.setState({ authenticated: true, user: res.data.user.firstname });
+      if (res.data.status === 'success') this.setState({ authenticated: true, user: res.data.user });
     })
     .catch();
 
