@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import $ from 'jquery';
+// import $ from 'jquery';
+import axios from 'axios';
+import qs from 'qs';
 import Login from './../views/auth/login.jsx';
 import Banner from './../views/banner/banner.jsx';
 import Nav from './../views/nav/nav.jsx';
@@ -17,7 +19,6 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.authenticate = this.authenticate.bind(this);
-    this.setUser = this.setUser.bind(this);
     this.saveUserData = this.saveUserData.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -36,40 +37,24 @@ export default class App extends Component {
 
   setCurrentVideo(video, lesson) {
     const fileName = `${ video.name }.mp4`
-    // const URL = `https://gre-on-demand.veritasprep.com/${ video.name }.mp4`
-
-    const currentVideo = {
-      videoTitle: video.title,
-      videoName: video.name,
-      lessonName: lesson.name,
-      lessonDescription: lesson.description
-    }
-
-    ipcRenderer.once('play-video', (event, arg) => {
-      this.setState({ url: arg, currentVideo: currentVideo });
-    })
-
-    ipcRenderer.once('offline-vid-error', () => {
-      console.log('inside app.jsx for error of not online');
-      alert('you are offline and selected video has not been downloaded');
-    });
-
+    const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };
+    ipcRenderer.once('play-video', (event, arg) => this.setState({ url: arg, currentVideo: currentVideo }));
+    ipcRenderer.once('offline-vid-error', () => alert('you are offline and selected video has not been downloaded'));
     ipcRenderer.send('get-video', fileName);
   }
 
   logout(){
-    ipcRenderer.send('logout',{name: this.state.user});
-    this.setState({authenticated:false})
+    ipcRenderer.send('logout', { name: this.state.user });
+    this.setState({ authenticated: false });
   }
 
   cookieChecker(state) {
-    console.log(this.state.authenticated);
+    // console.log(this.state.authenticated);
       ipcRenderer.send('check-cookie')
       ipcRenderer.on('cookie-exists', function(event,arg){
         console.log("cookie was received");
         if (arg.length !== 0){
-          this.setState({authenticated: true});
-          this.setUser(arg[0].name);
+          this.setState({ authenticated: true, user: arg[0].name });
         }
       }.bind(this))
   }
@@ -84,27 +69,26 @@ export default class App extends Component {
       key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
     }
 
-    $.post(URL, body)
+    axios.post(URL, qs.stringify(body))
     .then(res => {
-      const data = JSON.parse(res);
-      if (data.status === 'success') {
-        const newState = this.state;
-        newState.authenticated = true;
-        this.setState({ authenticated: newState.authenticated });
-        this.saveUserData(res, data.user.firstname);
-        this.setUser(data.user.firstname);
-      }
-      if (data.status === 'error') {
-        document.getElementById('invalid').innerText = data.message;
-      }
+      console.log(res.data);
+      if (res.data.status === 'success') this.setState({ authenticated: true, user: res.data.user.firstname });
     })
-    .catch(err => console.log(err));
-  }
+    .catch();
 
-  setUser(user) {
-    const newState = this.state;
-    newState.user = user;
-    this.setState({ user: newState.user })
+    // $.post(URL, body)
+    // .then(res => {
+    //   const data = JSON.parse(res);
+    //   if (data.status === 'success') {
+    //     this.setState({ authenticated: true });
+    //     this.saveUserData(res, data.user.firstname);
+    //     this.setUser(data.user.firstname);
+    //   }
+    //   if (data.status === 'error') {
+    //     document.getElementById('invalid').innerText = data.message;
+    //   }
+    // })
+    // .catch(err => console.log(err));
   }
 
   saveUserData(json,firstname) {
@@ -158,7 +142,7 @@ export default class App extends Component {
   }
   
   componentDidMount() {
-    this.cookieChecker(this.state);
+    // this.cookieChecker(this.state);
     this.getVideoData();
   }
   

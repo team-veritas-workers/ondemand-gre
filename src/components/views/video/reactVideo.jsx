@@ -103,7 +103,7 @@ class Video extends Component {
               onStart = { () => console.log('Video started!') }
               onError = { e => console.log('onError', e) }
             />
-            <div style={ overlay }>
+            <div style={ this.state.playing ? overlay : pause }>
               <div style={ controls }>
                 <div style={ playPauseContainer }>
                   <button key="playPause" style={ button } onClick={ this.playPause }>{ !this.state.playing ? <img src={ playButton } height="59%" width="auto" /> : <img src={ pauseButton } height="59%" width="auto"  /> }</button>
@@ -184,6 +184,20 @@ const overlay = {
     opacity: '1',
     transition: 'all .3s linear',
   }
+}
+
+const pause = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-end',
+  zIndex: '2', 
+  backgroundColor: 'transparent',
+  position: 'absolute',
+  left: '0',
+  top: '0',
+  height: '100%',
+  width: '100%',
+  opacity: '1',
 }
 
 const controls = {
