@@ -11,15 +11,12 @@ const fs = require('fs');
 const ipcMain = electron.ipcMain;
 const {session} = require('electron');
 const isOnline = require('is-online');
-
 const encryptor = require('file-encryptor');
 
 let useThis;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-
-
 
 
 function createWindow () {
@@ -134,7 +131,6 @@ function downloadVideo(url, targetPath) {
     //   console.log('this is out2222:' , out.path)
     //   useThis = 'encrypted.dat'
     //   fs.unlinkSync(out.path)
-      
     // });
 
   });
