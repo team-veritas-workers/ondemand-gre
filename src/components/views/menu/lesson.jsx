@@ -7,11 +7,8 @@ const Lesson = (props) => {
   props.lessonData.videos.forEach((video, i) => {
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
-
-      // props.playVideo(e, props.lessonData);
     }
-    // contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } {/*<span id={ video.name } onClick={ props.downloadIndVid }>DL</button>*/}</div>)
-    contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ download } id={ video.name } onClick={ props.downloadIndVid }></span></div>)
+    contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ abs }><span style={ download } id={ video.name } onClick={ props.downloadIndVid }><span style={ complete }></span></span></span></div>)
   });
 
 
@@ -126,7 +123,6 @@ const lessonContentTextOpen = {
   overflow: 'hidden',
   visibility: 'visible',
   opacity: '1',
-  // transition: 'all 1s ease-in',
 }
 
 const videoTitle = {
@@ -157,15 +153,28 @@ const videoTitle = {
 //   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
 // }
 
-const download = {
-  display: 'inline-block',
-  borderRadius: '50%',
-  height: '5px',
-  width: '5px',
-  backgroundColor: 'lightgreen',
+const abs = {
   position: 'absolute',
   right: '10px',
+}
 
+
+const download = {
+  display: 'inline-block',
+  border: 'solid .1px #777',
+  borderRadius: '2px',
+  height: '5px',
+  width: '45px',
+  backgroundColor: 'transparent',
+  position: 'relative',
+}
+
+const complete = {
+  display: 'inline-block',
+  position: 'absolute',
+  backgroundColor: 'lightgreen',
+  width: '60%',
+  height: '100%',
 }
 
 export default Radium(Lesson);

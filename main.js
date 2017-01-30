@@ -1,9 +1,9 @@
 const electron = require('electron');
 const request = require('request');
 // Module to control application life.
-const app = electron.app
+const app = electron.app;
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
@@ -13,6 +13,8 @@ const {session} = require('electron');
 const isOnline = require('is-online');
 
 const encryptor = require('file-encryptor');
+
+const getVideoData = require('./utils/getVideoData.js');
 
 let useThis;
 // Keep a global reference of the window object, if you don't, the window will
@@ -57,7 +59,7 @@ function createWindow () {
 
 
  ipcMain.on('save-user', (event, arg) => {
-      console.log(arg)
+      // console.log(arg)
    
       const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, expirationDate: 1531036000}
 
@@ -68,15 +70,17 @@ function createWindow () {
 
    ipcMain.on('logout', function(event, arg){
 
-      ses.remove('http://www.auth.com', arg.name ,function(data){console.log(data)})
+      ses.remove('http://www.auth.com', arg.name ,function(data){
+        // console.log(data)
+      })
 
    })
 
   ipcMain.on('check-cookie', function(event){
 
-  console.log("checking cookie")
+  // console.log("checking cookie")
     ses.get({}, function(error, cookies) {
-        console.dir(cookies);
+        // console.dir(cookies);
         if(cookies){
           event.sender.send('cookie-exists',cookies)
         }
@@ -126,8 +130,8 @@ function downloadVideo(url, targetPath) {
 
   req.pipe(out);
   req.on('end', () => {
-    console.log("Video done downloading!");
-    console.log('this is out:' , out.path)
+    // console.log("Video done downloading!"); 
+    // console.log('this is out:' , out.path)
 
     // encryptor.encryptFile(out.path, 'encrypted.dat', key, function(err) {
     //   console.log('bye')
@@ -168,6 +172,10 @@ function downloadVideo(url, targetPath) {
         }
       })
     }
+  });
+
+  ipcMain.on('get-video-data', (event) => {
+    getVideoData(event, app.getAppPath());
   });
 
 
