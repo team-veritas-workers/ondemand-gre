@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
+import logo from '../../../assets/hi-def-logo.png';
 
 const Login = (props) => {
-
-  
-  
   return (
     <div style={ container }>
-      <img height="auto" width="100%" className='logo' src={ require('../../../assets/hi-def-logo.png') } />
-      <h5 id="invalid"></h5>
-      <form>
+      <img height="auto" width="100%" className='logo' src={ logo } />
+      <h5 id="invalid">{ props.invalidLoginMethod }</h5>
+      <form onKeyPress={ props.authenticate }>
         <input key="username" style={ input } id='username' type='text' placeholder='Username'></input>
         <input key="password" style={ input } id='password' type='password' placeholder='Password'></input>
         <button style={ button } onClick={ props.authenticate }>Log in</button>
@@ -31,6 +29,7 @@ const button = {
   width: '100%',
   height: '37px',
   margin: '3px 0',
+  outline: 'none',
   ':hover': {
     backgroundColor: '#EAEAEA',
     color: 'black'
