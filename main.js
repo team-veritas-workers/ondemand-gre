@@ -1,9 +1,9 @@
 const electron = require('electron');
 const request = require('request');
 // Module to control application life.
-const app = electron.app
+const app = electron.app;
 // Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
@@ -13,17 +13,26 @@ const {session} = require('electron');
 const isOnline = require('is-online');
 const encryptor = require('file-encryptor');
 
+const getVideoData = require('./utils/getVideoData.js');
+
 let useThis;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({ width: 1280, height: 800, minWidth: 1024, minHeight: 768 });
 
-
+  // checkVideoTimeStamp();
+    fs.readdir(__dirname + '/videos', function(err, files) {
+    const vidNameArr = [];
+    if (err) return;
+    files.forEach(function(file) {
+      vidNameArr.push(file);
+    });
+    checkVideoTimeStamp(vidNameArr);
+  });
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, './public/index.html'),
@@ -54,7 +63,7 @@ function createWindow () {
 
 
  ipcMain.on('save-user', (event, arg) => {
-      console.log(arg)
+      // console.log(arg)
    
       const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, expirationDate: 1531036000}
 
@@ -65,15 +74,17 @@ function createWindow () {
 
    ipcMain.on('logout', function(event, arg){
 
-      ses.remove('http://www.auth.com', arg.name ,function(data){console.log(data)})
+      ses.remove('http://www.auth.com', arg.name ,function(data){
+        // console.log(data)
+      })
 
    })
 
   ipcMain.on('check-cookie', function(event){
 
-  console.log("checking cookie")
+  // console.log("checking cookie")
     ses.get({}, function(error, cookies) {
-        console.dir(cookies);
+        // console.dir(cookies);
         if(cookies){
           event.sender.send('cookie-exists',cookies)
         }
@@ -123,8 +134,8 @@ function downloadVideo(url, targetPath) {
 
   req.pipe(out);
   req.on('end', () => {
-    console.log("Video done downloading!");
-    console.log('this is out:' , out.path)
+    // console.log("Video done downloading!"); 
+    // console.log('this is out:' , out.path)
 
     // encryptor.encryptFile(out.path, 'encrypted.dat', key, function(err) {
     //   console.log('bye')
@@ -165,6 +176,86 @@ function downloadVideo(url, targetPath) {
       })
     }
   });
+
+  ipcMain.on('get-video-data', (event) => {
+    getVideoData(event, app.getAppPath());
+  });
+
+
+ 
+  // fs.readdir(__dirname + '/videos', function(err, files) {
+  //   let arr = [];
+  //   if (err) return;
+  //   files.forEach(function(file) {
+  //     arr.push(file);
+  //   });
+  //   checkVideoTimeStamp(arr)
+  // });
+
+
+
+function checkVideoTimeStamp(vidNameArr) {
+  let folderToAccess = app.getAppPath() + '/videos/';
+  let saveBirthtime;
+  for (let i = 2; i < vidNameArr.length; i += 1) {
+    //console.log(fs.statSync(folderToAccess + vidNameArr[i]));
+    let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
+    let createdVideoTime = videoInFolder.birthtime.getTime();
+    let weekInSec = 604800000;
+    console.log('this is videoInFolder.birthtime.getTime()', videoInFolder.birthtime.getTime());
+    // console.log('this is date.now():' , Date.now())
+    // console.log('This is birthtime:', saveBirthtime) // this doesn't work
+    if ((createdVideoTime + weekInSec) > Date.now()) {
+      console.log('Video is expired and is now being deleted...');
+      fs.unlink(folderToAccess + vidNameArr[i]);
+    }
+  }
+}
+
+
+  
+
+// let folderToAccess = app.getAppPath() + '/videos/' + useThis1;
+// console.log(folderToAccess)
+// let saveBirthtime;
+// console.log(fs.statSync(folderToAccess));
+// let use = fs.statSync(folderToAccess);
+// //console.log('this is use:', use)
+// let createdVideoTime = use.birthtime.getTime();
+// let weekInSec = 604800000;
+// //ExpiredTime = Date.now() + weekInSec ;
+// console.log('this is use.birthtime.getTime()', use.birthtime.getTime())
+// console.log('this is date.now():' , Date.now())
+// // console.log('This is birthtime:', saveBirthtime) // this doesn't work
+//  if((createdVideoTime + weekInSec) > Date.now()) {
+//    console.log('Video is expired and is now being deleted...');
+//    fs.unlink(folderToAccess + '/gre_intro.mp4');
+//  }
+
+
+
+
+
+// util.inspect(mine)
+
+// fs.fstat(mine, function(){
+//   console.log('hello')
+// })
+
+// var fd = fs.openSync(mine);
+// var stats = fs.stat(fd);
+// console.log(stats)
+
+  // fs.stat(fd), (err,stats) => {
+  //   console.log('hello')
+  //   if (err) throw err;
+  //   console.log(`stats: ${JSON.stringify(stats)}`);
+  // }
+
+//   fs.stat('/tmp/world', (err, stats) => {
+//   if (err) throw err;
+//   console.log(`stats: ${JSON.stringify(stats)}`);
+// });
 
 
 
