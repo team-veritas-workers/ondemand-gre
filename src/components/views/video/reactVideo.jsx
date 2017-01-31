@@ -82,7 +82,7 @@ class Video extends Component {
 
     return (
       <div style={ contentContainer }>
-        <Banner user={ this.props.user } lessonData={ lessonData }/>
+        <Banner user={ this.props.user } lessonData={ lessonData } logger={ this.props.logger }/>
           <div style={ videoComponent }>
             <ReactPlayer
               height = "100%"
