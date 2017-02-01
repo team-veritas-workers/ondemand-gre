@@ -46,35 +46,16 @@ export default class App extends Component {
     this.setState({ authenticated: false });
   }
 
-  // cookieChecker(state) {
-  //   // console.log(this.state.authenticated);
-  //     ipcRenderer.send('check-cookie')
-  //     ipcRenderer.on('cookie-exists', function(event, arg){
-  //       // console.log("cookie was received");
-  //       if (arg.length !== 0){
-  //         this.setState({ authenticated: true, user: arg[0].name });
-  //       } else {
-  //         this.setState({ authenticated: false })
-  //       }
-  //     }.bind(this))
-  // }
-
    cookieChecker(state) {
-    // console.log(this.state.authenticated);
       ipcRenderer.send('check-cookie')
       ipcRenderer.on('cookie-exists', function(event, arg){
-        // console.log("cookie was received");
         if (arg[0].length !== 0){
-         // console.log("cookie cecer", arg)
-          
           this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1] });
-
         } else {
           this.setState({ authenticated: false })
         }
       }.bind(this))
   }
-
 
   usernameOnChange(e) {
     this.setState({ username: e.target.value })
@@ -84,49 +65,23 @@ export default class App extends Component {
     this.setState({ password: e.target.value })
   }
 
-  // authenticate(e) {
-  //   if (e.key === 'enter' || e.type === 'click') {
-  //     e.preventDefault();
-  //     const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
-  //     const body = {
-  //       action: 'login-gre-desktop-app',
-  //       username: this.state.username,
-  //       password: this.state.password,
-  //       key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
-  //     }
-
-  //     axios.post(URL, qs.stringify(body)).then(res => {
-  //       if (res.data.status === 'success') {
-  //         console.log(res);
-  //         ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
-  //         this.setState({ authenticated: true, user: res.data.user.firstname });
-  //       } else {
-  //         this.setState({ invalidLoginMessage: res.data.message });
-  //       }
-  //     }).catch(err => console.log(err));      
-  //   }
-  // }
-
   authenticate(e) {
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
       const body = {
         action: 'login-gre-desktop-app',
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
+        username: this.state.username,
+        password: this.state.password,
         key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
       }
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-         // console.log("all data", res)
-          
-          
           ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress   });
           this.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
-        } else if (res.status === 'error') {
-          this.setState({ invalidLoginMessage: res.message });
+        } else {
+          this.setState({ invalidLoginMessage: res.data.message });
         }
       }).catch(err => console.log(err));      
     }
@@ -161,7 +116,6 @@ export default class App extends Component {
   }
 
   downloadIndVid(e) {
-    console.log(e.target.id)
     e.preventDefault();
     e.stopPropagation();
     const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
@@ -170,8 +124,6 @@ export default class App extends Component {
   
   downloadAllLessson(e, videoNames) {
     e.stopPropagation();
-    console.log('downloadAllLessson icon has been clicked')
-    console.log('this is on app side', videoNames)
     videoNames.forEach((video)=> {
      ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
     })
@@ -179,7 +131,7 @@ export default class App extends Component {
   
   componentDidMount() {
     this.getVideoData();
-    setTimeout(() => this.cookieChecker(this.state), 800);
+    setTimeout(() => this.cookieChecker(this.state), 100);
   }
   
  

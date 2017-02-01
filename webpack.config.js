@@ -5,7 +5,7 @@ module.exports = {
   entry: path.join(__dirname, 'src/components/containers/main.jsx'),
   //target: 'node',
   output: {
-    filename: 'bundle.js',
+    filename: 'renderer.js',
     path: path.join(__dirname, 'public')
   },
   module: {

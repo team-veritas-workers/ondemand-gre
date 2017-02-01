@@ -162,7 +162,13 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+function showProgress(received, total) {
+  const percentage = Math.round((received * 100) / total);
+  console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
+}
+
 function downloadVideo(url, targetPath) {
+
   const req = request({
     method: 'GET',
     url
@@ -170,18 +176,21 @@ function downloadVideo(url, targetPath) {
 
   const out = fs.createWriteStream(targetPath);
 
+  var received_bytes = 0;
+  var total_bytes = 0;
+
+  req.on('response', function ( data ) {
+    total_bytes = parseInt(data.headers['content-length' ]);
+  });
+
+  req.on('data', function(chunk) {
+    received_bytes += chunk.length;
+    showProgress(received_bytes, total_bytes);
+  });
+
   req.pipe(out);
   req.on('end', () => {
-    // console.log("Video done downloading!"); 
-    // console.log('this is out:' , out.path)
-
-    // encryptor.encryptFile(out.path, 'encrypted.dat', key, function(err) {
-    //   console.log('bye')
-    //   console.log('this is out2222:' , out.path)
-    //   useThis = 'encrypted.dat'
-    //   fs.unlinkSync(out.path)
-    // });
-
+    console.log('Completed downloading', url.slice(38));
   });
 }
 // console.log(useThis)
