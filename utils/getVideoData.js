@@ -1,5 +1,5 @@
 const fs = require('fs');
-const request = require('request');
+const request = require('request');``
 const isOnline = require('is-online');
 
 module.exports = (event, appPath) => {
@@ -16,7 +16,7 @@ module.exports = (event, appPath) => {
 
   isOnline().then(online => {
     if (online) {
-      console.log('Network connection detected.')
+      console.log('Network connection detected.');
       output = fs.createWriteStream(appPath + '/data/data.json');
       req = request.post(URL, { form: body });
       req.pipe(output);

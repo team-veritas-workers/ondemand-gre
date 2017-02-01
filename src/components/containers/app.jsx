@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-// import $ from 'jquery';
 import axios from 'axios';
 import qs from 'qs';
 import Login from './../views/auth/login.jsx';
-import Banner from './../views/banner/banner.jsx';
-import Nav from './../views/nav/nav.jsx';
-import Breadcrumbs from './../views/breadcrumbs/breadcrumbs.jsx';
-import Menu from './../views/menu/menu.jsx';
-import Video from './../views/video/video.jsx';
-import Accordion from './../views/menu/accordion.jsx';
 import Content from './../views/content/content.jsx';
-import db from './../../../renderer.js';
-import Datastore from 'nedb';
+import Spinner from './../views/spinner/spinner.jsx';
 import electron, { ipcRenderer } from 'electron';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.authenticate = this.authenticate.bind(this);
+    this.usernameOnChange = this.usernameOnChange.bind(this);
+    this.passwordOnChange = this.passwordOnChange.bind(this);    
     this.saveUserData = this.saveUserData.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -32,6 +26,7 @@ export default class App extends Component {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
       authenticated: false,
       showMenu: true,
+      invalidLoginMessage: ''
     };
   }
 
@@ -53,53 +48,49 @@ export default class App extends Component {
   cookieChecker(state) {
     // console.log(this.state.authenticated);
       ipcRenderer.send('check-cookie')
-      ipcRenderer.on('cookie-exists', function(event,arg){
-        console.log("cookie was received");
+      ipcRenderer.on('cookie-exists', function(event, arg){
+        // console.log("cookie was received");
         if (arg.length !== 0){
           this.setState({ authenticated: true, user: arg[0].name });
+        } else {
+          this.setState({ authenticated: false })
         }
       }.bind(this))
   }
 
+  usernameOnChange(e) {
+    this.setState({ username: e.target.value })
+  }
+
+  passwordOnChange(e) {
+    this.setState({ password: e.target.value })
+  }
+
   authenticate(e) {
-    e.preventDefault();
-    const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
-    const body = {
-      action: 'login-gre-desktop-app',
-      username: document.getElementById('username').value,
-      password: document.getElementById('password').value,
-      key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
+    if (e.key === 'enter' || e.type === 'click') {
+      e.preventDefault();
+      const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
+      const body = {
+        action: 'login-gre-desktop-app',
+        username: this.state.username,
+        password: this.state.password,
+        key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
+      }
+
+      axios.post(URL, qs.stringify(body)).then(res => {
+        if (res.data.status === 'success') {
+          console.log(res);
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
+          this.setState({ authenticated: true, user: res.data.user.firstname });
+        } else {
+          this.setState({ invalidLoginMessage: res.data.message });
+        }
+      }).catch(err => console.log(err));      
     }
-
-    axios.post(URL, qs.stringify(body))
-    .then(res => {
-      console.log(res.data);
-      if (res.data.status === 'success') this.setState({ authenticated: true, user: res.data.user });
-    })
-    .catch();
-
-    // $.post(URL, body)
-    // .then(res => {
-    //   const data = JSON.parse(res);
-    //   if (data.status === 'success') {
-    //     this.setState({ authenticated: true });
-    //     this.saveUserData(res, data.user.firstname);
-    //     this.setUser(data.user.firstname);
-    //   }
-    //   if (data.status === 'error') {
-    //     document.getElementById('invalid').innerText = data.message;
-    //   }
-    // })
-    // .catch(err => console.log(err));
   }
 
   saveUserData(json,firstname) {
-    // console.log("user info", JSON.parse(json))
     ipcRenderer.send('save-user', {email: JSON.parse(json).user.email, user: firstname })
-    db.insert(JSON.parse(json), (err, docs) => {
-      if (err) console.log(err);
-      // console.log('Saved!');
-    });
   }
 
   getVideoData() {
@@ -113,7 +104,6 @@ export default class App extends Component {
     });
   }
 
-  // SHOW/HIDE
   toggleMenu() {  
     const newState = this.state;
     newState.showMenu = !newState.showMenu;
@@ -135,7 +125,8 @@ export default class App extends Component {
     ipcRenderer.send('download-video', highDefDLVid);
   }
   
-  downloadAllLessson(videoNames) {
+  downloadAllLessson(e, videoNames) {
+    e.stopPropagation();
     console.log('downloadAllLessson icon has been clicked')
     console.log('this is on app side', videoNames)
     videoNames.forEach((video)=> {
@@ -144,23 +135,25 @@ export default class App extends Component {
   }
   
   componentDidMount() {
-    // this.cookieChecker(this.state);
     this.getVideoData();
+    setTimeout(() => this.cookieChecker(this.state), 800);
   }
   
  
 
   render() {
-    // LOGIN FIRST, PLEASE!
-    if (!this.state.authenticated) {
+    if (this.state.authenticated === false) {
       return (
         <div style={ app }>
-          <Login authenticate={ this.authenticate }/>
+          <Login
+            authenticate={ this.authenticate }
+            usernameOnChange={ this.usernameOnChange }
+            passwordOnChange={ this.passwordOnChange }
+            invalidLoginMessage={ this.state.invalidLoginMessage }/>
         </div>
-      )
+      );
     }
-    // THANK YOU!
-    else {
+    else if (this.state.authenticated === true) {
       return (
         <div style={ app }>
           <Content
@@ -173,14 +166,18 @@ export default class App extends Component {
             toggleMenu={ this.state.toggleMenu }
             currentVideo={ this.state.currentVideo }
             setCurrentVideo={ this.setCurrentVideo }
-
             videoData={ this.state.videoData }
             expandLesson={ this.expandLesson}
             showMenu={ this.state.showMenu }
             url={ this.state.url }
           />
         </div>
-      )
+      );
+    }
+    else {
+      return (
+        <Spinner />
+      );
     }
   }
 }

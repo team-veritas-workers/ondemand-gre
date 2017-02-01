@@ -9,7 +9,7 @@ const Banner = (props) => {
         <div style={ title }>{ props.lessonData.videoTitle }</div>
         <div style={ subtitle }>{ props.lessonData.lessonName }</div>
       </div>
-      <div style={ greeting }>{ props.user ? `Hi ${ props.user }` : "Dev Mode" }</div>
+      <div style={ greeting } onClick={ props.logger }>Logout</div>
     </div>
   );
 };
@@ -61,11 +61,16 @@ const banner = {
 }
 
 const greeting = {
+  fontSize: '1em',
+  fontWeight: 'light',
   height: '100%',
   color: '#999999',
   display: 'flex',
   alignItems: 'center',
   padding: '20px',
+  ':hover': {
+    color: 'red'
+  }
 }
 
 const logo = {
