@@ -181,7 +181,7 @@ const overlay = {
   opacity: '0',
   transition: 'all .1s linear',
   ':hover': {
-    opacity: '1',
+    opacity: '.8',
     transition: 'all .3s linear',
   }
 }
@@ -197,7 +197,7 @@ const pause = {
   top: '0',
   height: '100%',
   width: '100%',
-  opacity: '1',
+  opacity: '.8',
 }
 
 const controls = {
@@ -206,7 +206,7 @@ const controls = {
   flexDirection: 'row',
   justifyContent: 'space-around',
   color: '#EAEAEA',
-  backgroundColor: 'rgba(17, 21, 37, .8)',
+  backgroundColor: 'rgba(17, 21, 57, .8)',
   bottom: '0',
 }
 // DURATION AND SEEKER BAR
@@ -243,7 +243,7 @@ const button = {
 }
 
 const inactive = {
-  color: '#333',
+  color: '#999',
   outline: 'none',
   backgroundColor: 'transparent',
   height: '32px',
