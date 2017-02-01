@@ -182,81 +182,25 @@ function downloadVideo(url, targetPath) {
   });
 
 
- 
-  // fs.readdir(__dirname + '/videos', function(err, files) {
-  //   let arr = [];
-  //   if (err) return;
-  //   files.forEach(function(file) {
-  //     arr.push(file);
-  //   });
-  //   checkVideoTimeStamp(arr)
-  // });
-
-
-
 function checkVideoTimeStamp(vidNameArr) {
-  let folderToAccess = app.getAppPath() + '/videos/';
-  let saveBirthtime;
   for (let i = 2; i < vidNameArr.length; i += 1) {
-    //console.log(fs.statSync(folderToAccess + vidNameArr[i]));
+    let folderToAccess = app.getAppPath() + '/videos/';
+    // console.log('folderToAccess + vidNameArr[i]:', folderToAccess + vidNameArr[i]);
+    // console.log('fs.statSync(folderToAccess + vidNameArr[i]):', fs.statSync(folderToAccess + vidNameArr[i]));
     let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
     let createdVideoTime = videoInFolder.birthtime.getTime();
     let weekInSec = 604800000;
-    console.log('this is videoInFolder.birthtime.getTime()', videoInFolder.birthtime.getTime());
-    // console.log('this is date.now():' , Date.now())
-    // console.log('This is birthtime:', saveBirthtime) // this doesn't work
-    if ((createdVideoTime + weekInSec) > Date.now()) {
+    // console.log('this is createdVideoTime:' , createdVideoTime);
+    //console.log('this is videoInFolder:', videoInFolder);
+    // console.log('this is videoInFolder.birthtime.getTime()', videoInFolder.birthtime.getTime());
+    // console.log('this is date.now():' , Date.now());
+    if ((createdVideoTime + weekInSec) < Date.now()) {
+      console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInSec);
       console.log('Video is expired and is now being deleted...');
       fs.unlink(folderToAccess + vidNameArr[i]);
     }
   }
 }
-
-
-  
-
-// let folderToAccess = app.getAppPath() + '/videos/' + useThis1;
-// console.log(folderToAccess)
-// let saveBirthtime;
-// console.log(fs.statSync(folderToAccess));
-// let use = fs.statSync(folderToAccess);
-// //console.log('this is use:', use)
-// let createdVideoTime = use.birthtime.getTime();
-// let weekInSec = 604800000;
-// //ExpiredTime = Date.now() + weekInSec ;
-// console.log('this is use.birthtime.getTime()', use.birthtime.getTime())
-// console.log('this is date.now():' , Date.now())
-// // console.log('This is birthtime:', saveBirthtime) // this doesn't work
-//  if((createdVideoTime + weekInSec) > Date.now()) {
-//    console.log('Video is expired and is now being deleted...');
-//    fs.unlink(folderToAccess + '/gre_intro.mp4');
-//  }
-
-
-
-
-
-// util.inspect(mine)
-
-// fs.fstat(mine, function(){
-//   console.log('hello')
-// })
-
-// var fd = fs.openSync(mine);
-// var stats = fs.stat(fd);
-// console.log(stats)
-
-  // fs.stat(fd), (err,stats) => {
-  //   console.log('hello')
-  //   if (err) throw err;
-  //   console.log(`stats: ${JSON.stringify(stats)}`);
-  // }
-
-//   fs.stat('/tmp/world', (err, stats) => {
-//   if (err) throw err;
-//   console.log(`stats: ${JSON.stringify(stats)}`);
-// });
-
 
 
 // var key = 'My Super Secret Key';
