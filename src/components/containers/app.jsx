@@ -7,6 +7,7 @@ import Content from './../views/content/content.jsx';
 import Spinner from './../views/spinner/spinner.jsx';
 import electron, { ipcRenderer } from 'electron';
 
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +25,7 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
-      authenticated: false,
+      authenticated: null,
       showMenu: true,
       invalidLoginMessage: ''
     };
@@ -45,18 +46,35 @@ export default class App extends Component {
     this.setState({ authenticated: false });
   }
 
-  cookieChecker(state) {
+  // cookieChecker(state) {
+  //   // console.log(this.state.authenticated);
+  //     ipcRenderer.send('check-cookie')
+  //     ipcRenderer.on('cookie-exists', function(event, arg){
+  //       // console.log("cookie was received");
+  //       if (arg.length !== 0){
+  //         this.setState({ authenticated: true, user: arg[0].name });
+  //       } else {
+  //         this.setState({ authenticated: false })
+  //       }
+  //     }.bind(this))
+  // }
+
+   cookieChecker(state) {
     // console.log(this.state.authenticated);
       ipcRenderer.send('check-cookie')
       ipcRenderer.on('cookie-exists', function(event, arg){
         // console.log("cookie was received");
-        if (arg.length !== 0){
-          this.setState({ authenticated: true, user: arg[0].name });
+        if (arg[0].length !== 0){
+         // console.log("cookie cecer", arg)
+          
+          this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1] });
+
         } else {
           this.setState({ authenticated: false })
         }
       }.bind(this))
   }
+
 
   usernameOnChange(e) {
     this.setState({ username: e.target.value })
@@ -66,24 +84,49 @@ export default class App extends Component {
     this.setState({ password: e.target.value })
   }
 
+  // authenticate(e) {
+  //   if (e.key === 'enter' || e.type === 'click') {
+  //     e.preventDefault();
+  //     const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
+  //     const body = {
+  //       action: 'login-gre-desktop-app',
+  //       username: this.state.username,
+  //       password: this.state.password,
+  //       key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
+  //     }
+
+  //     axios.post(URL, qs.stringify(body)).then(res => {
+  //       if (res.data.status === 'success') {
+  //         console.log(res);
+  //         ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
+  //         this.setState({ authenticated: true, user: res.data.user.firstname });
+  //       } else {
+  //         this.setState({ invalidLoginMessage: res.data.message });
+  //       }
+  //     }).catch(err => console.log(err));      
+  //   }
+  // }
+
   authenticate(e) {
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
       const body = {
         action: 'login-gre-desktop-app',
-        username: this.state.username,
-        password: this.state.password,
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
         key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
       }
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          console.log(res);
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
-          this.setState({ authenticated: true, user: res.data.user.firstname });
-        } else {
-          this.setState({ invalidLoginMessage: res.data.message });
+         // console.log("all data", res)
+          
+          
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress   });
+          this.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
+        } else if (res.status === 'error') {
+          this.setState({ invalidLoginMessage: res.message });
         }
       }).catch(err => console.log(err));      
     }
@@ -157,6 +200,7 @@ export default class App extends Component {
       return (
         <div style={ app }>
           <Content
+            progress={this.state.progress}
             authenticate={this.authenticate}
             stateLog={this.state.logout}
             logger={this.logout}

@@ -9,6 +9,7 @@ const Content = (props) => {
   return (
   <div style={ container }>
     <Menu
+      progress = {props.progress}
       downloadAllLessson = { downloadAllLessson }
       user = { user }
       setCurrentVideo = { setCurrentVideo }
