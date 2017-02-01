@@ -13,7 +13,7 @@ const Menu = (props) => {
 			if (props.progress[props.videoData[i].videos[j].name]){
 				
 				props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
-				console.log("video with new prop", props.videoData[i].videos[j])
+				// console.log("video with new prop", props.videoData[i].videos[j])
 
 			}
 		}

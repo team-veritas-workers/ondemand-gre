@@ -21711,7 +21711,7 @@
 	      this.getVideoData();
 	      setTimeout(function () {
 	        return _this5.cookieChecker(_this5.state);
-	      }, 800);
+	      }, 100);
 	    }
 	  }, {
 	    key: 'render',
@@ -28199,7 +28199,7 @@
 					if (props.progress[props.videoData[i].videos[j].name]) {
 
 						props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
-						console.log("video with new prop", props.videoData[i].videos[j]);
+						// console.log("video with new prop", props.videoData[i].videos[j])
 					}
 				}
 			}
@@ -28304,6 +28304,13 @@
 	    var selectVideo = function selectVideo(e) {
 	      props.setCurrentVideo(video, props.lessonData);
 	    };
+	    var complete = {
+	      display: 'inline-block',
+	      position: 'absolute',
+	      backgroundColor: '' + (video.length === 100 ? "lightgreen" : "orange"),
+	      height: '100%',
+	      width: (video.length ? video.length : '0') + '%'
+	    };
 	    contents.push(_react2.default.createElement(
 	      'div',
 	      { onClick: selectVideo, key: i, style: videoTitle },
@@ -28315,8 +28322,7 @@
 	      video.title,
 	      _react2.default.createElement(
 	        'span',
-	        null,
-	        video.length,
+	        { style: abs },
 	        _react2.default.createElement(
 	          'span',
 	          { style: download, id: video.name },
@@ -28486,11 +28492,10 @@
 	//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
 	// }
 
-	// const abs = {
-	//   position: 'absolute',
-	//   right: '10px',
-	// }
-
+	var abs = {
+	  position: 'absolute',
+	  right: '10px'
+	};
 
 	var download = {
 	  display: 'inline-block',
@@ -28499,15 +28504,8 @@
 	  height: '5px',
 	  width: '45px',
 	  backgroundColor: 'transparent',
-	  position: 'relative'
-	};
-
-	var complete = {
-	  display: 'inline-block',
 	  position: 'absolute',
-	  backgroundColor: 'lightgreen',
-	  width: '60%',
-	  height: '100%'
+	  right: '10px'
 	};
 
 	exports.default = (0, _radium2.default)(Lesson);

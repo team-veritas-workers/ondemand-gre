@@ -3,16 +3,23 @@ import Radium from 'radium';
 import dlIcon from './../../../assets/dl_icon.png';
 
 const Lesson = (props) => {
-  const contents = []; 
+  const contents = [];
   props.lessonData.videos.forEach((video, i) => {
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
-    }
+    };
+    const complete = {
+      display: 'inline-block',
+      position: 'absolute',
+      backgroundColor: `${ video.length === 100 ? "lightgreen" : "orange" }`,
+      height: '100%',
+      width: `${ video.length ? video.length : '0' }%`,
+    };
     contents.push(
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
         { video.title }
-        <span >{video.length}
+        <span style={ abs }>
           <span style={ download } id={ video.name }>
             <span style={ complete }></span>
           </span>
@@ -172,10 +179,10 @@ const videoTitle = {
 //   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
 // }
 
-// const abs = {
-//   position: 'absolute',
-//   right: '10px',
-// }
+const abs = {
+  position: 'absolute',
+  right: '10px',
+}
 
 
 const download = {
@@ -185,15 +192,8 @@ const download = {
   height: '5px',
   width: '45px',
   backgroundColor: 'transparent',
-  position: 'relative',
-}
-
-const complete = {
-  display: 'inline-block',
   position: 'absolute',
-  backgroundColor: 'lightgreen',
-  width: '60%',
-  height: '100%',
+  right: '10px',
 }
 
 export default Radium(Lesson);

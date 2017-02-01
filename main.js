@@ -163,7 +163,7 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 
 function showProgress(received, total) {
-  const percentage = Math.round((received * 100) / total;
+  const percentage = Math.round((received * 100) / total);
   console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
 }
 

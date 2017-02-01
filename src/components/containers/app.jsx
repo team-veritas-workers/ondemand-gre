@@ -131,7 +131,7 @@ export default class App extends Component {
   
   componentDidMount() {
     this.getVideoData();
-    setTimeout(() => this.cookieChecker(this.state), 800);
+    setTimeout(() => this.cookieChecker(this.state), 100);
   }
   
  
