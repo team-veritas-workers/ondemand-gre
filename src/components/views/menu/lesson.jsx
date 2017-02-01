@@ -11,7 +11,6 @@ const Lesson = (props) => {
     contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ abs }><span style={ download } id={ video.name } onClick={ props.downloadIndVid }><span style={ complete }></span></span></span></div>)
   });
 
-
   const grabAllVideoNames = (e) => {
     function videoNames() {
       const allVideoNames = []; 
@@ -25,8 +24,6 @@ const Lesson = (props) => {
     
     props.downloadAllLessson(e, videoNames());
 }
-
-
 
   return (
       <div style={ lesson }> 
@@ -65,7 +62,7 @@ const lessonTitle = {
   transition: 'all .4s ease',
   ':hover': {
     cursor: 'pointer',
-    backgroundColor: '#DA5D12'
+    backgroundColor: 'blue'
   }
 }
 
@@ -135,15 +132,26 @@ const videoTitle = {
   position: 'relative',
   transition: 'all .4s ease',
   ':hover': {
-    backgroundColor: '#DA5D12',
+    backgroundColor: 'blue',
     cursor: 'pointer',
   }
 }
+
+// const download = {
+//   height: '15px',
+//   backgroundSize: '15px, 15px',
+//   //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
+//   backgroundRepeat: 'no-repeat',
+//   paddingLeft: '20px',
+//   marginLeft: '4px',
+//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
+// }
 
 const abs = {
   position: 'absolute',
   right: '10px',
 }
+
 
 const download = {
   display: 'inline-block',

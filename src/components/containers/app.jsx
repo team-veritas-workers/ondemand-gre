@@ -29,6 +29,8 @@ export default class App extends Component {
     };
   }
 
+  
+
   setCurrentVideo(video, lesson) {
     const fileName = `${ video.name }.mp4`
     const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };
@@ -136,6 +138,8 @@ export default class App extends Component {
     setTimeout(() => this.cookieChecker(this.state), 800);
   }
   
+ 
+
   render() {
     if (this.state.authenticated === false) {
       return (

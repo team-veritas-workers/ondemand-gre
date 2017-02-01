@@ -49,7 +49,8 @@ const options = {
 
 const menu = {
 	width: '500px',
-  backgroundColor: '#111539',
+	minWidth: '390px',
+	backgroundColor: '#111539',
 	padding: '5px',
 	overflowY: 'hidden',
 	height: '100vh',

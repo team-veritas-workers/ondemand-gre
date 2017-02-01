@@ -11,7 +11,6 @@ const fs = require('fs');
 const ipcMain = electron.ipcMain;
 const {session} = require('electron');
 const isOnline = require('is-online');
-
 const encryptor = require('file-encryptor');
 
 const getVideoData = require('./utils/getVideoData.js');
@@ -21,14 +20,19 @@ let useThis;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-
-
-
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({ width: 1280, height: 800, minWidth: 1024, minHeight: 768 });
 
-
+  // checkVideoTimeStamp();
+    fs.readdir(__dirname + '/videos', function(err, files) {
+    const vidNameArr = [];
+    if (err) return;
+    files.forEach(function(file) {
+      vidNameArr.push(file);
+    });
+    checkVideoTimeStamp(vidNameArr);
+  });
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, './public/index.html'),
@@ -138,7 +142,6 @@ function downloadVideo(url, targetPath) {
     //   console.log('this is out2222:' , out.path)
     //   useThis = 'encrypted.dat'
     //   fs.unlinkSync(out.path)
-      
     // });
 
   });
@@ -178,6 +181,26 @@ function downloadVideo(url, targetPath) {
     getVideoData(event, app.getAppPath());
   });
 
+
+function checkVideoTimeStamp(vidNameArr) {
+  for (let i = 2; i < vidNameArr.length; i += 1) {
+    let folderToAccess = app.getAppPath() + '/videos/';
+    // console.log('folderToAccess + vidNameArr[i]:', folderToAccess + vidNameArr[i]);
+    // console.log('fs.statSync(folderToAccess + vidNameArr[i]):', fs.statSync(folderToAccess + vidNameArr[i]));
+    let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
+    let createdVideoTime = videoInFolder.birthtime.getTime();
+    let weekInSec = 604800000;
+    // console.log('this is createdVideoTime:' , createdVideoTime);
+    //console.log('this is videoInFolder:', videoInFolder);
+    // console.log('this is videoInFolder.birthtime.getTime()', videoInFolder.birthtime.getTime());
+    // console.log('this is date.now():' , Date.now());
+    if ((createdVideoTime + weekInSec) < Date.now()) {
+      console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInSec);
+      console.log('Video is expired and is now being deleted...');
+      fs.unlink(folderToAccess + vidNameArr[i]);
+    }
+  }
+}
 
 
 // var key = 'My Super Secret Key';
