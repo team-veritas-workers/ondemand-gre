@@ -189,10 +189,9 @@ function checkVideoTimeStamp(vidNameArr) {
     // console.log('fs.statSync(folderToAccess + vidNameArr[i]):', fs.statSync(folderToAccess + vidNameArr[i]));
     let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
     let createdVideoTime = videoInFolder.birthtime.getTime();
-    // let weekInMilliSec = 604800000;
-    let weekInMilliSec = 15000;
+    let weekInMilliSec = 604800000;
     // console.log('this is createdVideoTime:' , createdVideoTime);
-    //console.log('this is videoInFolder:', videoInFolder);
+    // console.log('this is videoInFolder:', videoInFolder);
     // console.log('this is videoInFolder.birthtime.getTime()', videoInFolder.birthtime.getTime());
     // console.log('this is date.now():' , Date.now());
     if ((createdVideoTime + weekInMilliSec) < Date.now()) {

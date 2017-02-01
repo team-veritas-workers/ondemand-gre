@@ -9,8 +9,8 @@ const Lesson = (props) => {
       props.setCurrentVideo(video, props.lessonData);
     }
     contents.push(
-      <div onClick={ selectVideo } id={ video.name } key={ i } style={ videoTitle }>
-        <span key={ `${i}-individual` } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
+      <div onClick={ selectVideo } key={ i } style={ videoTitle }>
+        <span key={ `${i}-individual` } id={ video.name } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
         { video.title }
         <span style={ abs }>
           <span style={ download } id={ video.name }>
