@@ -30,7 +30,7 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
-      authenticated: true,
+      authenticated: false,
       showMenu: true,
     };
   }
