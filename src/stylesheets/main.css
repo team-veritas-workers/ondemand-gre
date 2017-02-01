@@ -43,7 +43,7 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 input[type=range]:focus {
-  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+  outline: none;
 }
 
 .sk-fading-circle {
@@ -68,8 +68,8 @@ input[type=range]:focus {
   height: 18%;
   background-color: #FFF;
   border-radius: 100%;
-  -webkit-animation: sk-circleFadeDelay 1.5s infinite ease-in-out both;
-          animation: sk-circleFadeDelay 1.5s infinite ease-in-out both;
+  -webkit-animation: sk-circleFadeDelay 1.1s infinite ease-in-out both;
+          animation: sk-circleFadeDelay 1.1s infinite ease-in-out both;
 }
 .sk-fading-circle .sk-circle2 {
   -webkit-transform: rotate(30deg);

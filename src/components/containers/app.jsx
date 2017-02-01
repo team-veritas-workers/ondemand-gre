@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-// import $ from 'jquery';
 import axios from 'axios';
 import qs from 'qs';
 import Login from './../views/auth/login.jsx';
@@ -12,6 +11,8 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.authenticate = this.authenticate.bind(this);
+    this.usernameOnChange = this.usernameOnChange.bind(this);
+    this.passwordOnChange = this.passwordOnChange.bind(this);    
     this.saveUserData = this.saveUserData.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -24,6 +25,7 @@ export default class App extends Component {
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
       showMenu: true,
+      invalidLoginMessage: ''
     };
   }
 
@@ -55,14 +57,22 @@ export default class App extends Component {
       }.bind(this))
   }
 
+  usernameOnChange(e) {
+    this.setState({ username: e.target.value })
+  }
+
+  passwordOnChange(e) {
+    this.setState({ password: e.target.value })
+  }
+
   authenticate(e) {
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
       const body = {
         action: 'login-gre-desktop-app',
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
+        username: this.state.username,
+        password: this.state.password,
         key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
       }
 
@@ -71,20 +81,15 @@ export default class App extends Component {
           console.log(res);
           ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
           this.setState({ authenticated: true, user: res.data.user.firstname });
-        } else if (res.status === 'error') {
-          this.setState({ invalidLoginMessage: res.message });
+        } else {
+          this.setState({ invalidLoginMessage: res.data.message });
         }
       }).catch(err => console.log(err));      
     }
   }
 
   saveUserData(json,firstname) {
-    // console.log("user info", JSON.parse(json))
     ipcRenderer.send('save-user', {email: JSON.parse(json).user.email, user: firstname })
-    db.insert(JSON.parse(json), (err, docs) => {
-      if (err) console.log(err);
-      // console.log('Saved!');
-    });
   }
 
   getVideoData() {
@@ -98,7 +103,6 @@ export default class App extends Component {
     });
   }
 
-  // SHOW/HIDE
   toggleMenu() {  
     const newState = this.state;
     newState.showMenu = !newState.showMenu;
@@ -120,7 +124,8 @@ export default class App extends Component {
     ipcRenderer.send('download-video', highDefDLVid);
   }
   
-  downloadAllLessson(videoNames) {
+  downloadAllLessson(e, videoNames) {
+    e.stopPropagation();
     console.log('downloadAllLessson icon has been clicked')
     console.log('this is on app side', videoNames)
     videoNames.forEach((video)=> {
@@ -130,21 +135,23 @@ export default class App extends Component {
   
   componentDidMount() {
     this.getVideoData();
-    setTimeout(() => this.cookieChecker(this.state), 1100);
+    setTimeout(() => this.cookieChecker(this.state), 800);
   }
   
  
 
   render() {
-    // LOGIN FIRST, PLEASE!)
     if (this.state.authenticated === false) {
       return (
         <div style={ app }>
-          <Login authenticate={ this.authenticate } invalidLoginMessage={ this.state.invalidLoginMessage }/>
+          <Login
+            authenticate={ this.authenticate }
+            usernameOnChange={ this.usernameOnChange }
+            passwordOnChange={ this.passwordOnChange }
+            invalidLoginMessage={ this.state.invalidLoginMessage }/>
         </div>
       );
     }
-    // THANK YOU!
     else if (this.state.authenticated === true) {
       return (
         <div style={ app }>
@@ -166,7 +173,6 @@ export default class App extends Component {
         </div>
       );
     }
-
     else {
       return (
         <Spinner />

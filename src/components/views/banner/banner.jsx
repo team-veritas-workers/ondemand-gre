@@ -9,7 +9,7 @@ const Banner = (props) => {
         <div style={ title }>{ props.lessonData.videoTitle }</div>
         <div style={ subtitle }>{ props.lessonData.lessonName }</div>
       </div>
-      <div style={ greeting } onClick={ props.logger }>{ props.user ? `Hi ${ props.user }` : "Dev Mode" }</div>
+      <div style={ greeting } onClick={ props.logger }>Logout</div>
     </div>
   );
 };
