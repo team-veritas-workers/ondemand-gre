@@ -61,6 +61,7 @@ class Video extends Component {
 
   onSeekChange(e) {
     this.setState({ played: parseFloat(e.target.value) });
+    console.log(`${((this.state.played * this.state.duration)) / (this.state.duration)*100}%`);
   }
 
   onSeekMouseUp(e) {

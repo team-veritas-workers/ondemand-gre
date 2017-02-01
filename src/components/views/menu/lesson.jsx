@@ -8,7 +8,17 @@ const Lesson = (props) => {
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
     }
-    contents.push(<div onClick={ selectVideo } id={ video.name } key={i} style={ videoTitle }>{ video.title } <span style={ abs }><span style={ download } id={ video.name } onClick={ props.downloadIndVid }><span style={ complete }></span></span></span></div>)
+    contents.push(
+      <div onClick={ selectVideo } id={ video.name } key={ i } style={ videoTitle }>
+        <span key={ `${i}-individual` } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
+        { video.title }
+        <span style={ abs }>
+          <span style={ download } id={ video.name }>
+            <span style={ complete }></span>
+          </span>
+        </span>
+      </div>
+    )
   });
 
   const grabAllVideoNames = (e) => {
@@ -21,23 +31,38 @@ const Lesson = (props) => {
       console.log('this is the array allVideoNames' , allVideoNames)
       return allVideoNames;
     }
-    
     props.downloadAllLessson(e, videoNames());
-}
+  }
 
   return (
       <div style={ lesson }> 
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
           <span style={ titleText }>{ props.lessonData.name }</span>
+          <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
-        <div style={ !props.open ? lessonContent : lessonContentOpen  }>
-          <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen  }>
+        <div style={ !props.open ? lessonContent : lessonContentOpen }>
+          <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen }>
             { contents }
           </div>
         </div>
       </div>
   );
 };
+
+const downloadIndy = {
+  position: 'absolute',
+  left: '10px',
+  backgroundColor: 'green',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '20px',
+  width: '20px',
+  borderRadius: '4px',
+  ':hover': {
+    backgroundColor: 'lightgreen'
+  }
+}
 
 const lesson = {
   backgroundColor: 'transparent',
@@ -124,7 +149,7 @@ const videoTitle = {
   overflowY: 'auto',
   color: 'white',
   margin: '-1px',
-	padding: '10px 40px 10px 10px',
+	padding: '10px 40px 10px 35px',
 	listStyle: 'none',
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'right 10px center',
