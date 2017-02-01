@@ -12,6 +12,7 @@ const ipcMain = electron.ipcMain;
 const {session} = require('electron');
 const isOnline = require('is-online');
 const encryptor = require('file-encryptor');
+const timestamp = require('unix-timestamp');
 
 const getVideoData = require('./utils/getVideoData.js');
 
@@ -62,15 +63,37 @@ function createWindow () {
   const ses = session.fromPartition('persist:name').cookies;
 
 
- ipcMain.on('save-user', (event, arg) => {
-      // console.log(arg)
-   
-      const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, expirationDate: 1531036000}
+  ipcMain.on('save-user', (event, arg) => {
+        // console.log(arg)
 
-      ses.set(cookie, (error) => {
-        if (error) console.error(error)
-      });
+     
+        const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')}
+
+        ses.set(cookie, (error) => {
+          if (error) console.error(error)
+        });
+
+        const improvedProg = {};
+        const progressArg = arg.progress;
+       
+
+        for (let i = 0; i < progressArg.length; i++){
+          let vidId = progressArg[i].video_id;
+          console.log(vidId)
+          improvedProg[vidId] = parseInt(progressArg[i].length);
+        }
+        //console.log("improvedProg", improvedProg)
+
+
+        fs.writeFile("./progress.json", JSON.stringify(improvedProg), function(err) {
+            if(err) {
+                return console.log(err);
+            }
+
+      console.log("The file was saved!");
   })
+    })
+
 
    ipcMain.on('logout', function(event, arg){
 
@@ -80,19 +103,34 @@ function createWindow () {
 
    })
 
+
   ipcMain.on('check-cookie', function(event){
 
   // console.log("checking cookie")
     ses.get({}, function(error, cookies) {
+        let progressData;
         // console.dir(cookies);
         if(cookies){
-          event.sender.send('cookie-exists',cookies)
+             fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err,data){
+                if (!err){
+                  progressData = JSON.parse(data);
+                  const argData = [cookies, progressData]
+                  //console.log(argData)
+                   event.sender.send('cookie-exists',argData)
+              
+                }else{
+                    console.log("read file error", err);
+                }
+
+            });
+         
         }
         if (error) {
             console.dir(error);
         }
     })
   })
+  
 }
 
 // This method will be called when Electron has finished
@@ -198,10 +236,9 @@ function checkVideoTimeStamp(vidNameArr) {
     // console.log('fs.statSync(folderToAccess + vidNameArr[i]):', fs.statSync(folderToAccess + vidNameArr[i]));
     let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
     let createdVideoTime = videoInFolder.birthtime.getTime();
-    // let weekInMilliSec = 604800000;
-    let weekInMilliSec = 15000;
+    let weekInMilliSec = 604800000;
     // console.log('this is createdVideoTime:' , createdVideoTime);
-    //console.log('this is videoInFolder:', videoInFolder);
+    // console.log('this is videoInFolder:', videoInFolder);
     // console.log('this is videoInFolder.birthtime.getTime()', videoInFolder.birthtime.getTime());
     // console.log('this is date.now():' , Date.now());
     if ((createdVideoTime + weekInMilliSec) < Date.now()) {

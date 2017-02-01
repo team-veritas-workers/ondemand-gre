@@ -7,6 +7,7 @@ import Content from './../views/content/content.jsx';
 import Spinner from './../views/spinner/spinner.jsx';
 import electron, { ipcRenderer } from 'electron';
 
+
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +25,7 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
+      authenticated: null,
       showMenu: true,
       invalidLoginMessage: ''
     };
@@ -44,13 +46,11 @@ export default class App extends Component {
     this.setState({ authenticated: false });
   }
 
-  cookieChecker(state) {
-    // console.log(this.state.authenticated);
+   cookieChecker(state) {
       ipcRenderer.send('check-cookie')
       ipcRenderer.on('cookie-exists', function(event, arg){
-        // console.log("cookie was received");
-        if (arg.length !== 0){
-          this.setState({ authenticated: true, user: arg[0].name });
+        if (arg[0].length !== 0){
+          this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1] });
         } else {
           this.setState({ authenticated: false })
         }
@@ -78,8 +78,8 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
-          this.setState({ authenticated: true, user: res.data.user.firstname });
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress   });
+          this.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
         }
@@ -152,6 +152,7 @@ export default class App extends Component {
       return (
         <div style={ app }>
           <Content
+            progress={this.state.progress}
             authenticate={this.authenticate}
             stateLog={this.state.logout}
             logger={this.logout}

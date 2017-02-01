@@ -9,10 +9,10 @@ const Lesson = (props) => {
       props.setCurrentVideo(video, props.lessonData);
     }
     contents.push(
-      <div onClick={ selectVideo } id={ video.name } key={ i } style={ videoTitle }>
+      <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
         { video.title }
-        <span style={ abs }>
+        <span >{video.length}
           <span style={ download } id={ video.name }>
             <span style={ complete }></span>
           </span>
@@ -172,10 +172,10 @@ const videoTitle = {
 //   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
 // }
 
-const abs = {
-  position: 'absolute',
-  right: '10px',
-}
+// const abs = {
+//   position: 'absolute',
+//   right: '10px',
+// }
 
 
 const download = {

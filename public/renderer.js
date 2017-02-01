@@ -21576,6 +21576,7 @@
 	    _this.logout = _this.logout.bind(_this);
 	    _this.state = {
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
+	      authenticated: null,
 	      showMenu: true,
 	      invalidLoginMessage: ''
 	    };
@@ -21606,12 +21607,10 @@
 	  }, {
 	    key: 'cookieChecker',
 	    value: function cookieChecker(state) {
-	      // console.log(this.state.authenticated);
 	      _electron.ipcRenderer.send('check-cookie');
 	      _electron.ipcRenderer.on('cookie-exists', function (event, arg) {
-	        // console.log("cookie was received");
-	        if (arg.length !== 0) {
-	          this.setState({ authenticated: true, user: arg[0].name });
+	        if (arg[0].length !== 0) {
+	          this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1] });
 	        } else {
 	          this.setState({ authenticated: false });
 	        }
@@ -21644,8 +21643,8 @@
 
 	        _axios2.default.post(URL, _qs2.default.stringify(body)).then(function (res) {
 	          if (res.data.status === 'success') {
-	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname });
-	            _this3.setState({ authenticated: true, user: res.data.user.firstname });
+	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress });
+	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
 	          } else {
 	            _this3.setState({ invalidLoginMessage: res.data.message });
 	          }
@@ -21732,6 +21731,7 @@
 	          'div',
 	          { style: app },
 	          _react2.default.createElement(_content2.default, {
+	            progress: this.state.progress,
 	            authenticate: this.authenticate,
 	            stateLog: this.state.logout,
 	            logger: this.logout,
@@ -28129,6 +28129,7 @@
 	    'div',
 	    { style: container },
 	    _react2.default.createElement(_menu2.default, {
+	      progress: props.progress,
 	      downloadAllLessson: downloadAllLessson,
 	      user: user,
 	      setCurrentVideo: setCurrentVideo,
@@ -28190,10 +28191,24 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
+		if (props.videoData) {
+			for (var i = 0; i < props.videoData.length; i++) {
+				for (var j = 0; j < props.videoData[i].videos.length; j++) {
+
+					//console.log("videos",props.videoData[i].videos[j].name);
+					if (props.progress[props.videoData[i].videos[j].name]) {
+
+						props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
+						console.log("video with new prop", props.videoData[i].videos[j]);
+					}
+				}
+			}
+		}
+
 		var lessons = void 0;
 		if (props.videoData) {
 			lessons = props.videoData.map(function (lesson, i) {
-				return _react2.default.createElement(_lesson2.default, { setCurrentVideo: props.setCurrentVideo, open: lesson.open, contentClass: lesson.open ? 'content content-open' : 'content', contentTextStyle: lesson.open ? 'content-text content-text-open' : 'content-text', expandLesson: props.expandLesson, lessonData: lesson, id: i, key: i, downloadAllLessson: props.downloadAllLessson, downloadIndVid: props.downloadIndVid });
+				return _react2.default.createElement(_lesson2.default, { progress: props.progress, setCurrentVideo: props.setCurrentVideo, open: lesson.open, contentClass: lesson.open ? 'content content-open' : 'content', contentTextStyle: lesson.open ? 'content-text content-text-open' : 'content-text', expandLesson: props.expandLesson, lessonData: lesson, id: i, key: i, downloadAllLessson: props.downloadAllLessson, downloadIndVid: props.downloadIndVid });
 			});
 		}
 		return _react2.default.createElement(
@@ -28291,7 +28306,7 @@
 	    };
 	    contents.push(_react2.default.createElement(
 	      'div',
-	      { onClick: selectVideo, id: video.name, key: i, style: videoTitle },
+	      { onClick: selectVideo, key: i, style: videoTitle },
 	      _react2.default.createElement(
 	        'span',
 	        { key: i + '-individual', id: video.name, style: downloadIndy, onClick: props.downloadIndVid },
@@ -28300,7 +28315,8 @@
 	      video.title,
 	      _react2.default.createElement(
 	        'span',
-	        { style: abs },
+	        null,
+	        video.length,
 	        _react2.default.createElement(
 	          'span',
 	          { style: download, id: video.name },
@@ -28470,10 +28486,11 @@
 	//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
 	// }
 
-	var abs = {
-	  position: 'absolute',
-	  right: '10px'
-	};
+	// const abs = {
+	//   position: 'absolute',
+	//   right: '10px',
+	// }
+
 
 	var download = {
 	  display: 'inline-block',
