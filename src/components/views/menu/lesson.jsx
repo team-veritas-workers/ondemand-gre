@@ -10,7 +10,7 @@ const Lesson = (props) => {
     }
     contents.push(
       <div onClick={ selectVideo } id={ video.name } key={ i } style={ videoTitle }>
-        <span key={ `${i}-individual` } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
+        <span key={ `${i}-individual` } id={ video.name } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
         { video.title }
         <span style={ abs }>
           <span style={ download } id={ video.name }>
@@ -28,7 +28,7 @@ const Lesson = (props) => {
       props.lessonData.videos.forEach((video, i) => {
         allVideoNames.push(video.name)
       })
-      console.log('this is the array allVideoNames' , allVideoNames)
+      // console.log('this is the array allVideoNames' , allVideoNames)
       return allVideoNames;
     }
     props.downloadAllLessson(e, videoNames());

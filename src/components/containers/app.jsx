@@ -78,7 +78,6 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          console.log(res);
           ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
           this.setState({ authenticated: true, user: res.data.user.firstname });
         } else {
@@ -117,7 +116,6 @@ export default class App extends Component {
   }
 
   downloadIndVid(e) {
-    console.log(e.target.id)
     e.preventDefault();
     e.stopPropagation();
     const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
@@ -126,8 +124,6 @@ export default class App extends Component {
   
   downloadAllLessson(e, videoNames) {
     e.stopPropagation();
-    console.log('downloadAllLessson icon has been clicked')
-    console.log('this is on app side', videoNames)
     videoNames.forEach((video)=> {
      ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
     })
