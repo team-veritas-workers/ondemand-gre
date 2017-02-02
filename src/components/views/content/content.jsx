@@ -21,6 +21,7 @@ const Content = (props) => {
       currentVideo = { currentVideo }
     />
     <Video logOutStuff = {logger}
+      changeVideoDataState = { props.changeVideoDataState }
       user = { user }
       toggleMenu = { toggleMenu }
       currentVideo = { currentVideo }
