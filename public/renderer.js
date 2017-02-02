@@ -21592,6 +21592,12 @@
 	  }
 
 	  _createClass(App, [{
+	    key: 'functionCheck',
+	    value: function functionCheck() {
+	      console.log(this.state.progress);
+	      console.log(this.state.videoData);
+	    }
+	  }, {
 	    key: 'setCurrentVideo',
 	    value: function setCurrentVideo(video, lesson) {
 	      var _this2 = this;
@@ -21720,6 +21726,7 @@
 	      setTimeout(function () {
 	        return _this5.cookieChecker(_this5.state);
 	      }, 100);
+	      this.functionCheck();
 	    }
 	  }, {
 	    key: 'changeVideoDataState',
@@ -28224,7 +28231,6 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
-
 		if (props.videoData) {
 			for (var i = 0; i < props.videoData.length; i++) {
 				//here I am giving each lesson group props based on how many videos
@@ -28247,6 +28253,27 @@
 				}
 			}
 		}
+
+		var lessons = void 0;
+		if (props.videoData) {
+			lessons = props.videoData.map(function (lesson, i) {
+				return _react2.default.createElement(_lesson2.default, { progress: props.progress, setCurrentVideo: props.setCurrentVideo, open: lesson.open, contentClass: lesson.open ? 'content content-open' : 'content', contentTextStyle: lesson.open ? 'content-text content-text-open' : 'content-text', expandLesson: props.expandLesson, lessonData: lesson, id: i, key: i, downloadAllLessson: props.downloadAllLessson, downloadIndVid: props.downloadIndVid });
+			});
+		}
+		return _react2.default.createElement(
+			'div',
+			{ style: props.showMenu ? menu : menuHide },
+			_react2.default.createElement(
+				'div',
+				{ style: options },
+				_react2.default.createElement('img', { width: '100%', height: 'auto', src: _veritasLogoWhite2.default })
+			),
+			_react2.default.createElement(
+				'div',
+				{ style: lessonsContentBox },
+				lessons
+			)
+		);
 	};
 
 	var lessonsContentBox = {

@@ -37,7 +37,10 @@ export default class App extends Component {
     };
   }
 
- 
+ functionCheck(){
+  console.log(this.state.progress);
+  console.log(this.state.videoData)
+ }
 
   setCurrentVideo(video, lesson) {
     const fileName = `${ video.name }.mp4`
@@ -138,6 +141,7 @@ export default class App extends Component {
   componentDidMount() {
     this.getVideoData();
     setTimeout(() => this.cookieChecker(this.state), 100);
+    this.functionCheck();
   }
 
   changeVideoDataState(percent) {
