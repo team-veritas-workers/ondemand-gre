@@ -60,18 +60,28 @@ const Lesson = (props) => {
   return (
       <div style={ lesson }> 
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
+       
           <span style={ titleText }>{ props.lessonData.name }</span>
+          <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>
+
+          
+
           <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
         <div style={ !props.open ? lessonContent : lessonContentOpen }>
           <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen }>
-            { contents }
+            { contents } 
           </div>
         </div>
       </div>
   );
 };
 
+const groupProgress = {
+  fontSize: '10px',
+  margin: '10px'
+
+}
 const downloadIndy = {
   position: 'absolute',
   left: '10px',

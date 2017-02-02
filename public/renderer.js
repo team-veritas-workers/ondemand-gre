@@ -28224,40 +28224,29 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
-		//console.log('this is props:1' , props)
+
 		if (props.videoData) {
 			for (var i = 0; i < props.videoData.length; i++) {
+				//here I am giving each lesson group props based on how many videos
+				//is in each group and how many of those have been watched
+				props.videoData[i].videosQuantity = props.videoData[i].videos.length;
+				props.videoData[i].videosComplete = 0;
 				for (var j = 0; j < props.videoData[i].videos.length; j++) {
-
-					//console.log("videos",props.videoData[i].videos[j].name);
 					if (props.progress[props.videoData[i].videos[j].name]) {
 						props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
-						// console.log("video with new prop", props.videoData[i].videos[j])
+
+						if (props.videoData[i].videos[j].length === 100) {
+							props.videoData[i].videosComplete++;
+						}
 					}
+				}
+				//calculating the lesson group percentage complete and then making that a prop to
+				//pass down to lesson
+				for (var _i = 0; _i < props.videoData.length; _i++) {
+					props.videoData[_i].lessonGroupProgress = Math.round(100 * props.videoData[_i].videosComplete / props.videoData[_i].videosQuantity);
 				}
 			}
 		}
-
-		var lessons = void 0;
-		if (props.videoData) {
-			lessons = props.videoData.map(function (lesson, i) {
-				return _react2.default.createElement(_lesson2.default, { progress: props.progress, setCurrentVideo: props.setCurrentVideo, open: lesson.open, contentClass: lesson.open ? 'content content-open' : 'content', contentTextStyle: lesson.open ? 'content-text content-text-open' : 'content-text', expandLesson: props.expandLesson, lessonData: lesson, id: i, key: i, downloadAllLessson: props.downloadAllLessson, downloadIndVid: props.downloadIndVid });
-			});
-		}
-		return _react2.default.createElement(
-			'div',
-			{ style: props.showMenu ? menu : menuHide },
-			_react2.default.createElement(
-				'div',
-				{ style: options },
-				_react2.default.createElement('img', { width: '100%', height: 'auto', src: _veritasLogoWhite2.default })
-			),
-			_react2.default.createElement(
-				'div',
-				{ style: lessonsContentBox },
-				lessons
-			)
-		);
 	};
 
 	var lessonsContentBox = {
@@ -28405,6 +28394,15 @@
 	        { style: titleText },
 	        props.lessonData.name
 	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { style: groupProgress },
+	        ' ',
+	        props.lessonData.videosComplete,
+	        ' of ',
+	        props.lessonData.videosQuantity,
+	        ' watched'
+	      ),
 	      _react2.default.createElement('span', { style: downloadIcon, onClick: grabAllVideoNames })
 	    ),
 	    _react2.default.createElement(
@@ -28419,6 +28417,11 @@
 	  );
 	};
 
+	var groupProgress = {
+	  fontSize: '10px',
+	  margin: '10px'
+
+	};
 	var downloadIndy = {
 	  position: 'absolute',
 	  left: '10px',
@@ -28723,14 +28726,24 @@
 	      _screenfull2.default.request((0, _reactDom.findDOMNode)(this.player));
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+
+	      console.log(this.state.played);
+
+	      //setInterval(function(){console.log(this.state.played)},1000) 
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
 
 	      var defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' };
 	      var lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
+
 	      //console.log(`${((this.state.played * this.state.duration)) / (this.state.duration)*100}%`)
 	      //console.log('this.props.currentVideo' ,this.props.currentVideo)
+
 	      return _react2.default.createElement(
 	        'div',
 	        { style: contentContainer },
