@@ -28708,14 +28708,8 @@
 	  }, {
 	    key: 'onProgress',
 	    value: function onProgress(state) {
-	      // console.log('this is state in video' , this.state)
-
-	      //console.log(this.state.currentVideo)
-	      // console.log('this.state.played is' , this.state.played)
 	      !this.state.seeking ? this.setState(state) : null;
 	      this.props.changeVideoDataState(this.state.played * 100);
-
-	      //this.setState({this.progress})
 	    }
 	  }, {
 	    key: 'onClickFullscreen',
@@ -30352,6 +30346,9 @@
 	    key: 'seekTo',
 	    value: function seekTo(fraction) {
 	      _get(FilePlayer.prototype.__proto__ || Object.getPrototypeOf(FilePlayer.prototype), 'seekTo', this).call(this, fraction);
+	      if (fraction === 1) {
+	        this.player.pause();
+	      }
 	      this.player.currentTime = this.getDuration() * fraction;
 	    }
 	  }, {
