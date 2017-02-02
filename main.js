@@ -202,9 +202,6 @@ function downloadVideo(url, targetPath) {
         percentage = temp;
         console.log(`${percentage.toFixed(2)}% | ${(received_bytes/1000000).toFixed(2)}MB out of ${(total_bytes/1000000).toFixed(2)}MB`);
       } 
-      // if (received_bytes === total_bytes) {
-      //   console.log(`100.00% | ${(received_bytes/1000000).toFixed(2)}MB out of ${(total_bytes/1000000).toFixed(2)}MB`)
-      // }
     });
 
     req.pipe(out);
