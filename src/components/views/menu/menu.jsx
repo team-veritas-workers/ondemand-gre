@@ -5,7 +5,6 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 
 
 const Menu = (props) => {
-
 	if (props.videoData) {
 		for (let i = 0; i < props.videoData.length; i++) {
 			//here I am giving each lesson group props based on how many videos
@@ -28,7 +27,25 @@ const Menu = (props) => {
 			}
 		}
 	}	
-	
+
+	let lessons;
+	if (props.videoData) {
+ 		lessons = props.videoData.map((lesson, i) => {
+ 			return (
+ 				<Lesson progress={props.progress} setCurrentVideo={ props.setCurrentVideo } open={ lesson.open } contentClass={ lesson.open ? 'content content-open' : 'content' } contentTextStyle={ lesson.open ? 'content-text content-text-open' : 'content-text' } expandLesson={ props.expandLesson } lessonData={ lesson } id={ i } key={ i } downloadAllLessson={ props.downloadAllLessson } downloadIndVid= { props.downloadIndVid }/>
+ 			);
+ 		});
+ 	}
+  return (
+ 		<div style={ props.showMenu ? menu : menuHide }>
+ 			<div style={ options }>
+ 				<img width="100%" height="auto" src={ logoWhite } />
+ 			</div>
+ 			<div style={ lessonsContentBox }>
+ 				{ lessons }
+ 			</div>
+    </div>
+  );
 }
 
 const lessonsContentBox = {
