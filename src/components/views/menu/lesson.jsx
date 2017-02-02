@@ -45,7 +45,7 @@ const Lesson = (props) => {
       <div style={ lesson }> 
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
           <span style={ titleText }>{ props.lessonData.name }</span>
-          <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
+          {/* <span style={ downloadIcon } onClick={ grabAllVideoNames }></span> */}
         </div>
         <div style={ !props.open ? lessonContent : lessonContentOpen }>
           <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen }>

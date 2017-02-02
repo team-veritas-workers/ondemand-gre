@@ -118,8 +118,9 @@ export default class App extends Component {
   downloadIndVid(e) {
     e.preventDefault();
     e.stopPropagation();
-    const highDefDLVid = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
-    ipcRenderer.send('download-video', highDefDLVid);
+    const hd = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
+    const sd = `https://gre-on-demand.veritasprep.com/360p_${ e.target.id }.mp4`;
+    ipcRenderer.send('download-video', hd);
   }
   
   downloadAllLessson(e, videoNames) {
@@ -131,10 +132,8 @@ export default class App extends Component {
   
   componentDidMount() {
     this.getVideoData();
-    setTimeout(() => this.cookieChecker(this.state), 100);
+    setTimeout(() => this.cookieChecker(this.state), 1000);
   }
-  
- 
 
   render() {
     if (this.state.authenticated === false) {

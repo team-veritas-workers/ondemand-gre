@@ -21692,8 +21692,9 @@
 	    value: function downloadIndVid(e) {
 	      e.preventDefault();
 	      e.stopPropagation();
-	      var highDefDLVid = 'https://gre-on-demand.veritasprep.com/' + e.target.id + '.mp4';
-	      _electron.ipcRenderer.send('download-video', highDefDLVid);
+	      var hd = 'https://gre-on-demand.veritasprep.com/' + e.target.id + '.mp4';
+	      var sd = 'https://gre-on-demand.veritasprep.com/360p_' + e.target.id + '.mp4';
+	      _electron.ipcRenderer.send('download-video', hd);
 	    }
 	  }, {
 	    key: 'downloadAllLessson',
@@ -21711,7 +21712,7 @@
 	      this.getVideoData();
 	      setTimeout(function () {
 	        return _this5.cookieChecker(_this5.state);
-	      }, 100);
+	      }, 1000);
 	    }
 	  }, {
 	    key: 'render',
@@ -28357,8 +28358,7 @@
 	        'span',
 	        { style: titleText },
 	        props.lessonData.name
-	      ),
-	      _react2.default.createElement('span', { style: downloadIcon, onClick: grabAllVideoNames })
+	      )
 	    ),
 	    _react2.default.createElement(
 	      'div',
@@ -28610,7 +28610,7 @@
 	    _this.onProgress = _this.onProgress.bind(_this);
 	    _this.onClickFullscreen = _this.onClickFullscreen.bind(_this);
 	    _this.state = {
-	      playing: true,
+	      playing: false,
 	      mute: 0,
 	      volume: 0.0,
 	      loaded: 0,
@@ -28656,6 +28656,9 @@
 	    key: 'onSeekMouseUp',
 	    value: function onSeekMouseUp(e) {
 	      this.setState({ seeking: false });
+	      if (this.playing === true && played === duration) {
+	        this.setState({ playing: false });
+	      }
 	      this.player.seekTo(parseFloat(e.target.value));
 	    }
 	  }, {
@@ -30298,6 +30301,9 @@
 	    value: function seekTo(fraction) {
 	      _get(FilePlayer.prototype.__proto__ || Object.getPrototypeOf(FilePlayer.prototype), 'seekTo', this).call(this, fraction);
 	      this.player.currentTime = this.getDuration() * fraction;
+	      if (this.player.currentTime === this.getDuration()) {
+	        this.player.pause();
+	      }
 	    }
 	  }, {
 	    key: 'setVolume',

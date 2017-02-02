@@ -162,36 +162,57 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-function showProgress(received, total) {
-  const percentage = Math.round((received * 100) / total);
-  console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
-}
-
 function downloadVideo(url, targetPath) {
 
-  const req = request({
-    method: 'GET',
-    url
-  });
+  const req = request({ method: 'GET', url });
 
-  const out = fs.createWriteStream(targetPath);
+  let received_bytes = 0;
+  let total_bytes = 0;
+  let percentage = 0;
+  let temp;
 
-  var received_bytes = 0;
-  var total_bytes = 0;
+  let size;
+  let check;
+  let out;
 
-  req.on('response', function ( data ) {
-    total_bytes = parseInt(data.headers['content-length' ]);
-  });
+  if (fs.existsSync(targetPath)) {
+    size = fs.statSync(targetPath).size;
+    req.on('response', (data) => {
+      check = parseInt(data.headers['content-length']);
+      if (check === size) {
+        console.log('CHECK PASSED!')
+        return;
+      } else {
+        console.log('INCOMPLETE DOWNLOAD, DELETING FILE, PLEASE CLICK AGAIN!');
+        fs.unlinkSync(targetPath);
+      }
+    });
+  } else {
+    console.log('NEW DOWNLOAD!');
+    out = fs.createWriteStream(targetPath);
 
-  req.on('data', function(chunk) {
-    received_bytes += chunk.length;
-    showProgress(received_bytes, total_bytes);
-  });
+    req.on('response', function (data) {
+      total_bytes = parseInt(data.headers['content-length']);
+    });
 
-  req.pipe(out);
-  req.on('end', () => {
-    console.log('Completed downloading', url.slice(38));
-  });
+    req.on('data', function(chunk) {
+      received_bytes += chunk.length;
+      temp = received_bytes / total_bytes * 100;
+      if (temp - percentage > 1) {
+        percentage = temp;
+        console.log(`${percentage.toFixed(2)}% | ${(received_bytes/1000000).toFixed(2)}MB out of ${(total_bytes/1000000).toFixed(2)}MB`);
+      } 
+      if (received_bytes === total_bytes) {
+        console.log(`100.00% | ${(received_bytes/1000000).toFixed(2)}MB out of ${(total_bytes/1000000).toFixed(2)}MB`)
+      }
+
+    });
+
+    req.pipe(out);
+    req.on('end', () => {
+      console.log('Completed downloading', url.slice(38));
+    });
+  }
 }
 // console.log(useThis)
 
