@@ -28656,9 +28656,6 @@
 	    key: 'onSeekMouseUp',
 	    value: function onSeekMouseUp(e) {
 	      this.setState({ seeking: false });
-	      if (this.playing === true && played === duration) {
-	        this.setState({ playing: false });
-	      }
 	      this.player.seekTo(parseFloat(e.target.value));
 	    }
 	  }, {
@@ -30300,10 +30297,10 @@
 	    key: 'seekTo',
 	    value: function seekTo(fraction) {
 	      _get(FilePlayer.prototype.__proto__ || Object.getPrototypeOf(FilePlayer.prototype), 'seekTo', this).call(this, fraction);
-	      this.player.currentTime = this.getDuration() * fraction;
-	      if (this.player.currentTime === this.getDuration()) {
+	      if (fraction === 1) {
 	        this.player.pause();
 	      }
+	      this.player.currentTime = this.getDuration() * fraction;
 	    }
 	  }, {
 	    key: 'setVolume',

@@ -31,8 +31,6 @@ export default class App extends Component {
     };
   }
 
-  
-
   setCurrentVideo(video, lesson) {
     const fileName = `${ video.name }.mp4`
     const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };

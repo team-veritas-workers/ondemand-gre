@@ -65,9 +65,6 @@ class Video extends Component {
 
   onSeekMouseUp(e) {
     this.setState({ seeking: false });
-    if (this.playing === true && played === duration) {
-      this.setState({ playing: false });
-    }
     this.player.seekTo(parseFloat(e.target.value));
   }
 
