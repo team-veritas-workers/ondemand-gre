@@ -23,15 +23,21 @@ export default class App extends Component {
     this.downloadAllLessson = this.downloadAllLessson.bind(this);
     this.cookieChecker = this.cookieChecker.bind(this);
     this.logout = this.logout.bind(this);
+    this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
       authenticated: null,
       showMenu: true,
-      invalidLoginMessage: ''
+      invalidLoginMessage: '',
+      progress: null,
+      username: null,
+      password: null,
+      invalidLoginMessage: null,
+      videoData: null,
     };
   }
 
-  
+ 
 
   setCurrentVideo(video, lesson) {
     const fileName = `${ video.name }.mp4`
@@ -133,10 +139,32 @@ export default class App extends Component {
     this.getVideoData();
     setTimeout(() => this.cookieChecker(this.state), 100);
   }
+
+  changeVideoDataState(percent) {
+    // console.log(this.state.url)
+    let splitAtCom;
+    let splitAtMp4;
+    let videoId;
+
+    if (this.state.url.includes('.com/')) {
+      splitAtCom = this.state.url.split('.com/');
+      splitAtMp4 = splitAtCom[1].split('.mp4');
+      videoId = splitAtMp4[0];
+        
+    } else {
+       splitAtCom = this.state.url.split('videos/');
+       splitAtMp4 = splitAtCom[1].split('.mp4');
+       videoId = splitAtMp4[0];
+    }
   
- 
+    let accessProgress = this.state.progress;
+    accessProgress[videoId] = percent;
+    this.setState({progress: accessProgress});
+  }
+
 
   render() {
+    console.log('!!!!this.state.progress:', this.state.progress)
     if (this.state.authenticated === false) {
       return (
         <div style={ app }>
@@ -152,6 +180,7 @@ export default class App extends Component {
       return (
         <div style={ app }>
           <Content
+            changeVideoDataState={this.changeVideoDataState}
             progress={this.state.progress}
             authenticate={this.authenticate}
             stateLog={this.state.logout}
