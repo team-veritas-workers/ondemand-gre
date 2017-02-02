@@ -240,11 +240,11 @@ function updateProgress(){
       //delete the data in updated progress file. 
 
     }
-})
+  })
 
 }
 
-updateProgress();
+//updateProgress();
 
 
 function checkVideoTimeStamp(vidNameArr) {
