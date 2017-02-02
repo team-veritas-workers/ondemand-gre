@@ -8,6 +8,7 @@ const Lesson = (props) => {
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
     };
+
     const complete = {
       display: 'inline-block',
       position: 'absolute',
@@ -15,6 +16,21 @@ const Lesson = (props) => {
       height: '100%',
       width: `${ video.length ? video.length : '0' }%`,
     };
+  //console.log('this is props.lessonData.videos:' , props.lessonData.videos)
+  // for (let i = 0; i < props.lessonData.videos; i += 1) {
+  //   console.log('hi')
+  // }
+  //console.log('this is props.progress' , props.progress)
+  // props.progress.forEach(function(video){
+  //   console.log(vidoe)
+  // })
+  // props.progress.forEach((video) => {
+  //   console.log(video);
+  // }) ;
+  
+
+
+
     contents.push(
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>

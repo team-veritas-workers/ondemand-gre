@@ -5,20 +5,20 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 
 
 const Menu = (props) => {
+	//console.log('this is props:1' , props)
 	if (props.videoData) {
 		for (let i = 0; i < props.videoData.length; i++){
-			for (let j = 0; j < props.videoData[i].videos.length; j++)
+			for (let j = 0; j < props.videoData[i].videos.length; j++) {
 			
 			//console.log("videos",props.videoData[i].videos[j].name);
-			if (props.progress[props.videoData[i].videos[j].name]){
-				
+			if (props.progress[props.videoData[i].videos[j].name]) {
 				props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
 				// console.log("video with new prop", props.videoData[i].videos[j])
-
 			}
 		}
 	}
-
+}
+	
 	let lessons;
 	if (props.videoData) {
 		lessons = props.videoData.map((lesson, i) => {

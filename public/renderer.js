@@ -21548,6 +21548,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -21558,6 +21560,8 @@
 	  _inherits(App, _Component);
 
 	  function App(props) {
+	    var _this$state;
+
 	    _classCallCheck(this, App);
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
@@ -21574,12 +21578,16 @@
 	    _this.downloadAllLessson = _this.downloadAllLessson.bind(_this);
 	    _this.cookieChecker = _this.cookieChecker.bind(_this);
 	    _this.logout = _this.logout.bind(_this);
-	    _this.state = {
+	    _this.changeVideoDataState = _this.changeVideoDataState.bind(_this);
+	    _this.state = (_this$state = {
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
 	      authenticated: null,
 	      showMenu: true,
-	      invalidLoginMessage: ''
-	    };
+	      invalidLoginMessage: '',
+	      progress: null,
+	      username: null,
+	      password: null
+	    }, _defineProperty(_this$state, 'invalidLoginMessage', null), _defineProperty(_this$state, 'videoData', null), _this$state);
 	    return _this;
 	  }
 
@@ -21714,8 +21722,31 @@
 	      }, 100);
 	    }
 	  }, {
+	    key: 'changeVideoDataState',
+	    value: function changeVideoDataState(percent) {
+	      // console.log(this.state.url)
+	      var splitAtCom = void 0;
+	      var splitAtMp4 = void 0;
+	      var videoId = void 0;
+
+	      if (this.state.url.includes('.com/')) {
+	        splitAtCom = this.state.url.split('.com/');
+	        splitAtMp4 = splitAtCom[1].split('.mp4');
+	        videoId = splitAtMp4[0];
+	      } else {
+	        splitAtCom = this.state.url.split('videos/');
+	        splitAtMp4 = splitAtCom[1].split('.mp4');
+	        videoId = splitAtMp4[0];
+	      }
+
+	      var accessProgress = this.state.progress;
+	      accessProgress[videoId] = percent;
+	      this.setState({ progress: accessProgress });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log('!!!!this.state.progress:', this.state.progress);
 	      if (this.state.authenticated === false) {
 	        return _react2.default.createElement(
 	          'div',
@@ -21731,6 +21762,7 @@
 	          'div',
 	          { style: app },
 	          _react2.default.createElement(_content2.default, {
+	            changeVideoDataState: this.changeVideoDataState,
 	            progress: this.state.progress,
 	            authenticate: this.authenticate,
 	            stateLog: this.state.logout,
@@ -28141,6 +28173,7 @@
 	      currentVideo: currentVideo
 	    }),
 	    _react2.default.createElement(_reactVideo2.default, { logOutStuff: logger,
+	      changeVideoDataState: props.changeVideoDataState,
 	      user: user,
 	      toggleMenu: toggleMenu,
 	      currentVideo: currentVideo,
@@ -28191,13 +28224,13 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
+		//console.log('this is props:1' , props)
 		if (props.videoData) {
 			for (var i = 0; i < props.videoData.length; i++) {
 				for (var j = 0; j < props.videoData[i].videos.length; j++) {
 
 					//console.log("videos",props.videoData[i].videos[j].name);
 					if (props.progress[props.videoData[i].videos[j].name]) {
-
 						props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
 						// console.log("video with new prop", props.videoData[i].videos[j])
 					}
@@ -28304,6 +28337,7 @@
 	    var selectVideo = function selectVideo(e) {
 	      props.setCurrentVideo(video, props.lessonData);
 	    };
+
 	    var complete = {
 	      display: 'inline-block',
 	      position: 'absolute',
@@ -28311,6 +28345,19 @@
 	      height: '100%',
 	      width: (video.length ? video.length : '0') + '%'
 	    };
+	    //console.log('this is props.lessonData.videos:' , props.lessonData.videos)
+	    // for (let i = 0; i < props.lessonData.videos; i += 1) {
+	    //   console.log('hi')
+	    // }
+	    //console.log('this is props.progress' , props.progress)
+	    // props.progress.forEach(function(video){
+	    //   console.log(vidoe)
+	    // })
+	    // props.progress.forEach((video) => {
+	    //   console.log(video);
+	    // }) ;
+
+
 	    contents.push(_react2.default.createElement(
 	      'div',
 	      { onClick: selectVideo, key: i, style: videoTitle },
@@ -28661,7 +28708,14 @@
 	  }, {
 	    key: 'onProgress',
 	    value: function onProgress(state) {
+	      // console.log('this is state in video' , this.state)
+
+	      //console.log(this.state.currentVideo)
+	      // console.log('this.state.played is' , this.state.played)
 	      !this.state.seeking ? this.setState(state) : null;
+	      this.props.changeVideoDataState(this.state.played * 100);
+
+	      //this.setState({this.progress})
 	    }
 	  }, {
 	    key: 'onClickFullscreen',
@@ -28675,7 +28729,8 @@
 
 	      var defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' };
 	      var lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
-
+	      //console.log(`${((this.state.played * this.state.duration)) / (this.state.duration)*100}%`)
+	      //console.log('this.props.currentVideo' ,this.props.currentVideo)
 	      return _react2.default.createElement(
 	        'div',
 	        { style: contentContainer },

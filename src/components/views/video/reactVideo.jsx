@@ -69,17 +69,31 @@ class Video extends Component {
   }
 
   onProgress(state) {
+    // console.log('this is state in video' , this.state)
+    
+   //console.log(this.state.currentVideo)
+    // console.log('this.state.played is' , this.state.played)
     !this.state.seeking ? this.setState(state) : null;
+    this.props.changeVideoDataState(this.state.played * 100)
+   
+    //this.setState({this.progress})
+    
   }
+     
 
   onClickFullscreen() {
     screenfull.request(findDOMNode(this.player)); 
   }
 
   render() {
+ 
+    
+
+    
     const defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' }
     const lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
-
+    //console.log(`${((this.state.played * this.state.duration)) / (this.state.duration)*100}%`)
+    //console.log('this.props.currentVideo' ,this.props.currentVideo)
     return (
       <div style={ contentContainer }>
         <Banner user={ this.props.user } lessonData={ lessonData } logger={ this.props.logger }/>
