@@ -77,9 +77,17 @@ class Video extends Component {
     screenfull.request(findDOMNode(this.player)); 
   }
 
+ componentDidMount() {
+  
+  console.log(this.state.played)
+
+   //setInterval(function(){console.log(this.state.played)},1000) 
+  }
+
   render() {
     const defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' }
     const lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
+    console.log("playe?", this.state.played)
 
     return (
       <div style={ contentContainer }>

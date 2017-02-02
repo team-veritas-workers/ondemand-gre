@@ -14,6 +14,7 @@ const isOnline = require('is-online');
 const encryptor = require('file-encryptor');
 const timestamp = require('unix-timestamp');
 
+
 const getVideoData = require('./utils/getVideoData.js');
 
 let useThis;
@@ -218,6 +219,32 @@ function downloadVideo(url, targetPath) {
   ipcMain.on('get-video-data', (event) => {
     getVideoData(event, app.getAppPath());
   });
+
+function updateProgress(){
+  isOnline().then(online => {
+    if (online === true){
+        fs.readFile('./tempProgress.json', {encoding: 'utf-8'}, function(err,data){
+                if (!err){
+                  newProgress = JSON.parse(data);
+                  for (let key in newProgress){
+                    //do post request for each data element
+                    //clear out tempProgress
+                  }
+              
+                }else{
+                    console.log("read file error", err);
+                }
+
+            });
+      //do post request with updated progress from little jason file
+      //delete the data in updated progress file. 
+
+    }
+})
+
+}
+
+updateProgress();
 
 
 function checkVideoTimeStamp(vidNameArr) {
