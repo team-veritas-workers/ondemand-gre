@@ -4,7 +4,6 @@ const request = require('request');
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
-
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
@@ -23,11 +22,10 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({ width: 1280, height: 800, minWidth: 1024, minHeight: 768 });
 
-
-    fs.readdir(__dirname + '/videos', function(err, files) {
+    fs.readdir(__dirname + '/videos', function (err, files) {
     const vidNameArr = [];
     if (err) return;
-    files.forEach(function(file) {
+    files.forEach(function (file) {
       vidNameArr.push(file);
     });
     checkVideoTimeStamp(vidNameArr);
@@ -50,14 +48,6 @@ function createWindow () {
     mainWindow = null;
   })
   
-  // MSG= below i don't believe we are using this and I don't think it should be here. delete?
-  // ipcMain.on('download-video', (event, arg) => {
-  //   console.log('hello download-video');
-  //   console.log(arg);
-  //   const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-  //   downloadVideo(arg, app.getAppPath() + '/videos/' + fileName)
-  // });
-
   const ses = session.fromPartition('persist:name').cookies;
 
 
@@ -69,7 +59,6 @@ function createWindow () {
     ses.set(cookie, (error) => {
       if (error) console.error(error)
     });
-    console.log('this is arg.sid:', arg.sid)
     const improvedProg = {};
     const progressArg = arg.progress;
        
@@ -80,30 +69,30 @@ function createWindow () {
       improvedProg[vidId] = parseInt(progressArg[i].length);
     }
     improvedProg["sid"] = Number(arg.sid);
-    //console.log("improvedProg", improvedProg)
+  
         
-    fs.writeFile("./progress.json", JSON.stringify(improvedProg), function(err) {
+    fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
       if (err) {
-        return console.log(err);
+        return console.log('There was an error in writing to progress.json file:', err);
       }
       console.log("The file was saved!");
     })
   })
 
 
-   ipcMain.on('logout', function(event, arg){
+   ipcMain.on('logout', function (event, arg){
      ses.remove('http://www.auth.com', arg.name ,function(data) {
         // console.log(data)
       })
     })
     
-    ipcMain.on('check-cookie', function(event) {
+    ipcMain.on('check-cookie', function (event) {
       // console.log("checking cookie")
-      ses.get({}, function(error, cookies) {
+      ses.get({}, function (error, cookies) {
         let progressData;
         // console.dir(cookies);
         if (cookies) {
-          fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err,data) {
+          fs.readFile('./progress.json', {encoding: 'utf-8'}, function (err,data) {
             if (!err){
               progressData = JSON.parse(data);
               const argData = [cookies, progressData]
@@ -160,7 +149,7 @@ function downloadVideo(event, url, targetPath, lesson, video) {
     req.on('response', (data) => {
       check = parseInt(data.headers['content-length']);
       if (check === size) {
-        console.log('CHECK PASSED!')
+        console.log('CHECK PASSED!');
         return;
       } else {
         console.log('INCOMPLETE DOWNLOAD, DELETING FILE, PLEASE CLICK AGAIN!');
@@ -192,17 +181,24 @@ function downloadVideo(event, url, targetPath, lesson, video) {
   }
 }
 
+
+
 ipcMain.on('download-video', (event, path, lesson, video) => {
-  console.log(path);
-	const fileName = path.substring(path.lastIndexOf('/') + 1);
-	if (!fs.existsSync(app.getAppPath() + '/videos/')) {
-		fs.mkdirSync(app.getAppPath() + '/videos/');
-	}
-	downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
-	});
+ isOnline().then(function(online) {
+   if(online === true) {
+     console.log(path);
+	   const fileName = path.substring(path.lastIndexOf('/') + 1);
+     if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+       fs.mkdirSync(app.getAppPath() + '/videos/');
+      }
+      downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
+    } else {
+      event.sender.send('offline-download-error');
+    }
+  })
+});
 
 ipcMain.on('get-video', (event, path) => {
-	// console.log('this is app path:' , app.getAppPath());
 	if (!fs.existsSync(app.getAppPath() + '/videos/')) {
 		fs.mkdirSync(app.getAppPath() + '/videos/');
 	}
@@ -216,7 +212,7 @@ ipcMain.on('get-video', (event, path) => {
 				const videoUrl = 'https://gre-on-demand.veritasprep.com/' + path;
 				event.sender.send('play-video', videoUrl);
 			} else {
-				// event.sender.send('offline-vid-error');
+				 event.sender.send('offline-vid-error');
 			}
 		})
 	}
@@ -225,7 +221,6 @@ ipcMain.on('get-video', (event, path) => {
 ipcMain.on('get-video-data', (event) => {
 	getVideoData(event, app.getAppPath());
 });
-
 
 
 
@@ -253,13 +248,15 @@ function updateProgress() {
 
 
 function postProgress(buildtUpStr) {
-// video=gre_10_12&userID=913969768632&lessonType=gre&clip_progress_real=93
 console.log('inside postProgress post request')
 request.post({
   headers: {'content-type' : 'application/x-www-form-urlencoded'},
   url:     'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
   body:    buildtUpStr
-}, function(error, response, body) {
+}, function (err, response, body) {
+  if(err) { 
+    console.log('There was an error in postProgress:', err);
+  }
   console.log('inside postProgress response body of request', response, body);
   });
 }
@@ -271,15 +268,10 @@ setInterval(updateProgress, oneMin);
 function checkVideoTimeStamp(vidNameArr) {
   for (let i = 2; i < vidNameArr.length; i += 1) {
     let folderToAccess = app.getAppPath() + '/videos/';
-    // console.log('folderToAccess + vidNameArr[i]:', folderToAccess + vidNameArr[i]);
-    // console.log('fs.statSync(folderToAccess + vidNameArr[i]):', fs.statSync(folderToAccess + vidNameArr[i]));
     let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
     let createdVideoTime = videoInFolder.birthtime.getTime();
     let weekInMilliSec = 604800000;
-    // console.log('this is createdVideoTime:' , createdVideoTime);
-    // console.log('this is videoInFolder:', videoInFolder);
-    // console.log('this is videoInFolder.birthtime.getTime()', videoInFolder.birthtime.getTime());
-    // console.log('this is date.now():' , Date.now());
+   
     if ((createdVideoTime + weekInMilliSec) < Date.now()) {
       console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInMilliSec);
       console.log('Video is expired and is now being deleted...');
@@ -289,15 +281,13 @@ function checkVideoTimeStamp(vidNameArr) {
 }
 
 ipcMain.on('save-progress-clicked', (event, progress) => {
-  //console.log('inside save-progress-clicked in main.js')
-  //console.log(progress)
-      fs.writeFile("./progress.json", JSON.stringify(progress), function(err) {
-      if (err) {
-        return console.log(err);
-      }
-      console.log("Progress.json was updated!");
-    })
-  });
+  fs.writeFile("./progress.json", JSON.stringify(progress), function (err) {
+    if (err) {
+      return console.log(err);
+    }
+    console.log("Progress.json was updated!");
+  })
+});
 
 
 

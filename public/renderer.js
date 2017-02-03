@@ -21601,7 +21601,9 @@
 	      _electron.ipcRenderer.once('play-video', function (event, arg) {
 	        return _this2.setState({ url: arg, currentVideo: currentVideo });
 	      });
-	      // ipcRenderer.once('offline-vid-error', () => console.log('Video not available offline.'));
+	      _electron.ipcRenderer.once('offline-vid-error', function () {
+	        return alert('Video not available offline.');
+	      });
 	      _electron.ipcRenderer.send('get-video', fileName);
 	    }
 	  }, {
@@ -21703,6 +21705,9 @@
 	      var hd = 'https://gre-on-demand.veritasprep.com/' + id + '.mp4';
 	      var sd = 'https://gre-on-demand.veritasprep.com/360p_' + id + '.mp4';
 	      _electron.ipcRenderer.send('download-video', hd, lesson, parseInt(video));
+	      _electron.ipcRenderer.once('offline-download-error', function () {
+	        return alert('Downloading is not possible offline.');
+	      });
 	    }
 	  }, {
 	    key: 'downloadAllLessson',
@@ -21719,6 +21724,9 @@
 	      });
 	      indexUrl.forEach(function (video) {
 	        _this5.downloadIndVid(e, lesson, video[1], video[0]);
+	      });
+	      _electron.ipcRenderer.once('offline-download-error', function () {
+	        return alert('Downloading is not possible offline.');
 	      });
 	    }
 	  }, {
@@ -28262,8 +28270,8 @@
 	var Menu = function Menu(props) {
 		if (props.videoData) {
 			for (var i = 0; i < props.videoData.length; i += 1) {
-				//here I am giving each lesson group props based on how many videos
-				//is in each group and how many of those have been watched
+				//giving each lesson group props based on how many videos
+				//is in each group & how many of those have been watched
 				props.videoData[i].videosQuantity = props.videoData[i].videos.length;
 				props.videoData[i].videosComplete = 0;
 				for (var j = 0; j < props.videoData[i].videos.length; j += 1) {
@@ -28274,7 +28282,7 @@
 						}
 					}
 				}
-				//calculating the lesson group percentage complete and then making that a prop to
+				//calculating the lesson group percentage complete & then making that a prop to
 				//pass down to lesson
 				for (var _i = 0; _i < props.videoData.length; _i += 1) {
 					props.videoData[_i].lessonGroupProgress = Math.round(100 * props.videoData[_i].videosComplete / props.videoData[_i].videosQuantity);

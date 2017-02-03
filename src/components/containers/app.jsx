@@ -43,7 +43,7 @@ export default class App extends Component {
     const fileName = `${ video.name }.mp4`
     const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };
     ipcRenderer.once('play-video', (event, arg) => this.setState({ url: arg, currentVideo: currentVideo }));
-    // ipcRenderer.once('offline-vid-error', () => console.log('Video not available offline.'));
+    ipcRenderer.once('offline-vid-error', () => alert('Video not available offline.'));
     ipcRenderer.send('get-video', fileName);
   }
 
@@ -129,6 +129,7 @@ export default class App extends Component {
     const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
     const sd = `https://gre-on-demand.veritasprep.com/360p_${ id }.mp4`;
     ipcRenderer.send('download-video', hd, lesson, parseInt(video));
+    ipcRenderer.once('offline-download-error', () => alert('Downloading is not possible offline.'));
   }
   
   downloadAllLessson(e, lessonData) {
@@ -141,6 +142,7 @@ export default class App extends Component {
     indexUrl.forEach(video => {
       this.downloadIndVid(e, lesson, video[1], video[0])
     });
+    ipcRenderer.once('offline-download-error', () => alert('Downloading is not possible offline.'));
   }
 
   getDownloadProgress() {
