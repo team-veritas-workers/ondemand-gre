@@ -23,6 +23,8 @@ export default class App extends Component {
     this.downloadAllLessson = this.downloadAllLessson.bind(this);
     this.cookieChecker = this.cookieChecker.bind(this);
     this.logout = this.logout.bind(this);
+    this.changeVideoDataState = this.changeVideoDataState.bind(this);
+    this.saveProgressClicked = this.saveProgressClicked.bind(this);
     this.state = {
       user: null,
       username: null,
@@ -34,7 +36,6 @@ export default class App extends Component {
       invalidLoginMessage: '',
       videoData: null,
       progress: null,
-      invalidLoginMessage: null
     };
   }
 
@@ -83,7 +84,9 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress   });
+
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
+
           this.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
@@ -123,15 +126,6 @@ export default class App extends Component {
   downloadIndVid(e, lesson, video, id) {
     e.preventDefault();
     e.stopPropagation();
-    console.log('target', e.target); // SHOULD NOT BE FRIGGIN BLANK!!!
-    console.log('id', typeof e.target.id, e.target.id); // SHOULD NOT BE FRIGGIN BLANK!!!
-    console.log('lesson', lesson);
-    console.log('video', parseInt(video));
-    console.log('real id', id);
-    if (lesson === 0 && parseInt(video) === 8) {
-      console.log(id);
-      id = 'gre_1_7';
-    }
     const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
     const sd = `https://gre-on-demand.veritasprep.com/360p_${ id }.mp4`;
     ipcRenderer.send('download-video', hd, lesson, parseInt(video));
@@ -162,10 +156,40 @@ export default class App extends Component {
   componentDidMount() {
     this.getDownloadProgress();
     this.getVideoData();
-    setTimeout(() => this.cookieChecker(this.state), 1000);
+    setTimeout(() => this.cookieChecker(this.state), 700);
   }
 
+  changeVideoDataState(percent) {
+    // console.log(this.state.url)
+    let splitAtCom;
+    let splitAtMp4;
+    let videoId;
+
+    if (this.state.url.includes('.com/')) {
+      splitAtCom = this.state.url.split('.com/');
+      splitAtMp4 = splitAtCom[1].split('.mp4');
+      videoId = splitAtMp4[0];
+        
+    } else {
+       splitAtCom = this.state.url.split('videos/');
+       splitAtMp4 = splitAtCom[1].split('.mp4');
+       videoId = splitAtMp4[0];
+    }
+  
+    let accessProgress = this.state.progress;
+    accessProgress[videoId] = percent;
+    this.setState({progress: accessProgress});
+  }
+
+  saveProgressClicked() {
+    console.log('inside saveProgressClicked in app.js', this.state.progress);
+    ipcRenderer.send('save-progress-clicked', this.state.progress);
+  } 
+
+>>>>>>> master
+
   render() {
+    // console.log('!!!!this.state.progress:', this.state.progress)
     if (this.state.authenticated === false) {
       return (
         <div style={ app }>
@@ -181,6 +205,7 @@ export default class App extends Component {
       return (
         <div style={ app }>
           <Content
+            changeVideoDataState={this.changeVideoDataState}
             progress={this.state.progress}
             authenticate={this.authenticate}
             stateLog={this.state.logout}
@@ -195,6 +220,7 @@ export default class App extends Component {
             expandLesson={ this.expandLesson}
             showMenu={ this.state.showMenu }
             url={ this.state.url }
+            saveProgressClicked={ this.saveProgressClicked }
           />
         </div>
       );

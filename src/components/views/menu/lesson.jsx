@@ -9,7 +9,6 @@ const Lesson = (props) => {
       props.setCurrentVideo(video, props.lessonData);
     };
 
-
     const complete = {
       display: 'inline-block',
       position: 'absolute',
@@ -21,7 +20,6 @@ const Lesson = (props) => {
     const light = {
       display: 'inline-block',
       opacity: `.7`,
-      // backgroundColor: `${ video.downloadProgress === 'done' ? 'lightgreen' : 'orange' }`,
       height: '8px',
       width: '8px',
       borderRadius: '50%',
@@ -39,6 +37,7 @@ const Lesson = (props) => {
     const sendlessonData = (e) => {
       props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
     }
+
     contents.push(
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
@@ -71,12 +70,17 @@ const Lesson = (props) => {
   return (
       <div style={ lesson }> 
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
+       
           <span style={ titleText }>{ props.lessonData.name }</span>
+          <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>
+
+          
+
           <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
         <div style={ !props.open ? lessonContent : lessonContentOpen }>
           <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen }>
-            { contents }
+            { contents } 
           </div>
         </div>
       </div>
@@ -90,6 +94,11 @@ const dlPrompt = {
 }
 
 const dlSingle = {
+  fontSize: '10px',
+  margin: '10px'
+
+}
+const downloadIndy = {
   position: 'absolute',
   left: '0px',
   display: 'flex',
