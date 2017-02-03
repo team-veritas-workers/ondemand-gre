@@ -69,34 +69,15 @@ class Video extends Component {
   }
 
   onProgress(state) {
-    // console.log('this is state in video' , this.state)
-    
-   //console.log(this.state.currentVideo)
-    // console.log('this.state.played is' , this.state.played)
     !this.state.seeking ? this.setState(state) : null;
     this.props.changeVideoDataState(this.state.played * 100)
-   
-    //this.setState({this.progress})
-    
   }
      
-
   onClickFullscreen() {
     screenfull.request(findDOMNode(this.player)); 
   }
 
- componentDidMount() {
-  
-  console.log(this.state.played)
-
-   //setInterval(function(){console.log(this.state.played)},1000) 
-  }
-
   render() {
- 
-    
-
-    
     const defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' }
     const lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
 
@@ -105,7 +86,7 @@ class Video extends Component {
 
     return (
       <div style={ contentContainer }>
-        <Banner user={ this.props.user } lessonData={ lessonData } logger={ this.props.logger }/>
+        <Banner user={ this.props.user } lessonData={ lessonData } logger={ this.props.logger } saveProgressClicked={ this.props.saveProgressClicked }/>
           <div style={ videoComponent }>
             <ReactPlayer
               height = "100%"
