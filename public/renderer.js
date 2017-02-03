@@ -21574,16 +21574,28 @@
 	    _this.downloadAllLessson = _this.downloadAllLessson.bind(_this);
 	    _this.cookieChecker = _this.cookieChecker.bind(_this);
 	    _this.logout = _this.logout.bind(_this);
+	    _this.changeVideoDataState = _this.changeVideoDataState.bind(_this);
+	    _this.saveProgressClicked = _this.saveProgressClicked.bind(_this);
 	    _this.state = {
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
 	      authenticated: null,
 	      showMenu: true,
-	      invalidLoginMessage: ''
+	      invalidLoginMessage: '',
+	      progress: null,
+	      username: null,
+	      password: null,
+	      videoData: null
 	    };
 	    return _this;
 	  }
 
 	  _createClass(App, [{
+	    key: 'functionCheck',
+	    value: function functionCheck() {
+	      console.log(this.state.progress);
+	      console.log(this.state.videoData);
+	    }
+	  }, {
 	    key: 'setCurrentVideo',
 	    value: function setCurrentVideo(video, lesson) {
 	      var _this2 = this;
@@ -21604,30 +21616,12 @@
 	      _electron.ipcRenderer.send('logout', { name: this.state.user });
 	      this.setState({ authenticated: false });
 	    }
-
-	    // cookieChecker(state) {
-	    //   // console.log(this.state.authenticated);
-	    //     ipcRenderer.send('check-cookie')
-	    //     ipcRenderer.on('cookie-exists', function(event, arg){
-	    //       // console.log("cookie was received");
-	    //       if (arg.length !== 0){
-	    //         this.setState({ authenticated: true, user: arg[0].name });
-	    //       } else {
-	    //         this.setState({ authenticated: false })
-	    //       }
-	    //     }.bind(this))
-	    // }
-
 	  }, {
 	    key: 'cookieChecker',
 	    value: function cookieChecker(state) {
-	      // console.log(this.state.authenticated);
 	      _electron.ipcRenderer.send('check-cookie');
 	      _electron.ipcRenderer.on('cookie-exists', function (event, arg) {
-	        // console.log("cookie was received");
 	        if (arg[0].length !== 0) {
-	          // console.log("cookie cecer", arg)
-
 	          this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1] });
 	        } else {
 	          this.setState({ authenticated: false });
@@ -21644,30 +21638,6 @@
 	    value: function passwordOnChange(e) {
 	      this.setState({ password: e.target.value });
 	    }
-
-	    // authenticate(e) {
-	    //   if (e.key === 'enter' || e.type === 'click') {
-	    //     e.preventDefault();
-	    //     const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
-	    //     const body = {
-	    //       action: 'login-gre-desktop-app',
-	    //       username: this.state.username,
-	    //       password: this.state.password,
-	    //       key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
-	    //     }
-
-	    //     axios.post(URL, qs.stringify(body)).then(res => {
-	    //       if (res.data.status === 'success') {
-	    //         console.log(res);
-	    //         ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname  });
-	    //         this.setState({ authenticated: true, user: res.data.user.firstname });
-	    //       } else {
-	    //         this.setState({ invalidLoginMessage: res.data.message });
-	    //       }
-	    //     }).catch(err => console.log(err));      
-	    //   }
-	    // }
-
 	  }, {
 	    key: 'authenticate',
 	    value: function authenticate(e) {
@@ -21678,20 +21648,17 @@
 	        var URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
 	        var body = {
 	          action: 'login-gre-desktop-app',
-	          username: document.getElementById('username').value,
-	          password: document.getElementById('password').value,
+	          username: this.state.username,
+	          password: this.state.password,
 	          key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
 	        };
 
 	        _axios2.default.post(URL, _qs2.default.stringify(body)).then(function (res) {
 	          if (res.data.status === 'success') {
-	            // console.log("all data", res)
-
-
-	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress });
+	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
 	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
-	          } else if (res.status === 'error') {
-	            _this3.setState({ invalidLoginMessage: res.message });
+	          } else {
+	            _this3.setState({ invalidLoginMessage: res.data.message });
 	          }
 	        }).catch(function (err) {
 	          return console.log(err);
@@ -21735,7 +21702,6 @@
 	  }, {
 	    key: 'downloadIndVid',
 	    value: function downloadIndVid(e) {
-	      console.log(e.target.id);
 	      e.preventDefault();
 	      e.stopPropagation();
 	      var highDefDLVid = 'https://gre-on-demand.veritasprep.com/' + e.target.id + '.mp4';
@@ -21745,8 +21711,6 @@
 	    key: 'downloadAllLessson',
 	    value: function downloadAllLessson(e, videoNames) {
 	      e.stopPropagation();
-	      console.log('downloadAllLessson icon has been clicked');
-	      console.log('this is on app side', videoNames);
 	      videoNames.forEach(function (video) {
 	        _electron.ipcRenderer.send('download-video', 'https://gre-on-demand.veritasprep.com/' + video + '.mp4');
 	      });
@@ -21759,11 +21723,41 @@
 	      this.getVideoData();
 	      setTimeout(function () {
 	        return _this5.cookieChecker(_this5.state);
-	      }, 800);
+	      }, 100);
+	      this.functionCheck();
+	    }
+	  }, {
+	    key: 'changeVideoDataState',
+	    value: function changeVideoDataState(percent) {
+	      // console.log(this.state.url)
+	      var splitAtCom = void 0;
+	      var splitAtMp4 = void 0;
+	      var videoId = void 0;
+
+	      if (this.state.url.includes('.com/')) {
+	        splitAtCom = this.state.url.split('.com/');
+	        splitAtMp4 = splitAtCom[1].split('.mp4');
+	        videoId = splitAtMp4[0];
+	      } else {
+	        splitAtCom = this.state.url.split('videos/');
+	        splitAtMp4 = splitAtCom[1].split('.mp4');
+	        videoId = splitAtMp4[0];
+	      }
+
+	      var accessProgress = this.state.progress;
+	      accessProgress[videoId] = percent;
+	      this.setState({ progress: accessProgress });
+	    }
+	  }, {
+	    key: 'saveProgressClicked',
+	    value: function saveProgressClicked() {
+	      console.log('inside saveProgressClicked in app.js', this.state.progress);
+	      _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      // console.log('!!!!this.state.progress:', this.state.progress)
 	      if (this.state.authenticated === false) {
 	        return _react2.default.createElement(
 	          'div',
@@ -21779,6 +21773,7 @@
 	          'div',
 	          { style: app },
 	          _react2.default.createElement(_content2.default, {
+	            changeVideoDataState: this.changeVideoDataState,
 	            progress: this.state.progress,
 	            authenticate: this.authenticate,
 	            stateLog: this.state.logout,
@@ -21792,7 +21787,8 @@
 	            videoData: this.state.videoData,
 	            expandLesson: this.expandLesson,
 	            showMenu: this.state.showMenu,
-	            url: this.state.url
+	            url: this.state.url,
+	            saveProgressClicked: this.saveProgressClicked
 	          })
 	        );
 	      } else {
@@ -28189,12 +28185,14 @@
 	      currentVideo: currentVideo
 	    }),
 	    _react2.default.createElement(_reactVideo2.default, { logOutStuff: logger,
+	      changeVideoDataState: props.changeVideoDataState,
 	      user: user,
 	      toggleMenu: toggleMenu,
 	      currentVideo: currentVideo,
 	      videoData: videoData,
 	      url: url,
-	      logger: props.logger
+	      logger: props.logger,
+	      saveProgressClicked: props.saveProgressClicked
 	    })
 	  );
 	};
@@ -28240,15 +28238,23 @@
 
 	var Menu = function Menu(props) {
 		if (props.videoData) {
-			for (var i = 0; i < props.videoData.length; i++) {
-				for (var j = 0; j < props.videoData[i].videos.length; j++) {
-
-					//console.log("videos",props.videoData[i].videos[j].name);
+			for (var i = 0; i < props.videoData.length; i += 1) {
+				//here I am giving each lesson group props based on how many videos
+				//is in each group and how many of those have been watched
+				props.videoData[i].videosQuantity = props.videoData[i].videos.length;
+				props.videoData[i].videosComplete = 0;
+				for (var j = 0; j < props.videoData[i].videos.length; j += 1) {
 					if (props.progress[props.videoData[i].videos[j].name]) {
-
 						props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
-						console.log("video with new prop", props.videoData[i].videos[j]);
+						if (props.videoData[i].videos[j].length === 100) {
+							props.videoData[i].videosComplete++;
+						}
 					}
+				}
+				//calculating the lesson group percentage complete and then making that a prop to
+				//pass down to lesson
+				for (var _i = 0; _i < props.videoData.length; _i += 1) {
+					props.videoData[_i].lessonGroupProgress = Math.round(100 * props.videoData[_i].videosComplete / props.videoData[_i].videosQuantity);
 				}
 			}
 		}
@@ -28352,6 +28358,27 @@
 	    var selectVideo = function selectVideo(e) {
 	      props.setCurrentVideo(video, props.lessonData);
 	    };
+
+	    var complete = {
+	      display: 'inline-block',
+	      position: 'absolute',
+	      backgroundColor: '' + (video.length === 100 ? "lightgreen" : "orange"),
+	      height: '100%',
+	      width: (video.length ? video.length : '0') + '%'
+	    };
+	    //console.log('this is props.lessonData.videos:' , props.lessonData.videos)
+	    // for (let i = 0; i < props.lessonData.videos; i += 1) {
+	    //   console.log('hi')
+	    // }
+	    //console.log('this is props.progress' , props.progress)
+	    // props.progress.forEach(function(video){
+	    //   console.log(vidoe)
+	    // })
+	    // props.progress.forEach((video) => {
+	    //   console.log(video);
+	    // }) ;
+
+
 	    contents.push(_react2.default.createElement(
 	      'div',
 	      { onClick: selectVideo, key: i, style: videoTitle },
@@ -28363,8 +28390,7 @@
 	      video.title,
 	      _react2.default.createElement(
 	        'span',
-	        null,
-	        video.length,
+	        { style: abs },
 	        _react2.default.createElement(
 	          'span',
 	          { style: download, id: video.name },
@@ -28381,7 +28407,7 @@
 	      props.lessonData.videos.forEach(function (video, i) {
 	        allVideoNames.push(video.name);
 	      });
-	      console.log('this is the array allVideoNames', allVideoNames);
+	      // console.log('this is the array allVideoNames' , allVideoNames)
 	      return allVideoNames;
 	    }
 	    props.downloadAllLessson(e, videoNames());
@@ -28400,6 +28426,15 @@
 	        { style: titleText },
 	        props.lessonData.name
 	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { style: groupProgress },
+	        ' ',
+	        props.lessonData.videosComplete,
+	        ' of ',
+	        props.lessonData.videosQuantity,
+	        ' watched'
+	      ),
 	      _react2.default.createElement('span', { style: downloadIcon, onClick: grabAllVideoNames })
 	    ),
 	    _react2.default.createElement(
@@ -28414,6 +28449,11 @@
 	  );
 	};
 
+	var groupProgress = {
+	  fontSize: '10px',
+	  margin: '10px'
+
+	};
 	var downloadIndy = {
 	  position: 'absolute',
 	  left: '10px',
@@ -28534,11 +28574,10 @@
 	//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
 	// }
 
-	// const abs = {
-	//   position: 'absolute',
-	//   right: '10px',
-	// }
-
+	var abs = {
+	  position: 'absolute',
+	  right: '10px'
+	};
 
 	var download = {
 	  display: 'inline-block',
@@ -28547,15 +28586,8 @@
 	  height: '5px',
 	  width: '45px',
 	  backgroundColor: 'transparent',
-	  position: 'relative'
-	};
-
-	var complete = {
-	  display: 'inline-block',
 	  position: 'absolute',
-	  backgroundColor: 'lightgreen',
-	  width: '60%',
-	  height: '100%'
+	  right: '10px'
 	};
 
 	exports.default = (0, _radium2.default)(Lesson);
@@ -28701,7 +28733,6 @@
 	    key: 'onSeekChange',
 	    value: function onSeekChange(e) {
 	      this.setState({ played: parseFloat(e.target.value) });
-	      console.log(this.state.played * this.state.duration / this.state.duration * 100 + '%');
 	    }
 	  }, {
 	    key: 'onSeekMouseUp',
@@ -28713,6 +28744,7 @@
 	    key: 'onProgress',
 	    value: function onProgress(state) {
 	      !this.state.seeking ? this.setState(state) : null;
+	      this.props.changeVideoDataState(this.state.played * 100);
 	    }
 	  }, {
 	    key: 'onClickFullscreen',
@@ -28727,10 +28759,13 @@
 	      var defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' };
 	      var lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
 
+	      //console.log(`${((this.state.played * this.state.duration)) / (this.state.duration)*100}%`)
+	      //console.log('this.props.currentVideo' ,this.props.currentVideo)
+
 	      return _react2.default.createElement(
 	        'div',
 	        { style: contentContainer },
-	        _react2.default.createElement(_banner2.default, { user: this.props.user, lessonData: lessonData, logger: this.props.logger }),
+	        _react2.default.createElement(_banner2.default, { user: this.props.user, lessonData: lessonData, logger: this.props.logger, saveProgressClicked: this.props.saveProgressClicked }),
 	        _react2.default.createElement(
 	          'div',
 	          { style: videoComponent },
@@ -28757,19 +28792,11 @@
 	            },
 	            onEnded: function onEnded() {
 	              return _this2.setState({ playing: false });
-	            },
-	            onBuffer: function onBuffer() {
-	              return console.log('onBuffer');
-	            },
-	            onReady: function onReady() {
-	              return console.log('Ready to play...');
-	            },
-	            onStart: function onStart() {
-	              return console.log('Video started!');
-	            },
-	            onError: function onError(e) {
-	              return console.log('onError', e);
 	            }
+	            // onBuffer = { () => console.log('onBuffer') }
+	            // onReady = { () => console.log('Ready to play...') }
+	            // onStart = { () => console.log('Video started!') }
+	            // onError = { e => console.log('onError', e) }
 	          }),
 	          _react2.default.createElement(
 	            'div',
@@ -29020,6 +29047,11 @@
 	      'div',
 	      { style: greeting, onClick: props.logger },
 	      'Logout'
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { onClick: props.saveProgressClicked },
+	      'Save Progress'
 	    )
 	  );
 	};

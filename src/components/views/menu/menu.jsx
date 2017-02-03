@@ -5,36 +5,44 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 
 
 const Menu = (props) => {
-	if (props.videoData) {
-		for (let i = 0; i < props.videoData.length; i++){
-			for (let j = 0; j < props.videoData[i].videos.length; j++)
-			
-			//console.log("videos",props.videoData[i].videos[j].name);
-			if (props.progress[props.videoData[i].videos[j].name]){
-				
-				props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
-				console.log("video with new prop", props.videoData[i].videos[j])
-
+  if (props.videoData) {
+		for (let i = 0; i < props.videoData.length; i += 1) {
+			//here I am giving each lesson group props based on how many videos
+			//is in each group and how many of those have been watched
+			props.videoData[i].videosQuantity = props.videoData[i].videos.length;
+			props.videoData[i].videosComplete = 0;
+			for (let j = 0; j < props.videoData[i].videos.length; j += 1) {
+				if (props.progress[props.videoData[i].videos[j].name]) {
+					props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
+          if (props.videoData[i].videos[j].length === 100) {
+						props.videoData[i].videosComplete++;
+					}
+				}
+			}
+			//calculating the lesson group percentage complete and then making that a prop to
+			//pass down to lesson
+			for (let i = 0; i < props.videoData.length; i += 1) {
+				props.videoData[i].lessonGroupProgress = Math.round(100 * props.videoData[i].videosComplete/props.videoData[i].videosQuantity);
 			}
 		}
-	}
+	}	
 
 	let lessons;
 	if (props.videoData) {
-		lessons = props.videoData.map((lesson, i) => {
-			return (
-				<Lesson progress={props.progress} setCurrentVideo={ props.setCurrentVideo } open={ lesson.open } contentClass={ lesson.open ? 'content content-open' : 'content' } contentTextStyle={ lesson.open ? 'content-text content-text-open' : 'content-text' } expandLesson={ props.expandLesson } lessonData={ lesson } id={ i } key={ i } downloadAllLessson={ props.downloadAllLessson } downloadIndVid= { props.downloadIndVid }/>
-			);
-		});
-	}
+ 		lessons = props.videoData.map((lesson, i) => {
+ 			return (
+ 				<Lesson progress={props.progress} setCurrentVideo={ props.setCurrentVideo } open={ lesson.open } contentClass={ lesson.open ? 'content content-open' : 'content' } contentTextStyle={ lesson.open ? 'content-text content-text-open' : 'content-text' } expandLesson={ props.expandLesson } lessonData={ lesson } id={ i } key={ i } downloadAllLessson={ props.downloadAllLessson } downloadIndVid= { props.downloadIndVid }/>
+ 			);
+ 		});
+ 	}
   return (
-		<div style={ props.showMenu ? menu : menuHide }>
-			<div style={ options }>
-				<img width="100%" height="auto" src={ logoWhite } />
-			</div>
-			<div style={ lessonsContentBox }>
-				{ lessons }
-			</div>
+ 		<div style={ props.showMenu ? menu : menuHide }>
+ 			<div style={ options }>
+ 				<img width="100%" height="auto" src={ logoWhite } />
+ 			</div>
+ 			<div style={ lessonsContentBox }>
+ 				{ lessons }
+ 			</div>
     </div>
   );
 }

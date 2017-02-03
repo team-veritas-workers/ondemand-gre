@@ -61,7 +61,6 @@ class Video extends Component {
 
   onSeekChange(e) {
     this.setState({ played: parseFloat(e.target.value) });
-    console.log(`${((this.state.played * this.state.duration)) / (this.state.duration)*100}%`);
   }
 
   onSeekMouseUp(e) {
@@ -71,8 +70,9 @@ class Video extends Component {
 
   onProgress(state) {
     !this.state.seeking ? this.setState(state) : null;
+    this.props.changeVideoDataState(this.state.played * 100)
   }
-
+     
   onClickFullscreen() {
     screenfull.request(findDOMNode(this.player)); 
   }
@@ -81,9 +81,12 @@ class Video extends Component {
     const defaultData = { lessonName: 'Foundations of GRE Logic', lessonDescription: 'Build the core GMAT skills and understand what the test measures', videoTitle: 'Foundations of GRE' }
     const lessonData = this.props.currentVideo ? this.props.currentVideo : defaultData;
 
+    //console.log(`${((this.state.played * this.state.duration)) / (this.state.duration)*100}%`)
+    //console.log('this.props.currentVideo' ,this.props.currentVideo)
+
     return (
       <div style={ contentContainer }>
-        <Banner user={ this.props.user } lessonData={ lessonData } logger={ this.props.logger }/>
+        <Banner user={ this.props.user } lessonData={ lessonData } logger={ this.props.logger } saveProgressClicked={ this.props.saveProgressClicked }/>
           <div style={ videoComponent }>
             <ReactPlayer
               height = "100%"
@@ -99,10 +102,10 @@ class Video extends Component {
               onPlay = { () => this.setState({ playing: true }) }
               onPause = { () => this.setState({ playing: false }) }
               onEnded = { () => this.setState({ playing: false }) }
-              onBuffer = { () => console.log('onBuffer') }
-              onReady = { () => console.log('Ready to play...') }
-              onStart = { () => console.log('Video started!') }
-              onError = { e => console.log('onError', e) }
+              // onBuffer = { () => console.log('onBuffer') }
+              // onReady = { () => console.log('Ready to play...') }
+              // onStart = { () => console.log('Video started!') }
+              // onError = { e => console.log('onError', e) }
             />
             <div style={ this.state.playing ? overlay : pause }>
               <div style={ controls }>
