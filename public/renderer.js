@@ -21705,41 +21705,53 @@
 	      console.log('lesson', lesson);
 	      console.log('video', parseInt(video));
 	      console.log('real id', id);
+	      if (lesson === 0 && parseInt(video) === 8) {
+	        console.log(id);
+	        id = 'gre_1_7';
+	      }
 	      var hd = 'https://gre-on-demand.veritasprep.com/' + id + '.mp4';
 	      var sd = 'https://gre-on-demand.veritasprep.com/360p_' + id + '.mp4';
 	      _electron.ipcRenderer.send('download-video', hd, lesson, parseInt(video));
 	    }
 	  }, {
 	    key: 'downloadAllLessson',
-	    value: function downloadAllLessson(e, lesson) {
+	    value: function downloadAllLessson(e, lessonData) {
+	      var _this5 = this;
+
 	      e.stopPropagation();
 	      // videoNames.forEach((video)=> {
 	      //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
 	      // });
-	      console.log(e);
+	      var lesson = parseInt(lessonData.lessonNumber) - 1;
+	      var indexUrl = lessonData.videos.map(function (video, index) {
+	        return [video.name, index];
+	      });
+	      indexUrl.forEach(function (video) {
+	        _this5.downloadIndVid(e, lesson, video[1], video[0]);
+	      });
 	    }
 	  }, {
 	    key: 'getDownloadProgress',
 	    value: function getDownloadProgress() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      _electron.ipcRenderer.on('download-progress', function (event, progress, lesson, video) {
-	        var videoData = _this5.state.videoData.slice(0);
+	        var videoData = _this6.state.videoData.slice(0);
 	        if (videoData[lesson]) {
 	          videoData[lesson].videos[video].downloadProgress = '' + progress;
-	          _this5.setState({ videoData: videoData });
+	          _this6.setState({ videoData: videoData });
 	        }
 	      });
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      this.getDownloadProgress();
 	      this.getVideoData();
 	      setTimeout(function () {
-	        return _this6.cookieChecker(_this6.state);
+	        return _this7.cookieChecker(_this7.state);
 	      }, 1000);
 	    }
 	  }, {
@@ -28394,16 +28406,16 @@
 	  });
 
 	  var grabAllVideoNames = function grabAllVideoNames(e) {
-	    function videoNames() {
-	      var allVideoNames = [];
-	      //console.log(lessons[0].props.lessonData.videos)
-	      props.lessonData.videos.forEach(function (video, i) {
-	        allVideoNames.push(video.name);
-	      });
-	      // console.log('this is the array allVideoNames' , allVideoNames)
-	      return allVideoNames;
-	    }
-	    props.downloadAllLessson(e, lesson);
+	    // function videoNames() {
+	    //   const allVideoNames = []; 
+	    //   //console.log(lessons[0].props.lessonData.videos)
+	    //   props.lessonData.videos.forEach((video, i) => {
+	    //     allVideoNames.push(video.name)
+	    //   })
+	    //   // console.log('this is the array allVideoNames' , allVideoNames)
+	    //   return allVideoNames;
+	    // }
+	    props.downloadAllLessson(e, props.lessonData);
 	  };
 
 	  return _react2.default.createElement(
@@ -28666,7 +28678,7 @@
 	    _this.state = {
 	      playing: true,
 	      mute: 0,
-	      volume: 0.0,
+	      volume: 0.8,
 	      loaded: 0,
 	      played: 0,
 	      duration: 0,

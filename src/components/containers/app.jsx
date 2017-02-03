@@ -128,17 +128,25 @@ export default class App extends Component {
     console.log('lesson', lesson);
     console.log('video', parseInt(video));
     console.log('real id', id);
+    if (lesson === 0 && parseInt(video) === 8) {
+      console.log(id);
+      id = 'gre_1_7';
+    }
     const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
     const sd = `https://gre-on-demand.veritasprep.com/360p_${ id }.mp4`;
     ipcRenderer.send('download-video', hd, lesson, parseInt(video));
   }
   
-  downloadAllLessson(e, lesson) {
+  downloadAllLessson(e, lessonData) {
     e.stopPropagation();
     // videoNames.forEach((video)=> {
     //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
     // });
-    console.log(e)
+    const lesson = parseInt(lessonData.lessonNumber) - 1;
+    const indexUrl = lessonData.videos.map((video, index) => [video.name, index]);
+    indexUrl.forEach(video => {
+      this.downloadIndVid(e, lesson, video[1], video[0])
+    });
   }
 
   getDownloadProgress() {

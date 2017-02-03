@@ -154,7 +154,6 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 
 function downloadVideo(event, url, targetPath, lesson, video) {
-
   const req = request({ method: 'GET', url });
 
   let received_bytes = 0;

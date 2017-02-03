@@ -56,16 +56,16 @@ const Lesson = (props) => {
   });
 
   const grabAllVideoNames = (e) => {
-    function videoNames() {
-      const allVideoNames = []; 
-      //console.log(lessons[0].props.lessonData.videos)
-      props.lessonData.videos.forEach((video, i) => {
-        allVideoNames.push(video.name)
-      })
-      // console.log('this is the array allVideoNames' , allVideoNames)
-      return allVideoNames;
-    }
-    props.downloadAllLessson(e, lesson);
+    // function videoNames() {
+    //   const allVideoNames = []; 
+    //   //console.log(lessons[0].props.lessonData.videos)
+    //   props.lessonData.videos.forEach((video, i) => {
+    //     allVideoNames.push(video.name)
+    //   })
+    //   // console.log('this is the array allVideoNames' , allVideoNames)
+    //   return allVideoNames;
+    // }
+    props.downloadAllLessson(e, props.lessonData);
   }
 
   return (
