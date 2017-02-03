@@ -21548,8 +21548,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -21560,8 +21558,6 @@
 	  _inherits(App, _Component);
 
 	  function App(props) {
-	    var _this$state;
-
 	    _classCallCheck(this, App);
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
@@ -21579,25 +21575,23 @@
 	    _this.cookieChecker = _this.cookieChecker.bind(_this);
 	    _this.logout = _this.logout.bind(_this);
 	    _this.changeVideoDataState = _this.changeVideoDataState.bind(_this);
-	    _this.state = (_this$state = {
+	    _this.saveProgressClicked = _this.saveProgressClicked.bind(_this);
+	    _this.state = {
+	      user: null,
+	      username: null,
+	      password: null,
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
+	      currentVideo: null,
 	      authenticated: null,
 	      showMenu: true,
 	      invalidLoginMessage: '',
-	      progress: null,
-	      username: null,
-	      password: null
-	    }, _defineProperty(_this$state, 'invalidLoginMessage', null), _defineProperty(_this$state, 'videoData', null), _this$state);
+	      videoData: null,
+	      progress: null
+	    };
 	    return _this;
 	  }
 
 	  _createClass(App, [{
-	    key: 'functionCheck',
-	    value: function functionCheck() {
-	      console.log(this.state.progress);
-	      console.log(this.state.videoData);
-	    }
-	  }, {
 	    key: 'setCurrentVideo',
 	    value: function setCurrentVideo(video, lesson) {
 	      var _this2 = this;
@@ -21607,9 +21601,7 @@
 	      _electron.ipcRenderer.once('play-video', function (event, arg) {
 	        return _this2.setState({ url: arg, currentVideo: currentVideo });
 	      });
-	      _electron.ipcRenderer.once('offline-vid-error', function () {
-	        return alert('you are offline and selected video has not been downloaded');
-	      });
+	      // ipcRenderer.once('offline-vid-error', () => console.log('Video not available offline.'));
 	      _electron.ipcRenderer.send('get-video', fileName);
 	    }
 	  }, {
@@ -21657,7 +21649,9 @@
 
 	        _axios2.default.post(URL, _qs2.default.stringify(body)).then(function (res) {
 	          if (res.data.status === 'success') {
-	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress });
+
+	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
+
 	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
 	          } else {
 	            _this3.setState({ invalidLoginMessage: res.data.message });
@@ -21703,30 +21697,55 @@
 	    }
 	  }, {
 	    key: 'downloadIndVid',
-	    value: function downloadIndVid(e) {
+	    value: function downloadIndVid(e, lesson, video, id) {
 	      e.preventDefault();
 	      e.stopPropagation();
-	      var highDefDLVid = 'https://gre-on-demand.veritasprep.com/' + e.target.id + '.mp4';
-	      _electron.ipcRenderer.send('download-video', highDefDLVid);
+	      var hd = 'https://gre-on-demand.veritasprep.com/' + id + '.mp4';
+	      var sd = 'https://gre-on-demand.veritasprep.com/360p_' + id + '.mp4';
+	      _electron.ipcRenderer.send('download-video', hd, lesson, parseInt(video));
 	    }
 	  }, {
 	    key: 'downloadAllLessson',
-	    value: function downloadAllLessson(e, videoNames) {
+	    value: function downloadAllLessson(e, lessonData) {
+	      var _this5 = this;
+
 	      e.stopPropagation();
-	      videoNames.forEach(function (video) {
-	        _electron.ipcRenderer.send('download-video', 'https://gre-on-demand.veritasprep.com/' + video + '.mp4');
+	      // videoNames.forEach((video)=> {
+	      //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
+	      // });
+	      var lesson = parseInt(lessonData.lessonNumber) - 1;
+	      var indexUrl = lessonData.videos.map(function (video, index) {
+	        return [video.name, index];
+	      });
+	      indexUrl.forEach(function (video) {
+	        _this5.downloadIndVid(e, lesson, video[1], video[0]);
+	      });
+	    }
+	  }, {
+	    key: 'getDownloadProgress',
+	    value: function getDownloadProgress() {
+	      var _this6 = this;
+
+	      _electron.ipcRenderer.on('download-progress', function (event, progress, lesson, video) {
+	        var videoData = _this6.state.videoData.slice(0);
+	        if (videoData[lesson]) {
+	          videoData[lesson].videos[video].downloadProgress = '' + progress;
+	          _this6.setState({ videoData: videoData });
+	        }
 	      });
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this5 = this;
+	      var _this7 = this;
 
+	      var tenSec = 10000;
+	      this.getDownloadProgress();
 	      this.getVideoData();
 	      setTimeout(function () {
-	        return _this5.cookieChecker(_this5.state);
-	      }, 100);
-	      this.functionCheck();
+	        return _this7.cookieChecker(_this7.state);
+	      }, 700);
+	      setInterval(this.saveProgressClicked, tenSec);
 	    }
 	  }, {
 	    key: 'changeVideoDataState',
@@ -21750,10 +21769,18 @@
 	      accessProgress[videoId] = percent;
 	      this.setState({ progress: accessProgress });
 	    }
+	    // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
+
+	  }, {
+	    key: 'saveProgressClicked',
+	    value: function saveProgressClicked() {
+	      console.log('inside saveProgressClicked in app.js', this.state.progress);
+	      _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log('!!!!this.state.progress:', this.state.progress);
+	      // console.log('!!!!this.state.progress:', this.state.progress)
 	      if (this.state.authenticated === false) {
 	        return _react2.default.createElement(
 	          'div',
@@ -21783,7 +21810,8 @@
 	            videoData: this.state.videoData,
 	            expandLesson: this.expandLesson,
 	            showMenu: this.state.showMenu,
-	            url: this.state.url
+	            url: this.state.url,
+	            saveProgressClicked: this.saveProgressClicked
 	          })
 	        );
 	      } else {
@@ -28186,7 +28214,8 @@
 	      currentVideo: currentVideo,
 	      videoData: videoData,
 	      url: url,
-	      logger: props.logger
+	      logger: props.logger,
+	      saveProgressClicked: props.saveProgressClicked
 	    })
 	  );
 	};
@@ -28232,15 +28261,14 @@
 
 	var Menu = function Menu(props) {
 		if (props.videoData) {
-			for (var i = 0; i < props.videoData.length; i++) {
+			for (var i = 0; i < props.videoData.length; i += 1) {
 				//here I am giving each lesson group props based on how many videos
 				//is in each group and how many of those have been watched
 				props.videoData[i].videosQuantity = props.videoData[i].videos.length;
 				props.videoData[i].videosComplete = 0;
-				for (var j = 0; j < props.videoData[i].videos.length; j++) {
+				for (var j = 0; j < props.videoData[i].videos.length; j += 1) {
 					if (props.progress[props.videoData[i].videos[j].name]) {
 						props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
-
 						if (props.videoData[i].videos[j].length === 100) {
 							props.videoData[i].videosComplete++;
 						}
@@ -28248,7 +28276,7 @@
 				}
 				//calculating the lesson group percentage complete and then making that a prop to
 				//pass down to lesson
-				for (var _i = 0; _i < props.videoData.length; _i++) {
+				for (var _i = 0; _i < props.videoData.length; _i += 1) {
 					props.videoData[_i].lessonGroupProgress = Math.round(100 * props.videoData[_i].videosComplete / props.videoData[_i].videosQuantity);
 				}
 			}
@@ -28357,38 +28385,57 @@
 	    var complete = {
 	      display: 'inline-block',
 	      position: 'absolute',
-	      backgroundColor: '' + (video.length === 100 ? "lightgreen" : "orange"),
+	      backgroundColor: 'lightgreen',
 	      height: '100%',
 	      width: (video.length ? video.length : '0') + '%'
 	    };
-	    //console.log('this is props.lessonData.videos:' , props.lessonData.videos)
-	    // for (let i = 0; i < props.lessonData.videos; i += 1) {
-	    //   console.log('hi')
-	    // }
-	    //console.log('this is props.progress' , props.progress)
-	    // props.progress.forEach(function(video){
-	    //   console.log(vidoe)
-	    // })
-	    // props.progress.forEach((video) => {
-	    //   console.log(video);
-	    // }) ;
 
+	    var light = {
+	      display: 'inline-block',
+	      opacity: '.7',
+	      // backgroundColor: `${ video.downloadProgress === 'done' ? 'lightgreen' : 'orange' }`,
+	      height: '8px',
+	      width: '8px',
+	      borderRadius: '50%',
+	      border: '.1px solid #999'
+	    };
+
+	    if (video.downloadProgress === 'downloading') {
+	      light.backgroundColor = 'yellow';
+	    } else if (video.downloadProgress === 'done') {
+	      light.backgroundColor = 'lightgreen';
+	    } else {
+	      light.backgroundColor = 'grey';
+	    }
+
+	    var sendlessonData = function sendlessonData(e) {
+	      props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
+	    };
 
 	    contents.push(_react2.default.createElement(
 	      'div',
 	      { onClick: selectVideo, key: i, style: videoTitle },
 	      _react2.default.createElement(
 	        'span',
-	        { key: i + '-individual', id: video.name, style: downloadIndy, onClick: props.downloadIndVid },
-	        'DL'
+	        { key: i + '-individual', id: video.name, style: dlSingle, onClick: sendlessonData },
+	        _react2.default.createElement('span', { style: light })
 	      ),
-	      video.title,
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        video.title
+	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { style: dlPrompt },
+	        video.downloadProgress === 'downloading' ? 'downloading...' : ''
+	      ),
 	      _react2.default.createElement(
 	        'span',
 	        { style: abs },
 	        _react2.default.createElement(
 	          'span',
-	          { style: download, id: video.name },
+	          { style: download },
 	          _react2.default.createElement('span', { style: complete })
 	        )
 	      )
@@ -28396,16 +28443,16 @@
 	  });
 
 	  var grabAllVideoNames = function grabAllVideoNames(e) {
-	    function videoNames() {
-	      var allVideoNames = [];
-	      //console.log(lessons[0].props.lessonData.videos)
-	      props.lessonData.videos.forEach(function (video, i) {
-	        allVideoNames.push(video.name);
-	      });
-	      // console.log('this is the array allVideoNames' , allVideoNames)
-	      return allVideoNames;
-	    }
-	    props.downloadAllLessson(e, videoNames());
+	    // function videoNames() {
+	    //   const allVideoNames = []; 
+	    //   //console.log(lessons[0].props.lessonData.videos)
+	    //   props.lessonData.videos.forEach((video, i) => {
+	    //     allVideoNames.push(video.name)
+	    //   })
+	    //   // console.log('this is the array allVideoNames' , allVideoNames)
+	    //   return allVideoNames;
+	    // }
+	    props.downloadAllLessson(e, props.lessonData);
 	  };
 
 	  return _react2.default.createElement(
@@ -28444,23 +28491,28 @@
 	  );
 	};
 
+	var dlPrompt = {
+	  color: 'grey',
+	  fontStyle: 'italic',
+	  marginLeft: '4px'
+	};
 	var groupProgress = {
 	  fontSize: '10px',
 	  margin: '10px'
 
 	};
-	var downloadIndy = {
+	var dlSingle = {
 	  position: 'absolute',
-	  left: '10px',
-	  backgroundColor: 'green',
+	  left: '0px',
 	  display: 'flex',
 	  alignItems: 'center',
 	  justifyContent: 'center',
-	  height: '20px',
-	  width: '20px',
-	  borderRadius: '4px',
+	  height: '100%',
+	  width: '30px',
 	  ':hover': {
-	    backgroundColor: 'lightgreen'
+	    span: {
+	      backgroundColor: 'blue'
+	    }
 	  }
 	};
 
@@ -28483,9 +28535,8 @@
 	  position: 'relative',
 	  zIndex: '2000',
 	  borderRadius: '4px',
-	  transition: 'all .4s ease',
+	  transition: 'all .2s ease',
 	  ':hover': {
-	    cursor: 'pointer',
 	    backgroundColor: 'blue'
 	  }
 	};
@@ -28543,31 +28594,19 @@
 	};
 
 	var videoTitle = {
+	  display: 'flex',
+	  alignItems: 'center',
 	  overflowY: 'auto',
 	  color: 'white',
-	  margin: '-1px',
-	  padding: '10px 40px 10px 35px',
+	  height: '35px',
+	  padding: '0px 70px 0px 35px',
 	  listStyle: 'none',
-	  backgroundRepeat: 'no-repeat',
-	  backgroundPosition: 'right 10px center',
-	  backgroundSize: '16px',
 	  position: 'relative',
-	  transition: 'all .4s ease',
+	  transition: 'all .1s ease',
 	  ':hover': {
-	    backgroundColor: 'blue',
-	    cursor: 'pointer'
+	    backgroundColor: 'dodgerblue'
 	  }
 	};
-
-	// const download = {
-	//   height: '15px',
-	//   backgroundSize: '15px, 15px',
-	//   //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
-	//   backgroundRepeat: 'no-repeat',
-	//   paddingLeft: '20px',
-	//   marginLeft: '4px',
-	//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
-	// }
 
 	var abs = {
 	  position: 'absolute',
@@ -28687,9 +28726,9 @@
 	    _this.onProgress = _this.onProgress.bind(_this);
 	    _this.onClickFullscreen = _this.onClickFullscreen.bind(_this);
 	    _this.state = {
-	      playing: true,
+	      playing: false,
 	      mute: 0,
-	      volume: 0.0,
+	      volume: 0.8,
 	      loaded: 0,
 	      played: 0,
 	      duration: 0,
@@ -28738,27 +28777,13 @@
 	  }, {
 	    key: 'onProgress',
 	    value: function onProgress(state) {
-	      // console.log('this is state in video' , this.state)
-
-	      //console.log(this.state.currentVideo)
-	      // console.log('this.state.played is' , this.state.played)
 	      !this.state.seeking ? this.setState(state) : null;
 	      this.props.changeVideoDataState(this.state.played * 100);
-
-	      //this.setState({this.progress})
 	    }
 	  }, {
 	    key: 'onClickFullscreen',
 	    value: function onClickFullscreen() {
 	      _screenfull2.default.request((0, _reactDom.findDOMNode)(this.player));
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-
-	      console.log(this.state.played);
-
-	      //setInterval(function(){console.log(this.state.played)},1000) 
 	    }
 	  }, {
 	    key: 'render',
@@ -28774,7 +28799,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { style: contentContainer },
-	        _react2.default.createElement(_banner2.default, { user: this.props.user, lessonData: lessonData, logger: this.props.logger }),
+	        _react2.default.createElement(_banner2.default, { user: this.props.user, lessonData: lessonData, logger: this.props.logger, saveProgressClicked: this.props.saveProgressClicked }),
 	        _react2.default.createElement(
 	          'div',
 	          { style: videoComponent },
@@ -29125,6 +29150,17 @@
 	  backgroundImage: 'url(' + _veritasLogoWhite2.default + ')',
 	  backgroundSize: 'contain',
 	  backgroundRepeat: 'no-repeat'
+	};
+
+	var save = {
+	  fontSize: '1em',
+	  fontWeight: 'light',
+	  height: '100%',
+	  color: '#999999',
+	  display: 'flex',
+	  alignItems: 'center',
+	  padding: '20px'
+
 	};
 
 	exports.default = (0, _radium2.default)(Banner);
@@ -30392,6 +30428,9 @@
 	    key: 'seekTo',
 	    value: function seekTo(fraction) {
 	      _get(FilePlayer.prototype.__proto__ || Object.getPrototypeOf(FilePlayer.prototype), 'seekTo', this).call(this, fraction);
+	      if (fraction === 1) {
+	        this.player.pause();
+	      }
 	      this.player.currentTime = this.getDuration() * fraction;
 	    }
 	  }, {

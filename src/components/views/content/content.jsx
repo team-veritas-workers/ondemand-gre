@@ -28,6 +28,7 @@ const Content = (props) => {
       videoData = { videoData }
       url = { url }
       logger = { props.logger }
+      saveProgressClicked={ props.saveProgressClicked }
     />
   </div>
   );

@@ -7,6 +7,9 @@ module.exports = (event, appPath) => {
   const body = { type: 'desktop', account: 'GRE' };
   const sendFile = () => {
     fs.readFile(appPath + '/data/data.json', 'utf8', (err, data) => {
+      let correction = JSON.parse(data);
+      correction[0].videos[8].name = 'gre_1_7';
+      data = JSON.stringify(correction);
       event.sender.send('load-video-data', data);
     });
   }
