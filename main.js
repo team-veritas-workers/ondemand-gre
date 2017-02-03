@@ -230,29 +230,22 @@ function downloadVideo(url, targetPath) {
     getVideoData(event, app.getAppPath());
   });
 
-function updateProgress(){
-  isOnline().then(online => {
-    if (online === true){
-        fs.readFile('./tempProgress.json', {encoding: 'utf-8'}, function(err,data){
-                if (!err){
-                  newProgress = JSON.parse(data);
-                  for (let key in newProgress){
-                    //do post request for each data element
-                    //clear out tempProgress
-                  }
-              
-                }else{
-                    console.log("read file error", err);
-                }
 
-            });
-      //do post request with updated progress from little jason file
-      //delete the data in updated progress file. 
-
-    }
-  })
-
+function postProgress(buildtUpStr) {
+// video=gre_10_12&userID=913969768632&lessonType=gre&clip_progress_real=93
+console.log('inside postProgress post request')
+request.post({
+  headers: {'content-type' : 'application/x-www-form-urlencoded'},
+  url:     'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
+  body:    buildtUpStr
+}, function(error, response, body) {
+  console.log('inside postProgress response body of request', response, body);
+  });
 }
+
+
+const oneMin = 60000
+setInterval(updateProgress, oneMin);
 
 //updateProgress();
 
