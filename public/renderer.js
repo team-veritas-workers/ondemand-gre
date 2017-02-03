@@ -21514,6 +21514,8 @@
 	  value: true
 	});
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
@@ -21548,6 +21550,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -21574,12 +21578,18 @@
 	    _this.downloadAllLessson = _this.downloadAllLessson.bind(_this);
 	    _this.cookieChecker = _this.cookieChecker.bind(_this);
 	    _this.logout = _this.logout.bind(_this);
-	    _this.state = {
+	    _this.state = _defineProperty({
+	      user: null,
+	      username: null,
+	      password: null,
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
+	      currentVideo: null,
 	      authenticated: null,
 	      showMenu: true,
-	      invalidLoginMessage: ''
-	    };
+	      invalidLoginMessage: '',
+	      videoData: null,
+	      progress: null
+	    }, 'invalidLoginMessage', null);
 	    return _this;
 	  }
 
@@ -21593,9 +21603,7 @@
 	      _electron.ipcRenderer.once('play-video', function (event, arg) {
 	        return _this2.setState({ url: arg, currentVideo: currentVideo });
 	      });
-	      _electron.ipcRenderer.once('offline-vid-error', function () {
-	        return alert('you are offline and selected video has not been downloaded');
-	      });
+	      // ipcRenderer.once('offline-vid-error', () => console.log('Video not available offline.'));
 	      _electron.ipcRenderer.send('get-video', fileName);
 	    }
 	  }, {
@@ -21689,29 +21697,49 @@
 	    }
 	  }, {
 	    key: 'downloadIndVid',
-	    value: function downloadIndVid(e) {
+	    value: function downloadIndVid(e, lesson, video, id) {
 	      e.preventDefault();
 	      e.stopPropagation();
-	      var hd = 'https://gre-on-demand.veritasprep.com/' + e.target.id + '.mp4';
-	      var sd = 'https://gre-on-demand.veritasprep.com/360p_' + e.target.id + '.mp4';
-	      _electron.ipcRenderer.send('download-video', hd);
+	      console.log('target', e.target); // SHOULD NOT BE FRIGGIN BLANK!!!
+	      console.log('id', _typeof(e.target.id), e.target.id); // SHOULD NOT BE FRIGGIN BLANK!!!
+	      console.log('lesson', lesson);
+	      console.log('video', parseInt(video));
+	      console.log('real id', id);
+	      var hd = 'https://gre-on-demand.veritasprep.com/' + id + '.mp4';
+	      var sd = 'https://gre-on-demand.veritasprep.com/360p_' + id + '.mp4';
+	      _electron.ipcRenderer.send('download-video', hd, lesson, parseInt(video));
 	    }
 	  }, {
 	    key: 'downloadAllLessson',
-	    value: function downloadAllLessson(e, videoNames) {
+	    value: function downloadAllLessson(e, lesson) {
 	      e.stopPropagation();
-	      videoNames.forEach(function (video) {
-	        _electron.ipcRenderer.send('download-video', 'https://gre-on-demand.veritasprep.com/' + video + '.mp4');
+	      // videoNames.forEach((video)=> {
+	      //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
+	      // });
+	      console.log(e);
+	    }
+	  }, {
+	    key: 'getDownloadProgress',
+	    value: function getDownloadProgress() {
+	      var _this5 = this;
+
+	      _electron.ipcRenderer.on('download-progress', function (event, progress, lesson, video) {
+	        var videoData = _this5.state.videoData.slice(0);
+	        if (videoData[lesson]) {
+	          videoData[lesson].videos[video].downloadProgress = '' + progress;
+	          _this5.setState({ videoData: videoData });
+	        }
 	      });
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this5 = this;
+	      var _this6 = this;
 
+	      this.getDownloadProgress();
 	      this.getVideoData();
 	      setTimeout(function () {
-	        return _this5.cookieChecker(_this5.state);
+	        return _this6.cookieChecker(_this6.state);
 	      }, 1000);
 	    }
 	  }, {
@@ -28305,28 +28333,60 @@
 	    var selectVideo = function selectVideo(e) {
 	      props.setCurrentVideo(video, props.lessonData);
 	    };
+
 	    var complete = {
 	      display: 'inline-block',
 	      position: 'absolute',
-	      backgroundColor: '' + (video.length === 100 ? "lightgreen" : "orange"),
+	      backgroundColor: 'lightgreen',
 	      height: '100%',
 	      width: (video.length ? video.length : '0') + '%'
+	    };
+
+	    var light = {
+	      display: 'inline-block',
+	      opacity: '.7',
+	      // backgroundColor: `${ video.downloadProgress === 'done' ? 'lightgreen' : 'orange' }`,
+	      height: '8px',
+	      width: '8px',
+	      borderRadius: '50%',
+	      border: '.1px solid #999'
+	    };
+
+	    if (video.downloadProgress === 'downloading') {
+	      light.backgroundColor = 'yellow';
+	    } else if (video.downloadProgress === 'done') {
+	      light.backgroundColor = 'lightgreen';
+	    } else {
+	      light.backgroundColor = 'grey';
+	    }
+
+	    var sendlessonData = function sendlessonData(e) {
+	      props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
 	    };
 	    contents.push(_react2.default.createElement(
 	      'div',
 	      { onClick: selectVideo, key: i, style: videoTitle },
 	      _react2.default.createElement(
 	        'span',
-	        { key: i + '-individual', id: video.name, style: downloadIndy, onClick: props.downloadIndVid },
-	        'DL'
+	        { key: i + '-individual', id: video.name, style: dlSingle, onClick: sendlessonData },
+	        _react2.default.createElement('span', { style: light })
 	      ),
-	      video.title,
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        video.title
+	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { style: dlPrompt },
+	        video.downloadProgress === 'downloading' ? 'loading...' : ''
+	      ),
 	      _react2.default.createElement(
 	        'span',
 	        { style: abs },
 	        _react2.default.createElement(
 	          'span',
-	          { style: download, id: video.name },
+	          { style: download },
 	          _react2.default.createElement('span', { style: complete })
 	        )
 	      )
@@ -28343,7 +28403,7 @@
 	      // console.log('this is the array allVideoNames' , allVideoNames)
 	      return allVideoNames;
 	    }
-	    props.downloadAllLessson(e, videoNames());
+	    props.downloadAllLessson(e, lesson);
 	  };
 
 	  return _react2.default.createElement(
@@ -28358,7 +28418,8 @@
 	        'span',
 	        { style: titleText },
 	        props.lessonData.name
-	      )
+	      ),
+	      _react2.default.createElement('span', { style: downloadIcon, onClick: grabAllVideoNames })
 	    ),
 	    _react2.default.createElement(
 	      'div',
@@ -28372,18 +28433,24 @@
 	  );
 	};
 
-	var downloadIndy = {
+	var dlPrompt = {
+	  color: 'grey',
+	  fontStyle: 'italic',
+	  marginLeft: '4px'
+	};
+
+	var dlSingle = {
 	  position: 'absolute',
-	  left: '10px',
-	  backgroundColor: 'green',
+	  left: '0px',
 	  display: 'flex',
 	  alignItems: 'center',
 	  justifyContent: 'center',
-	  height: '20px',
-	  width: '20px',
-	  borderRadius: '4px',
+	  height: '100%',
+	  width: '30px',
 	  ':hover': {
-	    backgroundColor: 'lightgreen'
+	    span: {
+	      backgroundColor: 'blue'
+	    }
 	  }
 	};
 
@@ -28406,9 +28473,8 @@
 	  position: 'relative',
 	  zIndex: '2000',
 	  borderRadius: '4px',
-	  transition: 'all .4s ease',
+	  transition: 'all .2s ease',
 	  ':hover': {
-	    cursor: 'pointer',
 	    backgroundColor: 'blue'
 	  }
 	};
@@ -28466,31 +28532,19 @@
 	};
 
 	var videoTitle = {
+	  display: 'flex',
+	  alignItems: 'center',
 	  overflowY: 'auto',
 	  color: 'white',
-	  margin: '-1px',
-	  padding: '10px 40px 10px 35px',
+	  height: '35px',
+	  padding: '0px 70px 0px 35px',
 	  listStyle: 'none',
-	  backgroundRepeat: 'no-repeat',
-	  backgroundPosition: 'right 10px center',
-	  backgroundSize: '16px',
 	  position: 'relative',
-	  transition: 'all .4s ease',
+	  transition: 'all .1s ease',
 	  ':hover': {
-	    backgroundColor: 'blue',
-	    cursor: 'pointer'
+	    backgroundColor: 'dodgerblue'
 	  }
 	};
-
-	// const download = {
-	//   height: '15px',
-	//   backgroundSize: '15px, 15px',
-	//   //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
-	//   backgroundRepeat: 'no-repeat',
-	//   paddingLeft: '20px',
-	//   marginLeft: '4px',
-	//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
-	// }
 
 	var abs = {
 	  position: 'absolute',
@@ -28610,7 +28664,7 @@
 	    _this.onProgress = _this.onProgress.bind(_this);
 	    _this.onClickFullscreen = _this.onClickFullscreen.bind(_this);
 	    _this.state = {
-	      playing: false,
+	      playing: true,
 	      mute: 0,
 	      volume: 0.0,
 	      loaded: 0,

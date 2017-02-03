@@ -8,19 +8,46 @@ const Lesson = (props) => {
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
     };
+
+
     const complete = {
       display: 'inline-block',
       position: 'absolute',
-      backgroundColor: `${ video.length === 100 ? "lightgreen" : "orange" }`,
+      backgroundColor: `lightgreen`,
       height: '100%',
       width: `${ video.length ? video.length : '0' }%`,
     };
+    
+    const light = {
+      display: 'inline-block',
+      opacity: `.7`,
+      // backgroundColor: `${ video.downloadProgress === 'done' ? 'lightgreen' : 'orange' }`,
+      height: '8px',
+      width: '8px',
+      borderRadius: '50%',
+      border: '.1px solid #999'
+    }
+
+    if (video.downloadProgress === 'downloading') {
+      light.backgroundColor = 'yellow';
+    } else if (video.downloadProgress === 'done') {
+      light.backgroundColor = 'lightgreen';
+    } else {
+      light.backgroundColor = 'grey'
+    }
+
+    const sendlessonData = (e) => {
+      props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
+    }
     contents.push(
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
-        <span key={ `${i}-individual` } id={ video.name } style={ downloadIndy } onClick={ props.downloadIndVid }>DL</span>
-        { video.title }
+        <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
+          <span style={ light }></span>
+        </span>
+        <span>{ video.title }</span>
+        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'loading...' : '' }</span>
         <span style={ abs }>
-          <span style={ download } id={ video.name }>
+          <span style={ download }>
             <span style={ complete }></span>
           </span>
         </span>
@@ -38,14 +65,14 @@ const Lesson = (props) => {
       // console.log('this is the array allVideoNames' , allVideoNames)
       return allVideoNames;
     }
-    props.downloadAllLessson(e, videoNames());
+    props.downloadAllLessson(e, lesson);
   }
 
   return (
       <div style={ lesson }> 
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
           <span style={ titleText }>{ props.lessonData.name }</span>
-          {/* <span style={ downloadIcon } onClick={ grabAllVideoNames }></span> */}
+          <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
         <div style={ !props.open ? lessonContent : lessonContentOpen }>
           <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen }>
@@ -56,18 +83,24 @@ const Lesson = (props) => {
   );
 };
 
-const downloadIndy = {
+const dlPrompt = {
+  color: 'grey',
+  fontStyle: 'italic',
+  marginLeft: '4px'
+}
+
+const dlSingle = {
   position: 'absolute',
-  left: '10px',
-  backgroundColor: 'green',
+  left: '0px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  height: '20px',
-  width: '20px',
-  borderRadius: '4px',
+  height: '100%',
+  width: '30px',
   ':hover': {
-    backgroundColor: 'lightgreen'
+    span: {
+      backgroundColor: 'blue'
+    }
   }
 }
 
@@ -91,9 +124,8 @@ const lessonTitle = {
   position: 'relative',
   zIndex: '2000',
   borderRadius: '4px',
-  transition: 'all .4s ease',
+  transition: 'all .2s ease',
   ':hover': {
-    cursor: 'pointer',
     backgroundColor: 'blue'
   }
 }
@@ -153,31 +185,19 @@ const lessonContentTextOpen = {
 }
 
 const videoTitle = {
+  display: 'flex',
+  alignItems: 'center',
   overflowY: 'auto',
   color: 'white',
-  margin: '-1px',
-	padding: '10px 40px 10px 35px',
+  height: '35px',
+	padding: '0px 70px 0px 35px',
 	listStyle: 'none',
-	backgroundRepeat: 'no-repeat',
-	backgroundPosition: 'right 10px center',
-	backgroundSize: '16px',
   position: 'relative',
-  transition: 'all .4s ease',
+  transition: 'all .1s ease',
   ':hover': {
-    backgroundColor: 'blue',
-    cursor: 'pointer',
+    backgroundColor: 'dodgerblue',
   }
 }
-
-// const download = {
-//   height: '15px',
-//   backgroundSize: '15px, 15px',
-//   //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
-//   backgroundRepeat: 'no-repeat',
-//   paddingLeft: '20px',
-//   marginLeft: '4px',
-//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
-// }
 
 const abs = {
   position: 'absolute',

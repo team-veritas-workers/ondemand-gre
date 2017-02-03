@@ -24,10 +24,17 @@ export default class App extends Component {
     this.cookieChecker = this.cookieChecker.bind(this);
     this.logout = this.logout.bind(this);
     this.state = {
+      user: null,
+      username: null,
+      password: null,
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
+      currentVideo: null,
       authenticated: null,
       showMenu: true,
-      invalidLoginMessage: ''
+      invalidLoginMessage: '',
+      videoData: null,
+      progress: null,
+      invalidLoginMessage: null
     };
   }
 
@@ -35,7 +42,7 @@ export default class App extends Component {
     const fileName = `${ video.name }.mp4`
     const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };
     ipcRenderer.once('play-video', (event, arg) => this.setState({ url: arg, currentVideo: currentVideo }));
-    ipcRenderer.once('offline-vid-error', () => alert('you are offline and selected video has not been downloaded'));
+    // ipcRenderer.once('offline-vid-error', () => console.log('Video not available offline.'));
     ipcRenderer.send('get-video', fileName);
   }
 
@@ -113,22 +120,39 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
 
-  downloadIndVid(e) {
+  downloadIndVid(e, lesson, video, id) {
     e.preventDefault();
     e.stopPropagation();
-    const hd = `https://gre-on-demand.veritasprep.com/${ e.target.id }.mp4`;
-    const sd = `https://gre-on-demand.veritasprep.com/360p_${ e.target.id }.mp4`;
-    ipcRenderer.send('download-video', hd);
+    console.log('target', e.target); // SHOULD NOT BE FRIGGIN BLANK!!!
+    console.log('id', typeof e.target.id, e.target.id); // SHOULD NOT BE FRIGGIN BLANK!!!
+    console.log('lesson', lesson);
+    console.log('video', parseInt(video));
+    console.log('real id', id);
+    const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
+    const sd = `https://gre-on-demand.veritasprep.com/360p_${ id }.mp4`;
+    ipcRenderer.send('download-video', hd, lesson, parseInt(video));
   }
   
-  downloadAllLessson(e, videoNames) {
+  downloadAllLessson(e, lesson) {
     e.stopPropagation();
-    videoNames.forEach((video)=> {
-     ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
-    })
+    // videoNames.forEach((video)=> {
+    //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
+    // });
+    console.log(e)
+  }
+
+  getDownloadProgress() {
+    ipcRenderer.on('download-progress', (event, progress, lesson, video) => {
+      const videoData = this.state.videoData.slice(0);
+      if (videoData[lesson]) {
+        videoData[lesson].videos[video].downloadProgress = `${progress}`
+        this.setState({ videoData: videoData })
+      }
+    });
   }
   
   componentDidMount() {
+    this.getDownloadProgress();
     this.getVideoData();
     setTimeout(() => this.cookieChecker(this.state), 1000);
   }
