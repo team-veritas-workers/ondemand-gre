@@ -21739,11 +21739,13 @@
 	    value: function componentDidMount() {
 	      var _this7 = this;
 
+	      var tenSec = 10000;
 	      this.getDownloadProgress();
 	      this.getVideoData();
 	      setTimeout(function () {
 	        return _this7.cookieChecker(_this7.state);
 	      }, 700);
+	      setInterval(this.saveProgressClicked, tenSec);
 	    }
 	  }, {
 	    key: 'changeVideoDataState',
@@ -21767,6 +21769,8 @@
 	      accessProgress[videoId] = percent;
 	      this.setState({ progress: accessProgress });
 	    }
+	    // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
+
 	  }, {
 	    key: 'saveProgressClicked',
 	    value: function saveProgressClicked() {
@@ -29077,11 +29081,6 @@
 	      'div',
 	      { style: greeting, onClick: props.logger },
 	      'Logout'
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { onClick: props.saveProgressClicked },
-	      'Save Progress'
 	    )
 	  );
 	};
@@ -29151,6 +29150,17 @@
 	  backgroundImage: 'url(' + _veritasLogoWhite2.default + ')',
 	  backgroundSize: 'contain',
 	  backgroundRepeat: 'no-repeat'
+	};
+
+	var save = {
+	  fontSize: '1em',
+	  fontWeight: 'light',
+	  height: '100%',
+	  color: '#999999',
+	  display: 'flex',
+	  alignItems: 'center',
+	  padding: '20px'
+
 	};
 
 	exports.default = (0, _radium2.default)(Banner);
