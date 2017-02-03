@@ -21655,7 +21655,9 @@
 
 	        _axios2.default.post(URL, _qs2.default.stringify(body)).then(function (res) {
 	          if (res.data.status === 'success') {
+
 	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
+
 	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
 	          } else {
 	            _this3.setState({ invalidLoginMessage: res.data.message });
@@ -28366,18 +28368,6 @@
 	      height: '100%',
 	      width: (video.length ? video.length : '0') + '%'
 	    };
-	    //console.log('this is props.lessonData.videos:' , props.lessonData.videos)
-	    // for (let i = 0; i < props.lessonData.videos; i += 1) {
-	    //   console.log('hi')
-	    // }
-	    //console.log('this is props.progress' , props.progress)
-	    // props.progress.forEach(function(video){
-	    //   console.log(vidoe)
-	    // })
-	    // props.progress.forEach((video) => {
-	    //   console.log(video);
-	    // }) ;
-
 
 	    contents.push(_react2.default.createElement(
 	      'div',
