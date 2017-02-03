@@ -10,6 +10,7 @@ const Banner = (props) => {
         <div style={ subtitle }>{ props.lessonData.lessonName }</div>
       </div>
       <div style={ greeting } onClick={ props.logger }>Logout</div>
+      <div onClick={ props.saveProgressClicked }>Save Progress</div>
     </div>
   );
 };

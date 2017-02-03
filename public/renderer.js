@@ -21548,8 +21548,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -21560,8 +21558,6 @@
 	  _inherits(App, _Component);
 
 	  function App(props) {
-	    var _this$state;
-
 	    _classCallCheck(this, App);
 
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
@@ -21579,15 +21575,17 @@
 	    _this.cookieChecker = _this.cookieChecker.bind(_this);
 	    _this.logout = _this.logout.bind(_this);
 	    _this.changeVideoDataState = _this.changeVideoDataState.bind(_this);
-	    _this.state = (_this$state = {
+	    _this.saveProgressClicked = _this.saveProgressClicked.bind(_this);
+	    _this.state = {
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
 	      authenticated: null,
 	      showMenu: true,
 	      invalidLoginMessage: '',
 	      progress: null,
 	      username: null,
-	      password: null
-	    }, _defineProperty(_this$state, 'invalidLoginMessage', null), _defineProperty(_this$state, 'videoData', null), _this$state);
+	      password: null,
+	      videoData: null
+	    };
 	    return _this;
 	  }
 
@@ -21657,7 +21655,7 @@
 
 	        _axios2.default.post(URL, _qs2.default.stringify(body)).then(function (res) {
 	          if (res.data.status === 'success') {
-	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress });
+	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
 	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
 	          } else {
 	            _this3.setState({ invalidLoginMessage: res.data.message });
@@ -21751,9 +21749,15 @@
 	      this.setState({ progress: accessProgress });
 	    }
 	  }, {
+	    key: 'saveProgressClicked',
+	    value: function saveProgressClicked() {
+	      console.log('inside saveProgressClicked in app.js', this.state.progress);
+	      _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log('!!!!this.state.progress:', this.state.progress);
+	      // console.log('!!!!this.state.progress:', this.state.progress)
 	      if (this.state.authenticated === false) {
 	        return _react2.default.createElement(
 	          'div',
@@ -21783,7 +21787,8 @@
 	            videoData: this.state.videoData,
 	            expandLesson: this.expandLesson,
 	            showMenu: this.state.showMenu,
-	            url: this.state.url
+	            url: this.state.url,
+	            saveProgressClicked: this.saveProgressClicked
 	          })
 	        );
 	      } else {
@@ -28186,7 +28191,8 @@
 	      currentVideo: currentVideo,
 	      videoData: videoData,
 	      url: url,
-	      logger: props.logger
+	      logger: props.logger,
+	      saveProgressClicked: props.saveProgressClicked
 	    })
 	  );
 	};
@@ -28232,15 +28238,14 @@
 
 	var Menu = function Menu(props) {
 		if (props.videoData) {
-			for (var i = 0; i < props.videoData.length; i++) {
+			for (var i = 0; i < props.videoData.length; i += 1) {
 				//here I am giving each lesson group props based on how many videos
 				//is in each group and how many of those have been watched
 				props.videoData[i].videosQuantity = props.videoData[i].videos.length;
 				props.videoData[i].videosComplete = 0;
-				for (var j = 0; j < props.videoData[i].videos.length; j++) {
+				for (var j = 0; j < props.videoData[i].videos.length; j += 1) {
 					if (props.progress[props.videoData[i].videos[j].name]) {
 						props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
-
 						if (props.videoData[i].videos[j].length === 100) {
 							props.videoData[i].videosComplete++;
 						}
@@ -28248,7 +28253,7 @@
 				}
 				//calculating the lesson group percentage complete and then making that a prop to
 				//pass down to lesson
-				for (var _i = 0; _i < props.videoData.length; _i++) {
+				for (var _i = 0; _i < props.videoData.length; _i += 1) {
 					props.videoData[_i].lessonGroupProgress = Math.round(100 * props.videoData[_i].videosComplete / props.videoData[_i].videosQuantity);
 				}
 			}
@@ -28747,14 +28752,6 @@
 	      _screenfull2.default.request((0, _reactDom.findDOMNode)(this.player));
 	    }
 	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-
-	      console.log(this.state.played);
-
-	      //setInterval(function(){console.log(this.state.played)},1000) 
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -28768,7 +28765,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { style: contentContainer },
-	        _react2.default.createElement(_banner2.default, { user: this.props.user, lessonData: lessonData, logger: this.props.logger }),
+	        _react2.default.createElement(_banner2.default, { user: this.props.user, lessonData: lessonData, logger: this.props.logger, saveProgressClicked: this.props.saveProgressClicked }),
 	        _react2.default.createElement(
 	          'div',
 	          { style: videoComponent },
@@ -29050,6 +29047,11 @@
 	      'div',
 	      { style: greeting, onClick: props.logger },
 	      'Logout'
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      { onClick: props.saveProgressClicked },
+	      'Save Progress'
 	    )
 	  );
 	};

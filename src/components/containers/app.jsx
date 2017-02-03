@@ -24,6 +24,7 @@ export default class App extends Component {
     this.cookieChecker = this.cookieChecker.bind(this);
     this.logout = this.logout.bind(this);
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
+    this.saveProgressClicked = this.saveProgressClicked.bind(this);
     this.state = {
       url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
       authenticated: null,
@@ -32,7 +33,6 @@ export default class App extends Component {
       progress: null,
       username: null,
       password: null,
-      invalidLoginMessage: null,
       videoData: null,
     };
   }
@@ -87,7 +87,7 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress   });
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID   });
           this.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
@@ -166,9 +166,14 @@ export default class App extends Component {
     this.setState({progress: accessProgress});
   }
 
+  saveProgressClicked() {
+    console.log('inside saveProgressClicked in app.js', this.state.progress);
+    ipcRenderer.send('save-progress-clicked', this.state.progress);
+  } 
+
 
   render() {
-    console.log('!!!!this.state.progress:', this.state.progress)
+    // console.log('!!!!this.state.progress:', this.state.progress)
     if (this.state.authenticated === false) {
       return (
         <div style={ app }>
@@ -199,6 +204,7 @@ export default class App extends Component {
             expandLesson={ this.expandLesson}
             showMenu={ this.state.showMenu }
             url={ this.state.url }
+            saveProgressClicked={ this.saveProgressClicked }
           />
         </div>
       );
