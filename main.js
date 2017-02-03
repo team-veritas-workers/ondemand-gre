@@ -65,6 +65,7 @@ function createWindow () {
     // console.log(arg)
     const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')}
 
+
     ses.set(cookie, (error) => {
       if (error) console.error(error)
     });
@@ -215,6 +216,7 @@ function downloadVideo(url, targetPath) {
   });
 
 
+
 function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
@@ -250,10 +252,8 @@ request.post({
   });
 }
 
-
 const oneMin = 60000
 setInterval(updateProgress, oneMin);
-
 
 
 function checkVideoTimeStamp(vidNameArr) {
