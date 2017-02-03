@@ -73,7 +73,7 @@ function createWindow () {
         ses.set(cookie, (error) => {
           if (error) console.error(error)
         });
-
+        console.log("arg",arg.sid)
         const improvedProg = {};
         const progressArg = arg.progress;
        
@@ -83,6 +83,7 @@ function createWindow () {
           console.log(vidId)
           improvedProg[vidId] = parseInt(progressArg[i].length);
         }
+        improvedProg['sid'] = arg.sid;
         //console.log("improvedProg", improvedProg)
 
 

@@ -87,7 +87,7 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress   });
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
           this.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
         } else {
           this.setState({ invalidLoginMessage: res.data.message });

@@ -21657,7 +21657,7 @@
 
 	        _axios2.default.post(URL, _qs2.default.stringify(body)).then(function (res) {
 	          if (res.data.status === 'success') {
-	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress });
+	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
 	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
 	          } else {
 	            _this3.setState({ invalidLoginMessage: res.data.message });
