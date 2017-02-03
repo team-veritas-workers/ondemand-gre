@@ -186,8 +186,6 @@ export default class App extends Component {
     ipcRenderer.send('save-progress-clicked', this.state.progress);
   } 
 
->>>>>>> master
-
   render() {
     // console.log('!!!!this.state.progress:', this.state.progress)
     if (this.state.authenticated === false) {

@@ -20,6 +20,7 @@ const Lesson = (props) => {
     const light = {
       display: 'inline-block',
       opacity: `.7`,
+      // backgroundColor: `${ video.downloadProgress === 'done' ? 'lightgreen' : 'orange' }`,
       height: '8px',
       width: '8px',
       borderRadius: '50%',
@@ -44,7 +45,7 @@ const Lesson = (props) => {
           <span style={ light }></span>
         </span>
         <span>{ video.title }</span>
-        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'loading...' : '' }</span>
+        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'downloading...' : '' }</span>
         <span style={ abs }>
           <span style={ download }>
             <span style={ complete }></span>
@@ -87,18 +88,18 @@ const Lesson = (props) => {
   );
 };
 
+
 const dlPrompt = {
   color: 'grey',
   fontStyle: 'italic',
   marginLeft: '4px'
 }
-
-const dlSingle = {
+const groupProgress = {
   fontSize: '10px',
   margin: '10px'
 
 }
-const downloadIndy = {
+const dlSingle = {
   position: 'absolute',
   left: '0px',
   display: 'flex',
