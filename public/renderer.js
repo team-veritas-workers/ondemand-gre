@@ -30428,9 +30428,6 @@
 	    key: 'seekTo',
 	    value: function seekTo(fraction) {
 	      _get(FilePlayer.prototype.__proto__ || Object.getPrototypeOf(FilePlayer.prototype), 'seekTo', this).call(this, fraction);
-	      if (fraction === 1) {
-	        this.player.pause();
-	      }
 	      this.player.currentTime = this.getDuration() * fraction;
 	    }
 	  }, {
