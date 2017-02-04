@@ -158,7 +158,7 @@ export default class App extends Component {
     this.getDownloadProgress();
     this.getVideoData();
     setTimeout(() => this.cookieChecker(this.state), 700);
-    setInterval(this.saveProgressClicked, tenSec);
+    //setInterval(this.saveProgressClicked, tenSec);
   }
 
   changeVideoDataState(percent) {
@@ -207,7 +207,7 @@ export default class App extends Component {
       return (
         <div style={ app }>
           <Content
-            changeVideoDataState={this.changeVideoDataState}
+         
             progress={this.state.progress}
             authenticate={this.authenticate}
             stateLog={this.state.logout}
