@@ -182,10 +182,9 @@ function downloadVideo(event, url, targetPath, lesson, video) {
 }
 
 
-
 ipcMain.on('download-video', (event, path, lesson, video) => {
  isOnline().then(function(online) {
-   if(online === true) {
+   if (online === true) {
      console.log(path);
 	   const fileName = path.substring(path.lastIndexOf('/') + 1);
      if (!fs.existsSync(app.getAppPath() + '/videos/')) {
@@ -193,10 +192,37 @@ ipcMain.on('download-video', (event, path, lesson, video) => {
       }
       downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
     } else {
-      event.sender.send('offline-download-error');
+      let lastTimeCalled = 0;
+      if (lastTimeCalled < (Date.now() + 10000)) {
+        console.log('Inside if statement');
+        event.sender.send('offline-download-error');
+        lastTimeCalled = Date.now();
+      }
+
+      // let throttledSend = throttle(sendOfflineDownloadErr, 3000);
+      // throttledSend()
+      //event.sender.send('offline-download-error');
     }
   })
 });
+
+  // function throttle (callback, limit) {
+  //   let wait = false;                 
+  //     return function () {             
+  //       if (!wait) {                  
+  //         callback();          
+  //         wait = true;             
+  //         setTimeout(function () {
+  //           wait = false;         
+  //         }, limit);
+  //       }
+  //     }
+  //   }
+
+
+function sendOfflineDownloadErr() {
+   event.sender.send('offline-download-error');
+}
 
 ipcMain.on('get-video', (event, path) => {
 	if (!fs.existsSync(app.getAppPath() + '/videos/')) {

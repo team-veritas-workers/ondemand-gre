@@ -6,7 +6,7 @@ import Login from './../views/auth/login.jsx';
 import Content from './../views/content/content.jsx';
 import Spinner from './../views/spinner/spinner.jsx';
 import electron, { ipcRenderer } from 'electron';
-
+import isOnline from 'is-online';
 
 export default class App extends Component {
   constructor(props) {
@@ -124,26 +124,40 @@ export default class App extends Component {
   }
 
   downloadIndVid(e, lesson, video, id) {
+     isOnline().then(function(online) {
+      if (online === true) {
     e.preventDefault();
     e.stopPropagation();
     const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
     const sd = `https://gre-on-demand.veritasprep.com/360p_${ id }.mp4`;
     ipcRenderer.send('download-video', hd, lesson, parseInt(video));
     ipcRenderer.once('offline-download-error', () => alert('Downloading is not possible offline.'));
+  } else {
+    alert('Downloading is not possible offline.');
+  }
+})
+}
+ 
+  downloadAllLessson(e, lessonData) {
+     isOnline().then(function(online) {
+      if (online === true) {
+        e.stopPropagation();
+         // videoNames.forEach((video)=> {
+         //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
+         // });
+         const lesson = parseInt(lessonData.lessonNumber) - 1;
+         const indexUrl = lessonData.videos.map((video, index) => [video.name, index]);
+        indexUrl.forEach(video => {
+        this.downloadIndVid(e, lesson, video[1], video[0])
+        });
+        ipcRenderer.once('offline-download-error', () => alert('Downloading is not possible offline.'));
+      } else {
+        alert('Downloading is not possible offline.');
+      }
+    })
   }
   
-  downloadAllLessson(e, lessonData) {
-    e.stopPropagation();
-    // videoNames.forEach((video)=> {
-    //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
-    // });
-    const lesson = parseInt(lessonData.lessonNumber) - 1;
-    const indexUrl = lessonData.videos.map((video, index) => [video.name, index]);
-    indexUrl.forEach(video => {
-      this.downloadIndVid(e, lesson, video[1], video[0])
-    });
-    ipcRenderer.once('offline-download-error', () => alert('Downloading is not possible offline.'));
-  }
+
 
   getDownloadProgress() {
     ipcRenderer.on('download-progress', (event, progress, lesson, video) => {
