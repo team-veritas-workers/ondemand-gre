@@ -81,6 +81,7 @@ function createWindow () {
     }
     improvedProg["sid"] = Number(arg.sid);
     //console.log("improvedProg", improvedProg)
+    
         
     fs.writeFile("./progress.json", JSON.stringify(improvedProg), function(err) {
       if (err) {

@@ -21576,6 +21576,7 @@
 	    _this.logout = _this.logout.bind(_this);
 	    _this.changeVideoDataState = _this.changeVideoDataState.bind(_this);
 	    _this.saveProgressClicked = _this.saveProgressClicked.bind(_this);
+	    _this.functionChecker = _this.functionChecker.bind(_this);
 	    _this.state = {
 	      user: null,
 	      username: null,
@@ -21652,7 +21653,15 @@
 
 	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
 
-	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
+	            var improvedProg = {};
+	            var progressArg = res.data.user.progress;
+
+	            for (var i = 0; i < progressArg.length; i += 1) {
+	              var vidId = progressArg[i].video_id;
+	              improvedProg[vidId] = parseInt(progressArg[i].length);
+	            }
+
+	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg });
 	          } else {
 	            _this3.setState({ invalidLoginMessage: res.data.message });
 	          }
@@ -21735,16 +21744,27 @@
 	      });
 	    }
 	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
+	    key: 'functionChecker',
+	    value: function functionChecker() {
+	      console.log("function checker", this.state);
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
 	      var _this7 = this;
 
-	      var tenSec = 10000;
-	      this.getDownloadProgress();
-	      this.getVideoData();
 	      setTimeout(function () {
 	        return _this7.cookieChecker(_this7.state);
 	      }, 700);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var tenSec = 10000;
+	      this.getDownloadProgress();
+	      this.getVideoData();
+
+	      this.functionChecker();
 	      //setInterval(this.saveProgressClicked, tenSec);
 	    }
 	  }, {
@@ -28260,7 +28280,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
-		if (props.videoData) {
+		console.log("i am in menu", props.videoData, props.progress);
+		if (props.videoData && props.progress) {
 			for (var i = 0; i < props.videoData.length; i += 1) {
 				//here I am giving each lesson group props based on how many videos
 				//is in each group and how many of those have been watched
@@ -28280,6 +28301,9 @@
 					props.videoData[_i].lessonGroupProgress = Math.round(100 * props.videoData[_i].videosComplete / props.videoData[_i].videosQuantity);
 				}
 			}
+			console.log(props.videoData);
+		} else {
+			console.log("no videoData");
 		}
 
 		var lessons = void 0;
