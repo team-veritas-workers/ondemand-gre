@@ -94,7 +94,7 @@ const Lesson = (props) => {
           <span style={ light } key={ `${i}${video.name}` }></span>
         </span>
         <span>{ video.title }</span>
-        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'downloading...' : '' }</span>
+        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'downloading..' : '' }</span>
         <span style={ abs }>
           <span style={ download }>
             <span style={ complete }></span>

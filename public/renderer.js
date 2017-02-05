@@ -28470,7 +28470,7 @@
 	      _react2.default.createElement(
 	        'span',
 	        { style: dlPrompt },
-	        video.downloadProgress === 'downloading' ? 'downloading...' : ''
+	        video.downloadProgress === 'downloading' ? 'downloading..' : ''
 	      ),
 	      _react2.default.createElement(
 	        'span',
