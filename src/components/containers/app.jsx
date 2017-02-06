@@ -172,6 +172,14 @@ export default class App extends Component {
     console.log("function checker",this.state)
   }
 
+  saveProgressClicked() {
+    console.log('inside saveProgressClicked in app.js', this.state.progress);
+      if (this.state.progress) {
+      ipcRenderer.send('save-progress-clicked', this.state.progress)
+    }
+  } 
+
+
   componentWillMount(){
     setTimeout(() => this.cookieChecker(this.state), 700);
 
@@ -184,7 +192,7 @@ export default class App extends Component {
 
    
    
-    setInterval(this.functionChecker, tenSec);
+    setInterval(this.saveProgressClicked, tenSec);
   }
 
   changeVideoDataState(percent) {
@@ -209,12 +217,7 @@ export default class App extends Component {
     this.setState({progress: accessProgress});
   }
 // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
-  saveProgressClicked() {
-    console.log('inside saveProgressClicked in app.js', this.state.progress);
-      if (this.state.progress) {
-      ipcRenderer.send('save-progress-clicked', this.state.progress)
-    }
-  } 
+  
 
 
 

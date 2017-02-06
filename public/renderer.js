@@ -21750,6 +21750,14 @@
 	      console.log("function checker", this.state);
 	    }
 	  }, {
+	    key: 'saveProgressClicked',
+	    value: function saveProgressClicked() {
+	      console.log('inside saveProgressClicked in app.js', this.state.progress);
+	      if (this.state.progress) {
+	        _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
+	      }
+	    }
+	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      var _this7 = this;
@@ -21765,7 +21773,7 @@
 	      this.getDownloadProgress();
 	      this.getVideoData();
 
-	      setInterval(this.functionChecker, tenSec);
+	      setInterval(this.saveProgressClicked, tenSec);
 	    }
 	  }, {
 	    key: 'changeVideoDataState',
@@ -21791,14 +21799,7 @@
 	    }
 	    // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
 
-	  }, {
-	    key: 'saveProgressClicked',
-	    value: function saveProgressClicked() {
-	      console.log('inside saveProgressClicked in app.js', this.state.progress);
-	      if (this.state.progress) {
-	        _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
-	      }
-	    }
+
 	  }, {
 	    key: 'render',
 	    value: function render() {

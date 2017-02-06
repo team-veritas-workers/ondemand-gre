@@ -81,7 +81,7 @@ function createWindow () {
     }
     improvedProg["sid"] = Number(arg.sid);
     //console.log("improvedProg", improvedProg)
-    
+
         
     fs.writeFile("./progress.json", JSON.stringify(improvedProg), function(err) {
       if (err) {
@@ -267,7 +267,7 @@ request.post({
   });
 }
 
-const oneMin = 60000
+const oneMin = 5000;
 setInterval(updateProgress, oneMin);
 
 
