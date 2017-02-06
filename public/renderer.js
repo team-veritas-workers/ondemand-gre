@@ -21660,6 +21660,7 @@
 	              var vidId = progressArg[i].video_id;
 	              improvedProg[vidId] = parseInt(progressArg[i].length);
 	            }
+	            improvedProg['sid'] = parseInt(res.data.user.SID);
 
 	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg });
 	          } else {
@@ -21760,12 +21761,11 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var tenSec = 10000;
+	      var tenSec = 5000;
 	      this.getDownloadProgress();
 	      this.getVideoData();
 
-	      this.functionChecker();
-	      //setInterval(this.saveProgressClicked, tenSec);
+	      setInterval(this.functionChecker, tenSec);
 	    }
 	  }, {
 	    key: 'changeVideoDataState',
@@ -21795,7 +21795,9 @@
 	    key: 'saveProgressClicked',
 	    value: function saveProgressClicked() {
 	      console.log('inside saveProgressClicked in app.js', this.state.progress);
-	      _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
+	      if (this.state.progress) {
+	        _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -21816,7 +21818,7 @@
 	          'div',
 	          { style: app },
 	          _react2.default.createElement(_content2.default, {
-
+	            changeVideoDataState: this.changeVideoDataState,
 	            progress: this.state.progress,
 	            authenticate: this.authenticate,
 	            stateLog: this.state.logout,
@@ -28802,7 +28804,7 @@
 	    key: 'onProgress',
 	    value: function onProgress(state) {
 	      !this.state.seeking ? this.setState(state) : null;
-	      // this.props.changeVideoDataState(this.state.played * 100)
+	      this.props.changeVideoDataState(this.state.played * 100);
 	    }
 	  }, {
 	    key: 'onClickFullscreen',

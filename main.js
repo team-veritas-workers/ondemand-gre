@@ -291,16 +291,16 @@ function checkVideoTimeStamp(vidNameArr) {
   }
 }
 
-// ipcMain.on('save-progress-clicked', (event, progress) => {
-//   //console.log('inside save-progress-clicked in main.js')
-//   //console.log(progress)
-//       fs.writeFile("./progress.json", JSON.stringify(progress), function(err) {
-//       if (err) {
-//         return console.log(err);
-//       }
-//       console.log("Progress.json was updated!");
-//     })
-//   });
+ipcMain.on('save-progress-clicked', (event, progress) => {
+  //console.log('inside save-progress-clicked in main.js')
+  //console.log(progress)
+      fs.writeFile("./progress.json", JSON.stringify(progress), function(err) {
+      if (err) {
+        return console.log(err);
+      }
+      console.log("Progress.json was updated!");
+    })
+  });
 
 
 

@@ -96,6 +96,7 @@ export default class App extends Component {
       let vidId = progressArg[i].video_id;
       improvedProg[vidId] = parseInt(progressArg[i].length);
     }
+    improvedProg['sid'] = parseInt(res.data.user.SID);
     
 
 
@@ -177,13 +178,13 @@ export default class App extends Component {
   }
   
   componentDidMount() {
-    const tenSec = 10000
+    const tenSec = 5000
     this.getDownloadProgress();
     this.getVideoData();
 
    
-   this.functionChecker()
-    //setInterval(this.saveProgressClicked, tenSec);
+   
+    setInterval(this.functionChecker, tenSec);
   }
 
   changeVideoDataState(percent) {
@@ -210,7 +211,9 @@ export default class App extends Component {
 // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
   saveProgressClicked() {
     console.log('inside saveProgressClicked in app.js', this.state.progress);
-    ipcRenderer.send('save-progress-clicked', this.state.progress);
+      if (this.state.progress) {
+      ipcRenderer.send('save-progress-clicked', this.state.progress)
+    }
   } 
 
 
@@ -232,7 +235,7 @@ export default class App extends Component {
       return (
         <div style={ app }>
           <Content
-         
+            changeVideoDataState={this.changeVideoDataState}
             progress={this.state.progress}
             authenticate={this.authenticate}
             stateLog={this.state.logout}
