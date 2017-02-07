@@ -210,7 +210,7 @@ const controls = {
   flexDirection: 'row',
   justifyContent: 'space-around',
   color: '#EAEAEA',
-  backgroundColor: 'rgba(17, 21, 57, .8)',
+  backgroundColor: 'rgba(0, 0, 0, .6)',
   bottom: '0',
 }
 // DURATION AND SEEKER BAR

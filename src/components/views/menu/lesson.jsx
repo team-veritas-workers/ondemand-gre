@@ -1,39 +1,86 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
 import dlIcon from './../../../assets/dl_icon.png';
+import dlIconHover from './../../../assets/dl_icon_hover.png';
 import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
   const contents = [];
   props.lessonData.videos.forEach((video, i) => {
+
     const selectVideo = (e) => {
       props.setCurrentVideo(video, props.lessonData);
     };
 
+    const dlSingle = {
+      overflow: 'hidden',
+      position: 'absolute',
+      left: '0px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      width: '30px',
+      pointerEvents: 'none'
+    }
+
+    const downloadButton = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'absolute',
+      left: '0',
+      height: '100%',
+      width: '100%',
+      opacity: '0',
+      pointerEvents: 'none'
+    }
+
     const complete = {
       display: 'inline-block',
       position: 'absolute',
-      backgroundColor: `lightgreen`,
+      backgroundColor: `${ video.length === 100 ? 'lightgreen' : 'yellow' }`,
       height: '100%',
       width: `${ video.length ? video.length : '0' }%`,
     };
     
     const light = {
       display: 'inline-block',
-      opacity: `.7`,
-      // backgroundColor: `${ video.downloadProgress === 'done' ? 'lightgreen' : 'orange' }`,
+      opacity: `1`,
+      backgroundColor: `${ video.downloaded ? 'lightgreen' : 'grey' }`,
       height: '8px',
       width: '8px',
       borderRadius: '50%',
-      border: '.1px solid #999'
+      border: '.1px solid #999',
     }
 
-    if (video.downloadProgress === 'downloading') {
+    if (video.downloadProgress && video.downloadProgress === 'downloading') {
       light.backgroundColor = 'yellow';
-    } else if (video.downloadProgress === 'done') {
+    } 
+    else if (video.downloadProgress && video.downloadProgress === 'done') {
       light.backgroundColor = 'lightgreen';
-    } else {
-      light.backgroundColor = 'grey'
+    }
+
+    if (!video.downloaded && video.downloadProgress !== 'downloading') {
+      downloadButton.pointerEvents = 'auto',
+      downloadButton[':hover'] = {
+        opacity: '1',
+        backgroundColor: 'lightgreen',
+      }
+    } 
+    else if (video.downloadProgress && video.downloadProgress === 'done') {
+      downloadButton.pointerEvents = 'auto',
+      downloadButton[':hover'] = {
+        opacity: '1',
+        backgroundColor: 'lightgreen',
+      }
+    }
+    else {
+      downloadButton.pointerEvents = 'none',
+      downloadButton[':hover'] = {
+        opacity: '0',
+        backgroundColor: 'lightgreen',
+      }
     }
 
     const sendlessonData = (e) => {
@@ -43,10 +90,11 @@ const Lesson = (props) => {
     contents.push(
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
-          <span style={ light }></span>
+          <span key={ `${video.name}Button` }style={ downloadButton }><img src={ dlIconHover } style={ downloadImage } /></span>
+          <span style={ light } key={ `${i}${video.name}` }></span>
         </span>
         <span>{ video.title }</span>
-        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'downloading...' : '' }</span>
+        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'downloading..' : '' }</span>
         <span style={ abs }>
           <span style={ download }>
             <span style={ complete }></span>
@@ -57,23 +105,15 @@ const Lesson = (props) => {
   });
 
   const grabAllVideoNames = (e) => {
-    // function videoNames() {
-    //   const allVideoNames = []; 
-    //   //console.log(lessons[0].props.lessonData.videos)
-    //   props.lessonData.videos.forEach((video, i) => {
-    //     allVideoNames.push(video.name)
-    //   })
-    //   // console.log('this is the array allVideoNames' , allVideoNames)
-    //   return allVideoNames;
-    // }
     props.downloadAllLessson(e, props.lessonData);
   }
 
   return (
       <div style={ lesson }> 
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
-       
           <span style={ titleText }>{ props.lessonData.name }</span>
+          <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>
+          <span style={ downloadIcon } onClick={ grabAllVideoNames } key="downloadIcon"></span>
 
  <div style={ ppie }>
           <PieChart slices={[
@@ -102,6 +142,9 @@ const Lesson = (props) => {
   );
 };
 
+const downloadImage = {
+  height: '65%'
+}
 
 
         
@@ -132,20 +175,6 @@ const groupProgress = {
   margin: '10px'
 
 }
-const dlSingle = {
-  position: 'absolute',
-  left: '0px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100%',
-  width: '30px',
-  ':hover': {
-    span: {
-      backgroundColor: 'blue'
-    }
-  }
-}
 
 const lesson = {
   backgroundColor: 'transparent',
@@ -155,6 +184,7 @@ const lesson = {
 
 
 const lessonTitle = {
+  overflow: 'hidden',
   backgroundColor: 'transparent',
   height: '40px',
   color: '#FFF',
@@ -169,19 +199,28 @@ const lessonTitle = {
   borderRadius: '4px',
   transition: 'all .2s ease',
   ':hover': {
-    backgroundColor: 'blue'
+    color: '#FFF',
+    backgroundColor: 'dodgerblue'
   }
 }
 
 const downloadIcon = {
-  display: 'inline-block',
-  height: '18px',
-  width: '18px',
-  backgroundSize: '18px, 18px',
-  backgroundImage: `url(${ dlIcon })`,
+  display: 'flex',
+  height: '100%',
+  width: '35px',
+  opacity: '.7',
+  backgroundColor: 'transparent',
+  backgroundImage: `url(${ dlIconHover })`,
   backgroundRepeat: 'no-repeat',
+  backgroundSize: '60%',
+  backgroundPosition: 'center',
   position: 'absolute',
-  right: '8px'
+  right: '0px',
+  ':hover': {
+    backgroundColor: 'lightgreen',
+    opacity: '1',
+    backgroundImage: `url(${ dlIconHover })`
+  }
 }
 
 const titleText = {
@@ -238,7 +277,8 @@ const videoTitle = {
   position: 'relative',
   transition: 'all .1s ease',
   ':hover': {
-    backgroundColor: 'dodgerblue',
+    color: '#888',
+    backgroundColor: '#EAEAEA',
   }
 }
 
