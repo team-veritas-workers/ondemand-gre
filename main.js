@@ -105,6 +105,7 @@ function createWindow () {
         // console.dir(cookies);
         if (cookies) {
           fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err,data) {
+            if (err){console.log(err)};
             if (data){
               progressData = JSON.parse(data);
               const argData = [cookies, progressData]
@@ -236,7 +237,7 @@ function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
       fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err, data) {
-        if (!err) {
+        if (!err && data) {
           newProgress = JSON.parse(data);
          
           for (let key in newProgress) {
