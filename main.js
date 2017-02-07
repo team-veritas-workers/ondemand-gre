@@ -38,7 +38,7 @@ function createWindow () {
   }));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -54,15 +54,14 @@ function createWindow () {
   ipcMain.on('save-user', (event, arg, sid) => {
     // console.log('this is arg in save-user', arg)
      //console.log('this is sid on main' , sid)
-    const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')}
-
+    const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')};
 
     ses.set(cookie, (error) => {
-      if (error) console.error(error)
+      if (error) console.error(error);
     });
     const improvedProg = {};
     const progressArg = arg.progress;
-       console.log('!!!!!sid on main 65:', sid);
+       // console.log('!!!!!sid on main 65:', sid);
 
     for (let i = 0; i < progressArg.length; i += 1) {
       let vidId = progressArg[i].video_id;
@@ -70,9 +69,8 @@ function createWindow () {
       improvedProg[vidId] = parseInt(progressArg[i].length);
     }
     // improvedProg["sid"] = Number(sid);
-  console.log('this is improvedProg in save-user' , improvedProg)
+   // console.log('this is improvedProg in save-user' , improvedProg)
 
-        
     fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
       if (err) {
         return console.log('There was an error in writing to progress.json file:', err);
@@ -82,9 +80,9 @@ function createWindow () {
   })
 
 
-   ipcMain.on('logout', function (event, arg){
+   ipcMain.on('logout', function (event, arg) {
      console.log('this is arg' , arg);
-     ses.remove('http://www.auth.com', arg.name ,function(data) {
+     ses.remove('http://www.auth.com', arg.name, function (data) {
         // console.log(data)
       })
     })
@@ -96,7 +94,7 @@ function createWindow () {
         // console.dir(cookies);
         if (cookies) {
           fs.readFile('./progress.json', {encoding: 'utf-8'}, function (err, data) {
-            if (err) { console.log(err)}
+            if (err) console.log(err);
             if (data) {
               progressData = JSON.parse(data);
               const argData = [cookies, progressData];
@@ -172,7 +170,7 @@ function downloadVideo(event, url, targetPath, lesson, video) {
       total_bytes = parseInt(data.headers['content-length']);
     });
 
-    req.on('data', function(chunk) {
+    req.on('data', function (chunk) {
       received_bytes += chunk.length;
       temp = received_bytes / total_bytes * 100;
       if (temp - percentage > .75 || received_bytes === total_bytes) {
@@ -285,18 +283,18 @@ function checkVideoTimeStamp(vidNameArr) {
     let weekInMilliSec = 604800000;
    
     if ((createdVideoTime + weekInMilliSec) < Date.now()) {
-      console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInMilliSec);
-      console.log('Video is expired and is now being deleted...');
+     // console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInMilliSec);
+     // console.log('Video is expired and is now being deleted...');
       fs.unlink(folderToAccess + vidNameArr[i]);
     }
   }
 }
 
-ipcMain.on('save-progress-clicked', (event, arg, sid) => {
-  console.log('this is SID in save-progress-clicked main.js', sid);
+ipcMain.on('save-progress-auto', (event, arg, sid) => {
+  // console.log('this is SID in save-progress-auto main.js', sid);
   const improvedProg = arg;
   improvedProg["sid"] = Number(sid);
-  console.log(improvedProg.sid)
+  // console.log(improvedProg.sid)
   fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
     if (err) {
       return console.log(err);

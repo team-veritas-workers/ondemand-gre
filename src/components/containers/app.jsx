@@ -23,7 +23,7 @@ export default class App extends Component {
     this.cookieChecker = this.cookieChecker.bind(this);
     this.logout = this.logout.bind(this);
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
-    this.saveProgressClicked = this.saveProgressClicked.bind(this);
+    this.saveProgressAuto = this.saveProgressAuto.bind(this);
     this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
     this.throttleAlert = this.throttleAlert.bind(this);
 
@@ -49,7 +49,7 @@ export default class App extends Component {
     ipcRenderer.send('get-video', fileName);
   }
 
-  logout(){
+  logout() {
     ipcRenderer.send('logout', { name: this.state.user });
     this.setState({ authenticated: false });
   }
@@ -58,11 +58,8 @@ export default class App extends Component {
       ipcRenderer.send('check-cookie');
       ipcRenderer.on('cookie-exists', function(event, arg){
         if (arg[0].length !== 0) {
-          console.log('line 61 arg:', arg);
-          console.log(arg[1]);
           this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1], sid: arg[1].sid});
-          console.log('this is this.state.progress in cookieChecker:' , this.state.progress.sid)
-           //ipcRenderer.send('save-progress-clicked', this.state.progress, this.state.progress.sid)
+          // console.log('this is this.state.progress in cookieChecker:' , this.state.progress.sid)
         } else {
           this.setState({ authenticated: false });
         }
@@ -90,24 +87,17 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          
           ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: this.state.sid }, this.state.sid);
-
           const improvedProg = {};
           const progressArg = res.data.user.progress;
-          progressArg.sid = this.state.sid; //jimmy added this line
-     
-
-
+          progressArg.sid = this.state.sid; 
           for (let i = 0; i < progressArg.length; i += 1) {
             let vidId = progressArg[i].video_id;
             improvedProg[vidId] = parseInt(progressArg[i].length);
           }
 
-
-
           this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
-          console.log('!!!this is sid in app' , this.state.sid);
+          // console.log('!!!this is sid in app' , this.state.sid);
 
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
@@ -155,19 +145,13 @@ export default class App extends Component {
   
   downloadAllLessson(e, lessonData) {
     e.stopPropagation();
-    // videoNames.forEach((video)=> {
-    //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
-    // });
     const lesson = parseInt(lessonData.lessonNumber) - 1;
     const indexUrl = lessonData.videos.map((video, index) => [video.name, index]);
     indexUrl.forEach(video => {
-      this.downloadIndVid(e, lesson, video[1], video[0])
+      this.downloadIndVid(e, lesson, video[1], video[0]);
     });
     ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
   }
-
-
-
 
 
   getDownloadProgress() {
@@ -181,7 +165,7 @@ export default class App extends Component {
   }
 
   
-  toggleOfflineVidAlert(){
+  toggleOfflineVidAlert() {
     this.setState({offlineVidAlert: false});
   }
 
@@ -191,9 +175,8 @@ export default class App extends Component {
     setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
     this.getVideoData();
-    setInterval(this.saveProgressClicked, 5000);
+    setInterval(this.saveProgressAuto, tenSec);
     setTimeout(() => this.cookieChecker(this.state), 700);
-    //setInterval(this.cookieChecker(this.state), tenSec);
   }
 
   changeVideoDataState(percent) {
@@ -222,16 +205,13 @@ export default class App extends Component {
 
 // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
 
-  saveProgressClicked() {
+  saveProgressAuto() {
     //console.log('#!@!@#!@#!@#!@', this.state.sid)
-    console.log('inside saveProgressClicked in app.js', this.state.progress, this.state.sid);
-    if(this.state.progress){
-      ipcRenderer.send('save-progress-clicked', this.state.progress, this.state.sid)
+    console.log('inside saveProgressAuto in app.js (state saved to HD)');
+    if (this.state.progress) {
+      ipcRenderer.send('save-progress-auto', this.state.progress, this.state.sid);
     }
-    //ipcRenderer.send('save-progress-clicked', this.state.progress, this.state.sid);
 } 
-
-
 
 
   render() {

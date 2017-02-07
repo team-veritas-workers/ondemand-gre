@@ -5,7 +5,7 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 
 
 const Menu = (props) => {
-	console.log("i am in menu", props.videoData, props.progress)
+	// console.log("i am in menu", props.videoData, props.progress)
   if (props.videoData && props.progress) {
 		for (let i = 0; i < props.videoData.length; i += 1) {
 			//giving each lesson group props based on how many videos
@@ -26,7 +26,7 @@ const Menu = (props) => {
 				props.videoData[i].lessonGroupProgress = Math.round(100 * props.videoData[i].videosComplete/props.videoData[i].videosQuantity);
 			}
 		}
-		console.log(props.videoData)
+		// console.log(props.videoData)
 	}	
 	else {
 		console.log("no videoData")
@@ -75,8 +75,8 @@ const options = {
 }
 
 const menu = {
-	width: '450px',
-	minWidth: '450',
+	width: '425px',
+	minWidth: '425px',
 	backgroundColor: '#131544',
 	padding: '5px',
 	overflowY: 'hidden',
