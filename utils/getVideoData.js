@@ -5,11 +5,29 @@ const isOnline = require('is-online');
 module.exports = (event, appPath) => {
   const URL = 'https://www.veritasprep.com/api/desktop-app/get_playlist.php';
   const body = { type: 'desktop', account: 'GRE' };
+  const correctError = (data) => {  
+    const correction = JSON.parse(data);
+    correction[0].videos[8].name = 'gre_1_7';
+    return JSON.stringify(correction);
+  }
+  const addDownloadStatus = (data) => {
+    const videoData = JSON.parse(data);
+    videoData.map(lesson => {
+      return lesson.videos.map(video => {
+        const filePath = `${ appPath }/videos/${ video.name }.mp4`;
+        video.downloaded = fs.existsSync(filePath) ? true : false;
+        // if (exists) {
+        //   do get request for data headers content length!
+        //   if fs.statSync().size !== content-length... DLETE!
+        // }
+      });
+    });
+    return JSON.stringify(videoData);
+  }
   const sendFile = () => {
     fs.readFile(appPath + '/data/data.json', 'utf8', (err, data) => {
-      let correction = JSON.parse(data);
-      correction[0].videos[8].name = 'gre_1_7';
-      data = JSON.stringify(correction);
+      data = correctError(data);
+      data = addDownloadStatus(data);
       event.sender.send('load-video-data', data);
     });
   }

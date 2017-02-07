@@ -70,7 +70,7 @@ class Video extends Component {
 
   onProgress(state) {
     !this.state.seeking ? this.setState(state) : null;
-    this.props.changeVideoDataState(this.state.played * 100)
+   this.props.changeVideoDataState(this.state.played * 100)
   }
      
   onClickFullscreen() {
@@ -210,7 +210,7 @@ const controls = {
   flexDirection: 'row',
   justifyContent: 'space-around',
   color: '#EAEAEA',
-  backgroundColor: 'rgba(17, 21, 57, .8)',
+  backgroundColor: 'rgba(0, 0, 0, .6)',
   bottom: '0',
 }
 // DURATION AND SEEKER BAR
