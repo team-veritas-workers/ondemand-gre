@@ -56,7 +56,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	__webpack_require__(306);
+	__webpack_require__(305);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21538,11 +21538,11 @@
 
 	var _content2 = _interopRequireDefault(_content);
 
-	var _spinner = __webpack_require__(305);
+	var _spinner = __webpack_require__(304);
 
 	var _spinner2 = _interopRequireDefault(_spinner);
 
-	var _electron = __webpack_require__(304);
+	var _electron = __webpack_require__(303);
 
 	var _electron2 = _interopRequireDefault(_electron);
 
@@ -28201,7 +28201,7 @@
 
 	var _menu2 = _interopRequireDefault(_menu);
 
-	var _reactVideo = __webpack_require__(279);
+	var _reactVideo = __webpack_require__(278);
 
 	var _reactVideo2 = _interopRequireDefault(_reactVideo);
 
@@ -28209,7 +28209,7 @@
 
 	var _login2 = _interopRequireDefault(_login);
 
-	var _electron = __webpack_require__(304);
+	var _electron = __webpack_require__(303);
 
 	var _electron2 = _interopRequireDefault(_electron);
 
@@ -28289,7 +28289,7 @@
 
 	var _lesson2 = _interopRequireDefault(_lesson);
 
-	var _veritasLogoWhite = __webpack_require__(278);
+	var _veritasLogoWhite = __webpack_require__(277);
 
 	var _veritasLogoWhite2 = _interopRequireDefault(_veritasLogoWhite);
 
@@ -28413,7 +28413,7 @@
 
 	var _dl_icon2 = _interopRequireDefault(_dl_icon);
 
-	var _reactSimplePieChart = __webpack_require__(277);
+	var _reactSimplePieChart = __webpack_require__(309);
 
 	var _reactSimplePieChart2 = _interopRequireDefault(_reactSimplePieChart);
 
@@ -28689,143 +28689,10 @@
 /* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var PropTypes = _react2.default.PropTypes;
-
-	var size = 100;
-	var radCircumference = Math.PI * 2;
-	var center = size / 2;
-	var radius = center - 1; // padding to prevent clipping
-
-	/**
-	 * @param {Object[]} slices
-	 * @return {Object[]}
-	 */
-	function renderPaths(slices) {
-	  var total = slices.reduce(function (totalValue, _ref) {
-	    var value = _ref.value;
-	    return totalValue + value;
-	  }, 0);
-
-	  var radSegment = 0;
-	  var lastX = radius;
-	  var lastY = 0;
-
-	  return slices.map(function (_ref2, index) {
-	    var color = _ref2.color;
-	    var value = _ref2.value;
-
-	    // Should we just draw a circle?
-	    if (value === total) {
-	      return _react2.default.createElement('circle', {
-	        r: radius,
-	        cx: center,
-	        cy: center,
-	        fill: color,
-	        key: index
-	      });
-	    }
-
-	    if (value === 0) {
-	      return;
-	    }
-
-	    var valuePercentage = value / total;
-
-	    // Should the arc go the long way round?
-	    var longArc = valuePercentage <= 0.5 ? 0 : 1;
-
-	    radSegment += valuePercentage * radCircumference;
-	    var nextX = Math.cos(radSegment) * radius;
-	    var nextY = Math.sin(radSegment) * radius;
-
-	    // d is a string that describes the path of the slice.
-	    // The weirdly placed minus signs [eg, (-(lastY))] are due to the fact
-	    // that our calculations are for a graph with positive Y values going up,
-	    // but on the screen positive Y values go down.
-	    var d = ['M ' + center + ',' + center, 'l ' + lastX + ',' + -lastY, 'a' + radius + ',' + radius, '0', longArc + ',0', nextX - lastX + ',' + -(nextY - lastY), 'z'].join(' ');
-
-	    lastX = nextX;
-	    lastY = nextY;
-
-	    return _react2.default.createElement('path', { d: d, fill: color, key: index });
-	  });
-	}
-
-	/**
-	 * Generates an SVG pie chart.
-	 * @see {http://wiki.scribus.net/canvas/Making_a_Pie_Chart}
-	 */
-
-	var PieChart = (function (_React$Component) {
-	  _inherits(PieChart, _React$Component);
-
-	  function PieChart() {
-	    _classCallCheck(this, PieChart);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PieChart).apply(this, arguments));
-	  }
-
-	  _createClass(PieChart, [{
-	    key: 'render',
-
-	    /**
-	     * @return {Object}
-	     */
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'svg',
-	        { viewBox: '0 0 ' + size + ' ' + size },
-	        _react2.default.createElement(
-	          'g',
-	          { transform: 'rotate(-90 ' + center + ' ' + center + ')' },
-	          renderPaths(this.props.slices)
-	        )
-	      );
-	    }
-	  }]);
-
-	  return PieChart;
-	})(_react2.default.Component);
-
-	exports.default = PieChart;
-
-	PieChart.propTypes = {
-	  slices: PropTypes.arrayOf(PropTypes.shape({
-	    color: PropTypes.string.isRequired, // hex color
-	    value: PropTypes.number.isRequired
-	  })).isRequired
-	};
-	module.exports = exports['default'];
-
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
 	module.exports = __webpack_require__.p + "2e21749335ed2b94c0192e5e5fa92e6e.png";
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28846,43 +28713,43 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _banner = __webpack_require__(280);
+	var _banner = __webpack_require__(279);
 
 	var _banner2 = _interopRequireDefault(_banner);
 
-	var _breadcrumbs = __webpack_require__(281);
+	var _breadcrumbs = __webpack_require__(280);
 
 	var _breadcrumbs2 = _interopRequireDefault(_breadcrumbs);
 
-	var _reactPlayer = __webpack_require__(282);
+	var _reactPlayer = __webpack_require__(281);
 
 	var _reactPlayer2 = _interopRequireDefault(_reactPlayer);
 
-	var _duration = __webpack_require__(297);
+	var _duration = __webpack_require__(296);
 
 	var _duration2 = _interopRequireDefault(_duration);
 
-	var _screenfull = __webpack_require__(298);
+	var _screenfull = __webpack_require__(297);
 
 	var _screenfull2 = _interopRequireDefault(_screenfull);
 
-	var _play_icon = __webpack_require__(299);
+	var _play_icon = __webpack_require__(298);
 
 	var _play_icon2 = _interopRequireDefault(_play_icon);
 
-	var _pause_icon = __webpack_require__(300);
+	var _pause_icon = __webpack_require__(299);
 
 	var _pause_icon2 = _interopRequireDefault(_pause_icon);
 
-	var _volume_icon = __webpack_require__(301);
+	var _volume_icon = __webpack_require__(300);
 
 	var _volume_icon2 = _interopRequireDefault(_volume_icon);
 
-	var _mute_icon = __webpack_require__(302);
+	var _mute_icon = __webpack_require__(301);
 
 	var _mute_icon2 = _interopRequireDefault(_mute_icon);
 
-	var _fullscreen_icon = __webpack_require__(303);
+	var _fullscreen_icon = __webpack_require__(302);
 
 	var _fullscreen_icon2 = _interopRequireDefault(_fullscreen_icon);
 
@@ -29222,7 +29089,7 @@
 	exports.default = (0, _radium2.default)(Video);
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29239,7 +29106,7 @@
 
 	var _radium2 = _interopRequireDefault(_radium);
 
-	var _veritasLogoWhite = __webpack_require__(278);
+	var _veritasLogoWhite = __webpack_require__(277);
 
 	var _veritasLogoWhite2 = _interopRequireDefault(_veritasLogoWhite);
 
@@ -29352,7 +29219,7 @@
 	exports.default = (0, _radium2.default)(Banner);
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29411,7 +29278,7 @@
 	exports.default = (0, _radium2.default)(Breadcrumbs);
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29428,33 +29295,33 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _props3 = __webpack_require__(283);
+	var _props3 = __webpack_require__(282);
 
-	var _YouTube = __webpack_require__(284);
+	var _YouTube = __webpack_require__(283);
 
 	var _YouTube2 = _interopRequireDefault(_YouTube);
 
-	var _SoundCloud = __webpack_require__(288);
+	var _SoundCloud = __webpack_require__(287);
 
 	var _SoundCloud2 = _interopRequireDefault(_SoundCloud);
 
-	var _Vimeo = __webpack_require__(291);
+	var _Vimeo = __webpack_require__(290);
 
 	var _Vimeo2 = _interopRequireDefault(_Vimeo);
 
-	var _FilePlayer = __webpack_require__(290);
+	var _FilePlayer = __webpack_require__(289);
 
 	var _FilePlayer2 = _interopRequireDefault(_FilePlayer);
 
-	var _Streamable = __webpack_require__(294);
+	var _Streamable = __webpack_require__(293);
 
 	var _Streamable2 = _interopRequireDefault(_Streamable);
 
-	var _Vidme = __webpack_require__(295);
+	var _Vidme = __webpack_require__(294);
 
 	var _Vidme2 = _interopRequireDefault(_Vidme);
 
-	var _Wistia = __webpack_require__(296);
+	var _Wistia = __webpack_require__(295);
 
 	var _Wistia2 = _interopRequireDefault(_Wistia);
 
@@ -29606,7 +29473,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29701,7 +29568,7 @@
 	};
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29720,15 +29587,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _loadScript = __webpack_require__(285);
+	var _loadScript = __webpack_require__(284);
 
 	var _loadScript2 = _interopRequireDefault(_loadScript);
 
-	var _Base2 = __webpack_require__(286);
+	var _Base2 = __webpack_require__(285);
 
 	var _Base3 = _interopRequireDefault(_Base2);
 
-	var _utils = __webpack_require__(287);
+	var _utils = __webpack_require__(286);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -29957,7 +29824,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports) {
 
 	
@@ -30028,7 +29895,7 @@
 
 
 /***/ },
-/* 286 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30041,7 +29908,7 @@
 
 	var _react = __webpack_require__(1);
 
-	var _props2 = __webpack_require__(283);
+	var _props2 = __webpack_require__(282);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -30186,7 +30053,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30236,7 +30103,7 @@
 	}
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30253,15 +30120,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _fetchJsonp = __webpack_require__(289);
+	var _fetchJsonp = __webpack_require__(288);
 
 	var _fetchJsonp2 = _interopRequireDefault(_fetchJsonp);
 
-	var _FilePlayer2 = __webpack_require__(290);
+	var _FilePlayer2 = __webpack_require__(289);
 
 	var _FilePlayer3 = _interopRequireDefault(_FilePlayer2);
 
-	var _props3 = __webpack_require__(283);
+	var _props3 = __webpack_require__(282);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -30388,7 +30255,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
@@ -30501,7 +30368,7 @@
 	});
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30520,7 +30387,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Base2 = __webpack_require__(286);
+	var _Base2 = __webpack_require__(285);
 
 	var _Base3 = _interopRequireDefault(_Base2);
 
@@ -30685,7 +30552,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30704,9 +30571,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _queryString = __webpack_require__(292);
+	var _queryString = __webpack_require__(291);
 
-	var _Base2 = __webpack_require__(286);
+	var _Base2 = __webpack_require__(285);
 
 	var _Base3 = _interopRequireDefault(_Base2);
 
@@ -30897,11 +30764,11 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var strictUriEncode = __webpack_require__(293);
+	var strictUriEncode = __webpack_require__(292);
 	var objectAssign = __webpack_require__(4);
 
 	function encoderForArrayFormat(opts) {
@@ -31106,7 +30973,7 @@
 
 
 /***/ },
-/* 293 */
+/* 292 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31118,7 +30985,7 @@
 
 
 /***/ },
-/* 294 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31129,7 +30996,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _FilePlayer2 = __webpack_require__(290);
+	var _FilePlayer2 = __webpack_require__(289);
 
 	var _FilePlayer3 = _interopRequireDefault(_FilePlayer2);
 
@@ -31201,7 +31068,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 295 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31212,7 +31079,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _FilePlayer2 = __webpack_require__(290);
+	var _FilePlayer2 = __webpack_require__(289);
 
 	var _FilePlayer3 = _interopRequireDefault(_FilePlayer2);
 
@@ -31284,7 +31151,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 296 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31301,11 +31168,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _loadScript = __webpack_require__(285);
+	var _loadScript = __webpack_require__(284);
 
 	var _loadScript2 = _interopRequireDefault(_loadScript);
 
-	var _Base2 = __webpack_require__(286);
+	var _Base2 = __webpack_require__(285);
 
 	var _Base3 = _interopRequireDefault(_Base2);
 
@@ -31467,7 +31334,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31541,7 +31408,7 @@
 	exports.default = Duration;
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports) {
 
 	/*!
@@ -31692,43 +31559,43 @@
 
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "d6ee05f4bc572aa4d1c5c88435f2af84.png";
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAIbklEQVR4nO3WsQ3DQBAEsTv13/O7BGV6GENWsNFiZgCAnJ2ZOeec20Pgze7u7Q3wxp/yD3Z3n9sjAIDvCQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAQJAAAIAgAQAAQQIAAIIEAAAECQAACBIAABAkAAAgSAAAAABAwQ/AeAv8h6CrqQAAAABJRU5ErkJggg=="
 
 /***/ },
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "4258e8d274d2550e827d3b9e7d1231eb.png";
 
 /***/ },
-/* 302 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "a9bf9a9bfe68a15e4721f7a4c819235c.png";
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,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"
 
 /***/ },
-/* 304 */
+/* 303 */
 /***/ function(module, exports) {
 
 	module.exports = require("electron");
 
 /***/ },
-/* 305 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31779,16 +31646,16 @@
 	exports.default = Spinner;
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(307);
+	var content = __webpack_require__(306);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(309)(content, {});
+	var update = __webpack_require__(308)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -31805,10 +31672,10 @@
 	}
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(308)();
+	exports = module.exports = __webpack_require__(307)();
 	// imports
 
 
@@ -31819,7 +31686,7 @@
 
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports) {
 
 	/*
@@ -31875,7 +31742,7 @@
 
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -32124,6 +31991,139 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PropTypes = _react2.default.PropTypes;
+
+	var size = 100;
+	var radCircumference = Math.PI * 2;
+	var center = size / 2;
+	var radius = center - 1; // padding to prevent clipping
+
+	/**
+	 * @param {Object[]} slices
+	 * @return {Object[]}
+	 */
+	function renderPaths(slices) {
+	  var total = slices.reduce(function (totalValue, _ref) {
+	    var value = _ref.value;
+	    return totalValue + value;
+	  }, 0);
+
+	  var radSegment = 0;
+	  var lastX = radius;
+	  var lastY = 0;
+
+	  return slices.map(function (_ref2, index) {
+	    var color = _ref2.color;
+	    var value = _ref2.value;
+
+	    // Should we just draw a circle?
+	    if (value === total) {
+	      return _react2.default.createElement('circle', {
+	        r: radius,
+	        cx: center,
+	        cy: center,
+	        fill: color,
+	        key: index
+	      });
+	    }
+
+	    if (value === 0) {
+	      return;
+	    }
+
+	    var valuePercentage = value / total;
+
+	    // Should the arc go the long way round?
+	    var longArc = valuePercentage <= 0.5 ? 0 : 1;
+
+	    radSegment += valuePercentage * radCircumference;
+	    var nextX = Math.cos(radSegment) * radius;
+	    var nextY = Math.sin(radSegment) * radius;
+
+	    // d is a string that describes the path of the slice.
+	    // The weirdly placed minus signs [eg, (-(lastY))] are due to the fact
+	    // that our calculations are for a graph with positive Y values going up,
+	    // but on the screen positive Y values go down.
+	    var d = ['M ' + center + ',' + center, 'l ' + lastX + ',' + -lastY, 'a' + radius + ',' + radius, '0', longArc + ',0', nextX - lastX + ',' + -(nextY - lastY), 'z'].join(' ');
+
+	    lastX = nextX;
+	    lastY = nextY;
+
+	    return _react2.default.createElement('path', { d: d, fill: color, key: index });
+	  });
+	}
+
+	/**
+	 * Generates an SVG pie chart.
+	 * @see {http://wiki.scribus.net/canvas/Making_a_Pie_Chart}
+	 */
+
+	var PieChart = (function (_React$Component) {
+	  _inherits(PieChart, _React$Component);
+
+	  function PieChart() {
+	    _classCallCheck(this, PieChart);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PieChart).apply(this, arguments));
+	  }
+
+	  _createClass(PieChart, [{
+	    key: 'render',
+
+	    /**
+	     * @return {Object}
+	     */
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'svg',
+	        { viewBox: '0 0 ' + size + ' ' + size },
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'rotate(-90 ' + center + ' ' + center + ')' },
+	          renderPaths(this.props.slices)
+	        )
+	      );
+	    }
+	  }]);
+
+	  return PieChart;
+	})(_react2.default.Component);
+
+	exports.default = PieChart;
+
+	PieChart.propTypes = {
+	  slices: PropTypes.arrayOf(PropTypes.shape({
+	    color: PropTypes.string.isRequired, // hex color
+	    value: PropTypes.number.isRequired
+	  })).isRequired
+	};
+	module.exports = exports['default'];
 
 
 /***/ }
