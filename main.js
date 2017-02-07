@@ -263,7 +263,7 @@ request.post({
   url:     'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
   body:    buildtUpStr
 }, function(error, response, body) {
-  console.log('inside postProgress response body of request', response, body);
+  //console.log('inside postProgress response body of request', response, body);
   });
 }
 

@@ -175,6 +175,7 @@ export default class App extends Component {
   saveProgressClicked() {
     console.log('inside saveProgressClicked in app.js', this.state.progress);
       if (this.state.progress) {
+        console.log("we are in here")
       ipcRenderer.send('save-progress-clicked', this.state.progress)
     }
   } 
