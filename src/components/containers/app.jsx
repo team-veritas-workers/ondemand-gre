@@ -14,7 +14,6 @@ export default class App extends Component {
     this.authenticate = this.authenticate.bind(this);
     this.usernameOnChange = this.usernameOnChange.bind(this);
     this.passwordOnChange = this.passwordOnChange.bind(this);    
-    this.saveUserData = this.saveUserData.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.expandLesson = this.expandLesson.bind(this);
@@ -25,7 +24,9 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressClicked = this.saveProgressClicked.bind(this);
-    this.functionChecker = this.functionChecker.bind(this)
+    this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
+    this.throttleAlert = this.throttleAlert.bind(this);
+
     this.state = {
       user: null,
       username: null,
@@ -36,7 +37,7 @@ export default class App extends Component {
       showMenu: true,
       invalidLoginMessage: '',
       videoData: null,
-      progress: null,
+      offlineVidAlert: false,
     };
   }
 
@@ -44,7 +45,7 @@ export default class App extends Component {
     const fileName = `${ video.name }.mp4`
     const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };
     ipcRenderer.once('play-video', (event, arg) => this.setState({ url: arg, currentVideo: currentVideo }));
-    // ipcRenderer.once('offline-vid-error', () => console.log('Video not available offline.'));
+    ipcRenderer.once('offline-vid-error', () => alert('Video not available offline.'));
     ipcRenderer.send('get-video', fileName);
   }
 
@@ -54,22 +55,26 @@ export default class App extends Component {
   }
 
    cookieChecker(state) {
-      ipcRenderer.send('check-cookie')
+      ipcRenderer.send('check-cookie');
       ipcRenderer.on('cookie-exists', function(event, arg){
-        if (arg[0].length !== 0){
-          this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1] });
+        if (arg[0].length !== 0) {
+          console.log('line 61 arg:', arg);
+          console.log(arg[1]);
+          this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1], sid: arg[1].sid});
+          console.log('this is this.state.progress in cookieChecker:' , this.state.progress.sid)
+           //ipcRenderer.send('save-progress-clicked', this.state.progress, this.state.progress.sid)
         } else {
-          this.setState({ authenticated: false })
+          this.setState({ authenticated: false });
         }
       }.bind(this))
   }
 
   usernameOnChange(e) {
-    this.setState({ username: e.target.value })
+    this.setState({ username: e.target.value });
   }
 
   passwordOnChange(e) {
-    this.setState({ password: e.target.value })
+    this.setState({ password: e.target.value });
   }
 
   authenticate(e) {
@@ -85,31 +90,30 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
+          
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: this.state.sid }, this.state.sid);
 
           const improvedProg = {};
-    const progressArg = res.data.user.progress;
-       
-
-    for (let i = 0; i < progressArg.length; i += 1) {
-      let vidId = progressArg[i].video_id;
-      improvedProg[vidId] = parseInt(progressArg[i].length);
-    }
-    improvedProg['sid'] = parseInt(res.data.user.SID);
-    
+          const progressArg = res.data.user.progress;
+          progressArg.sid = this.state.sid; //jimmy added this line
+     
 
 
-          this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg });
+          for (let i = 0; i < progressArg.length; i += 1) {
+            let vidId = progressArg[i].video_id;
+            improvedProg[vidId] = parseInt(progressArg[i].length);
+          }
+
+
+
+          this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+          console.log('!!!this is sid in app' , this.state.sid);
+
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
         }
       }).catch(err => console.log(err));      
     }
-  }
-
-  saveUserData(json,firstname) {
-    ipcRenderer.send('save-user', {email: JSON.parse(json).user.email, user: firstname })
   }
 
   getVideoData() {
@@ -133,11 +137,19 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
 
+  throttleAlert(callback, delay) {
+    if (!this.state.offlineVidAlert) {
+      alert('Downloading when offline is not possible.');
+    }
+    this.setState({ offlineVidAlert: true });
+  }
+
   downloadIndVid(e, lesson, video, id) {
     e.preventDefault();
     e.stopPropagation();
     const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
     const sd = `https://gre-on-demand.veritasprep.com/360p_${ id }.mp4`;
+    ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
     ipcRenderer.send('download-video', hd, lesson, parseInt(video));
   }
   
@@ -151,7 +163,10 @@ export default class App extends Component {
     indexUrl.forEach(video => {
       this.downloadIndVid(e, lesson, video[1], video[0])
     });
+    ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
   }
+
+
 
 
 
@@ -159,38 +174,26 @@ export default class App extends Component {
     ipcRenderer.on('download-progress', (event, progress, lesson, video) => {
       const videoData = this.state.videoData.slice(0);
       if (videoData[lesson]) {
-        videoData[lesson].videos[video].downloadProgress = `${progress}`
-        this.setState({ videoData: videoData })
+        videoData[lesson].videos[video].downloadProgress = `${progress}`;
+        this.setState({ videoData: videoData });
       }
     });
   }
 
-  functionChecker(){
-    console.log("function checker",this.state)
-  }
-
-  saveProgressClicked() {
-    console.log('inside saveProgressClicked in app.js', this.state.progress);
-      if (this.state.progress) {
-        console.log("we are in here")
-      ipcRenderer.send('save-progress-clicked', this.state.progress)
-    }
-  } 
-
-
-  componentWillMount(){
-    setTimeout(() => this.cookieChecker(this.state), 700);
-
-  }
   
+  toggleOfflineVidAlert(){
+    this.setState({offlineVidAlert: false});
+  }
+
+
   componentDidMount() {
-    const tenSec = 5000
+    const tenSec = 10000;
+    setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
     this.getVideoData();
-
-   
-   
-    setInterval(this.saveProgressClicked, tenSec);
+    setInterval(this.saveProgressClicked, 5000);
+    setTimeout(() => this.cookieChecker(this.state), 700);
+    //setInterval(this.cookieChecker(this.state), tenSec);
   }
 
   changeVideoDataState(percent) {
@@ -214,13 +217,25 @@ export default class App extends Component {
     accessProgress[videoId] = percent;
     this.setState({progress: accessProgress});
   }
+
+ 
+
 // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
-  
+
+  saveProgressClicked() {
+    //console.log('#!@!@#!@#!@#!@', this.state.sid)
+    console.log('inside saveProgressClicked in app.js', this.state.progress, this.state.sid);
+    if(this.state.progress){
+      ipcRenderer.send('save-progress-clicked', this.state.progress, this.state.sid)
+    }
+    //ipcRenderer.send('save-progress-clicked', this.state.progress, this.state.sid);
+} 
+
 
 
 
   render() {
-    // console.log('!!!!this.state.progress:', this.state.progress)
+    //console.log('this.state on app end in render:', this.state)
     if (this.state.authenticated === false) {
       return (
         <div style={ app }>
