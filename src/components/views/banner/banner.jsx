@@ -9,13 +9,13 @@ const Banner = (props) => {
         <div style={ title }>{ props.lessonData.videoTitle }</div>
         <div style={ subtitle }>{ props.lessonData.lessonName }</div>
       </div>
-      <div style={ greeting } onClick={ props.logger }>Logout</div>
-      <div style={ save } key="asdfadfasdf" onClick={ props.saveProgressClicked }>Save!</div>
+      <div style={ greeting } key="loggerKey" onClick={ props.logger }>Logout</div>
+      <div style={ save } key="saveKey" onClick={ props.saveProgressClicked }>Save!</div>
     </div>
   );
 };
 
-const save1 = {
+const save = {
   color: '#999999',
   marginRight: '15px',
   ':hover': {
@@ -92,7 +92,7 @@ const logo = {
   backgroundRepeat: 'no-repeat',
 }
 
-const save = {
+const save1 = {
   fontSize: '1em',
   fontWeight: 'light',
   height: '100%',
