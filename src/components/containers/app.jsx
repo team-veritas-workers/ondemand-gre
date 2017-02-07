@@ -25,6 +25,7 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressClicked = this.saveProgressClicked.bind(this);
+    this.functionChecker = this.functionChecker.bind(this)
     this.state = {
       user: null,
       username: null,
@@ -87,7 +88,19 @@ export default class App extends Component {
 
           ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
 
-          this.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
+          const improvedProg = {};
+    const progressArg = res.data.user.progress;
+       
+
+    for (let i = 0; i < progressArg.length; i += 1) {
+      let vidId = progressArg[i].video_id;
+      improvedProg[vidId] = parseInt(progressArg[i].length);
+    }
+    improvedProg['sid'] = parseInt(res.data.user.SID);
+    
+
+
+          this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg });
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
         }
@@ -143,6 +156,8 @@ export default class App extends Component {
     });
   }
 
+
+
   getDownloadProgress() {
     ipcRenderer.on('download-progress', (event, progress, lesson, video) => {
       const videoData = this.state.videoData.slice(0);
@@ -152,12 +167,32 @@ export default class App extends Component {
       }
     });
   }
+
+  functionChecker(){
+    console.log("function checker",this.state)
+  }
+
+  saveProgressClicked() {
+    console.log('inside saveProgressClicked in app.js', this.state.progress);
+      if (this.state.progress) {
+        console.log("we are in here")
+      ipcRenderer.send('save-progress-clicked', this.state.progress)
+    }
+  } 
+
+
+  componentWillMount(){
+    setTimeout(() => this.cookieChecker(this.state), 700);
+
+  }
   
   componentDidMount() {
-    const tenSec = 10000
+    const tenSec = 5000
     this.getDownloadProgress();
     this.getVideoData();
-    setTimeout(() => this.cookieChecker(this.state), 700);
+
+   
+   
     setInterval(this.saveProgressClicked, tenSec);
   }
 
@@ -183,10 +218,7 @@ export default class App extends Component {
     this.setState({progress: accessProgress});
   }
 // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
-  saveProgressClicked() {
-    console.log('inside saveProgressClicked in app.js', this.state.progress);
-    ipcRenderer.send('save-progress-clicked', this.state.progress);
-  } 
+  
 
 
 

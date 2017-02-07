@@ -81,6 +81,7 @@ function createWindow () {
     }
     improvedProg["sid"] = Number(arg.sid);
     //console.log("improvedProg", improvedProg)
+
         
     fs.writeFile("./progress.json", JSON.stringify(improvedProg), function(err) {
       if (err) {
@@ -104,12 +105,15 @@ function createWindow () {
         // console.dir(cookies);
         if (cookies) {
           fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err,data) {
-            if (!err){
+            if (err){console.log(err)};
+            if (data){
               progressData = JSON.parse(data);
               const argData = [cookies, progressData]
               event.sender.send('cookie-exists',argData)
             } else {
-              console.log("read file error", err);
+              progressData = {}
+              const argData = [cookies, progressData]
+              event.sender.send('cookie-exists',argData)
             }
           });
         }
@@ -233,7 +237,7 @@ function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
       fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err, data) {
-        if (!err) {
+        if (!err && data) {
           newProgress = JSON.parse(data);
          
           for (let key in newProgress) {
@@ -260,11 +264,11 @@ request.post({
   url:     'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
   body:    buildtUpStr
 }, function(error, response, body) {
-  console.log('inside postProgress response body of request', response, body);
+  //console.log('inside postProgress response body of request', response, body);
   });
 }
 
-const oneMin = 60000
+const oneMin = 5000;
 setInterval(updateProgress, oneMin);
 
 

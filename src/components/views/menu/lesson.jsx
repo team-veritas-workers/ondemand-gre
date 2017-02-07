@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
 import dlIcon from './../../../assets/dl_icon.png';
+import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
   const contents = [];
@@ -73,7 +74,20 @@ const Lesson = (props) => {
         <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
        
           <span style={ titleText }>{ props.lessonData.name }</span>
-          <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>
+
+ <div style={ ppie }>
+          <PieChart slices={[
+                    {
+                      color: 'gray',
+                      value: 100 - props.lessonData.lessonGroupProgress,
+                    },
+                    {
+                      color: 'white',
+                      value: props.lessonData.lessonGroupProgress,
+                    },
+                  ]}/>
+                  </div>
+         {/* <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>*/}
 
           
 
@@ -87,6 +101,25 @@ const Lesson = (props) => {
       </div>
   );
 };
+
+
+
+        
+          
+          
+
+      
+const ppie = {
+  height:'18px',
+  width: '18px',
+  margin: '5px'
+  
+
+}
+
+
+
+
 
 
 const dlPrompt = {
