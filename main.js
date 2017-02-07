@@ -51,8 +51,9 @@ function createWindow () {
   const ses = session.fromPartition('persist:name').cookies;
 
 
-  ipcMain.on('save-user', (event, arg) => {
-    // console.log(arg)
+  ipcMain.on('save-user', (event, arg, sid) => {
+    // console.log('this is arg in save-user', arg)
+     //console.log('this is sid on main' , sid)
     const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')}
 
 
@@ -61,15 +62,15 @@ function createWindow () {
     });
     const improvedProg = {};
     const progressArg = arg.progress;
-       
+       console.log('!!!!!sid on main 65:', sid);
 
     for (let i = 0; i < progressArg.length; i += 1) {
       let vidId = progressArg[i].video_id;
-      console.log(vidId)
+      //console.log('this is vidId', vidId)
       improvedProg[vidId] = parseInt(progressArg[i].length);
     }
-    improvedProg["sid"] = Number(arg.sid);
-  
+    // improvedProg["sid"] = Number(sid);
+  console.log('this is improvedProg in save-user' , improvedProg)
         
     fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
       if (err) {
@@ -81,6 +82,7 @@ function createWindow () {
 
 
    ipcMain.on('logout', function (event, arg){
+     console.log('this is arg' , arg);
      ses.remove('http://www.auth.com', arg.name ,function(data) {
         // console.log(data)
       })
@@ -92,11 +94,11 @@ function createWindow () {
         let progressData;
         // console.dir(cookies);
         if (cookies) {
-          fs.readFile('./progress.json', {encoding: 'utf-8'}, function (err,data) {
+          fs.readFile('./progress.json', {encoding: 'utf-8'}, function (err, data) {
             if (!err){
               progressData = JSON.parse(data);
-              const argData = [cookies, progressData]
-              event.sender.send('cookie-exists',argData)
+              const argData = [cookies, progressData];
+              event.sender.send('cookie-exists', argData)
             } else {
               console.log("read file error", err);
             }
@@ -182,47 +184,55 @@ function downloadVideo(event, url, targetPath, lesson, video) {
 }
 
 
-ipcMain.on('download-video', (event, path, lesson, video) => {
- isOnline().then(function(online) {
-   if (online === true) {
-     console.log(path);
-	   const fileName = path.substring(path.lastIndexOf('/') + 1);
-     if (!fs.existsSync(app.getAppPath() + '/videos/')) {
-       fs.mkdirSync(app.getAppPath() + '/videos/');
-      }
-      downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
-    } else {
-      let lastTimeCalled = 0;
-      if (lastTimeCalled < (Date.now() + 10000)) {
-        console.log('Inside if statement');
-        event.sender.send('offline-download-error');
-        lastTimeCalled = Date.now();
-      }
 
-      // let throttledSend = throttle(sendOfflineDownloadErr, 3000);
-      // throttledSend()
-      //event.sender.send('offline-download-error');
+ipcMain.on('download-video', (event, path, lesson, video) => {
+  isOnline().then(function (online) {
+    if (online) {
+      console.log(path);
+	    const fileName = path.substring(path.lastIndexOf('/') + 1);
+	    if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+		    fs.mkdirSync(app.getAppPath() + '/videos/');
+	    }
+	    downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
+    } else {
+      event.sender.send('offline-download-error');
+      // throttle(sendError1, 3000);
     }
   })
-});
+})
 
-  // function throttle (callback, limit) {
-  //   let wait = false;                 
-  //     return function () {             
-  //       if (!wait) {                  
-  //         callback();          
-  //         wait = true;             
-  //         setTimeout(function () {
-  //           wait = false;         
-  //         }, limit);
-  //       }
-  //     }
-  //   }
+// function throatle (callback, wait) {
+//   console.log('throatle');
+//   let lastCalled = 0;
+//   return function(...args) {
+//     console.log('allo?');
+//     const now = Date.now();
+//     if (now - lastCalled > wait) {
+//       lastCalled = now;
+//       return callback(...args);
+//     }
+//   }
+// }
 
 
-function sendOfflineDownloadErr() {
-   event.sender.send('offline-download-error');
-}
+
+// function throttle (callback, limit) {
+//   console.log('Inside throttle')
+//   var wait = false;
+//   return function () {
+//     console.log('hello');
+//     if (!wait) {
+
+//       callback.apply(null, arguments);
+//       wait = true;
+//       setTimeout(function () {
+//         wait = false;
+//       }, limit);
+//     }
+//   }
+// }
+
+  
 
 ipcMain.on('get-video', (event, path) => {
 	if (!fs.existsSync(app.getAppPath() + '/videos/')) {
@@ -274,21 +284,21 @@ function updateProgress() {
 
 
 function postProgress(buildtUpStr) {
-console.log('inside postProgress post request')
+//console.log('inside postProgress post request')
 request.post({
   headers: {'content-type' : 'application/x-www-form-urlencoded'},
   url:     'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
   body:    buildtUpStr
 }, function (err, response, body) {
-  if(err) { 
+  if (err) { 
     console.log('There was an error in postProgress:', err);
   }
-  console.log('inside postProgress response body of request', response, body);
+  //console.log('inside postProgress response body of request', response, body);
   });
 }
 
-const oneMin = 60000
-setInterval(updateProgress, oneMin);
+const oneMin = 60000;
+//setInterval(updateProgress, oneMin);
 
 
 function checkVideoTimeStamp(vidNameArr) {
@@ -306,8 +316,12 @@ function checkVideoTimeStamp(vidNameArr) {
   }
 }
 
-ipcMain.on('save-progress-clicked', (event, progress) => {
-  fs.writeFile("./progress.json", JSON.stringify(progress), function (err) {
+ipcMain.on('save-progress-clicked', (event, arg, sid) => {
+  console.log('this is SID in save-progress-clicked main.js', sid);
+  const improvedProg = arg;
+  improvedProg["sid"] = Number(sid);
+  console.log(improvedProg.sid)
+  fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
     if (err) {
       return console.log(err);
     }
