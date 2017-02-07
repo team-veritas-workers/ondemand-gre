@@ -273,8 +273,8 @@ request.post({
 }
 
 
-const oneMin = 10000;
-setInterval(updateProgress, oneMin);
+const twentySec = 20000;
+setInterval(updateProgress, twentySec);
 
 
 function checkVideoTimeStamp(vidNameArr) {
