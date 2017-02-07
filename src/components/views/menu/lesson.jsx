@@ -162,8 +162,8 @@ const lessonTitle = {
   borderRadius: '4px',
   transition: 'all .2s ease',
   ':hover': {
-    color: '#999',
-    backgroundColor: '#FFFFFF'
+    color: '#FFF',
+    backgroundColor: 'dodgerblue'
   }
 }
 
@@ -171,9 +171,9 @@ const downloadIcon = {
   display: 'flex',
   height: '100%',
   width: '35px',
-  opacity: '.2',
+  opacity: '.7',
   backgroundColor: 'transparent',
-  backgroundImage: `url(${ dlIcon })`,
+  backgroundImage: `url(${ dlIconHover })`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: '60%',
   backgroundPosition: 'center',

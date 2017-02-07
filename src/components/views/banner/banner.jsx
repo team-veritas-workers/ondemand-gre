@@ -10,10 +10,19 @@ const Banner = (props) => {
         <div style={ subtitle }>{ props.lessonData.lessonName }</div>
       </div>
       <div style={ greeting } onClick={ props.logger }>Logout</div>
-      <div onClick={ props.saveProgressClicked }>Save Progress</div>
+      <div style={ save } key="asdfadfasdf" onClick={ props.saveProgressClicked }>Save!</div>
     </div>
   );
 };
+
+const save = {
+  color: '#999999',
+  marginRight: '15px',
+  ':hover': {
+    color: 'red',
+    cursor: 'pointer'
+  }
+}
 
 const titles = {
   display: 'flex',
@@ -70,7 +79,8 @@ const greeting = {
   alignItems: 'center',
   padding: '20px',
   ':hover': {
-    color: 'red'
+    color: 'red',
+    cursor: 'pointer'
   }
 }
 
