@@ -71,6 +71,7 @@ function createWindow () {
     }
     // improvedProg["sid"] = Number(sid);
   console.log('this is improvedProg in save-user' , improvedProg)
+
         
     fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
       if (err) {
@@ -200,41 +201,9 @@ ipcMain.on('download-video', (event, path, lesson, video) => {
 	    downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
     } else {
       event.sender.send('offline-download-error');
-      // throttle(sendError1, 3000);
     }
   })
 })
-
-// function throatle (callback, wait) {
-//   console.log('throatle');
-//   let lastCalled = 0;
-//   return function(...args) {
-//     console.log('allo?');
-//     const now = Date.now();
-//     if (now - lastCalled > wait) {
-//       lastCalled = now;
-//       return callback(...args);
-//     }
-//   }
-// }
-
-
-
-// function throttle (callback, limit) {
-//   console.log('Inside throttle')
-//   var wait = false;
-//   return function () {
-//     console.log('hello');
-//     if (!wait) {
-
-//       callback.apply(null, arguments);
-//       wait = true;
-//       setTimeout(function () {
-//         wait = false;
-//       }, limit);
-//     }
-//   }
-// }
 
   
 
@@ -268,7 +237,7 @@ function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
       fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err, data) {
-        if (!err) {
+        if (!err && data) {
           newProgress = JSON.parse(data);
          
           for (let key in newProgress) {
@@ -302,6 +271,7 @@ request.post({
   //console.log('inside postProgress response body of request', response, body);
   });
 }
+
 
 const oneMin = 10000;
 setInterval(updateProgress, oneMin);

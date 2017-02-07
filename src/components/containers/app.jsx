@@ -26,6 +26,7 @@ export default class App extends Component {
     this.saveProgressClicked = this.saveProgressClicked.bind(this);
     this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
     this.throttleAlert = this.throttleAlert.bind(this);
+
     this.state = {
       user: null,
       username: null,
@@ -97,6 +98,7 @@ export default class App extends Component {
           progressArg.sid = this.state.sid; //jimmy added this line
      
 
+
           for (let i = 0; i < progressArg.length; i += 1) {
             let vidId = progressArg[i].video_id;
             improvedProg[vidId] = parseInt(progressArg[i].length);
@@ -106,6 +108,7 @@ export default class App extends Component {
 
           this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
           console.log('!!!this is sid in app' , this.state.sid);
+
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
         }
@@ -165,7 +168,11 @@ export default class App extends Component {
     });
     ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
   }
-  
+
+
+
+
+
   getDownloadProgress() {
     ipcRenderer.on('download-progress', (event, progress, lesson, video) => {
       const videoData = this.state.videoData.slice(0);
@@ -175,6 +182,7 @@ export default class App extends Component {
       }
     });
   }
+
   
   toggleOfflineVidAlert(){
     this.setState({offlineVidAlert: false});
@@ -216,6 +224,7 @@ export default class App extends Component {
  
 
 // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
+
   saveProgressClicked() {
     //console.log('#!@!@#!@#!@#!@', this.state.sid)
     console.log('inside saveProgressClicked in app.js', this.state.progress, this.state.sid);
@@ -224,7 +233,6 @@ export default class App extends Component {
     }
     //ipcRenderer.send('save-progress-clicked', this.state.progress, this.state.sid);
 } 
-
 
 
 

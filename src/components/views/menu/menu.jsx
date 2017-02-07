@@ -5,7 +5,8 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 
 
 const Menu = (props) => {
-  if (props.videoData) {
+	console.log("i am in menu", props.videoData, props.progress)
+  if (props.videoData && props.progress) {
 		for (let i = 0; i < props.videoData.length; i += 1) {
 			//giving each lesson group props based on how many videos
 			//is in each group & how many of those have been watched
@@ -25,7 +26,11 @@ const Menu = (props) => {
 				props.videoData[i].lessonGroupProgress = Math.round(100 * props.videoData[i].videosComplete/props.videoData[i].videosQuantity);
 			}
 		}
+		console.log(props.videoData)
 	}	
+	else {
+		console.log("no videoData")
+	}
 
 	let lessons;
 	if (props.videoData) {
