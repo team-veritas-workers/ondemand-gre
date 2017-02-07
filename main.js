@@ -81,6 +81,7 @@ function createWindow () {
     }
     improvedProg["sid"] = Number(arg.sid);
     //console.log("improvedProg", improvedProg)
+
         
     fs.writeFile("./progress.json", JSON.stringify(improvedProg), function(err) {
       if (err) {
@@ -104,12 +105,15 @@ function createWindow () {
         // console.dir(cookies);
         if (cookies) {
           fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err,data) {
-            if (!err){
+            if (err){console.log(err)};
+            if (data){
               progressData = JSON.parse(data);
               const argData = [cookies, progressData]
               event.sender.send('cookie-exists',argData)
             } else {
-              console.log("read file error", err);
+              progressData = {}
+              const argData = [cookies, progressData]
+              event.sender.send('cookie-exists',argData)
             }
           });
         }
@@ -124,9 +128,6 @@ function createWindow () {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', createWindow);
-
-
-
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
@@ -135,9 +136,6 @@ app.on('window-all-closed', function () {
     app.quit();
   }
 });
-
-
-
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -149,71 +147,89 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-function showProgress(received, total) {
-  const percentage = Math.round((received * 100) / total);
-  console.log(percentage + "% | " + received + " bytes out of " + total + " bytes.");
-}
+function downloadVideo(event, url, targetPath, lesson, video) {
+  const req = request({ method: 'GET', url });
 
+  let received_bytes = 0;
+  let total_bytes = 0;
+  let percentage = 0;
+  let temp;
 
-function downloadVideo(url, targetPath) {
-  const req = request({
-    method: 'GET',
-    url
-  });
+  let size;
+  let check;
+  let out;
 
-  const out = fs.createWriteStream(targetPath);
-
-  var received_bytes = 0;
-  var total_bytes = 0;
-
-  req.on('response', function ( data ) {
-    total_bytes = parseInt(data.headers['content-length' ]);
-  });
-
-  req.on('data', function(chunk) {
-    received_bytes += chunk.length;
-    showProgress(received_bytes, total_bytes);
-  });
-
-  req.pipe(out);
-  req.on('end', () => {
-    console.log('Completed downloading', url.slice(38));
-  });
-}
-
-  ipcMain.on('download-video', (event, arg) => {
-    const fileName = arg.substring(arg.lastIndexOf('/') + 1);
-    if (!fs.existsSync(app.getAppPath() + '/videos/')) {
-      fs.mkdirSync(app.getAppPath() + '/videos/');
-    }
-    downloadVideo(arg, app.getAppPath() + '/videos/' + fileName);
+  if (fs.existsSync(targetPath)) {
+    size = fs.statSync(targetPath).size;
+    req.on('response', (data) => {
+      check = parseInt(data.headers['content-length']);
+      if (check === size) {
+        console.log('CHECK PASSED!')
+        return;
+      } else {
+        console.log('INCOMPLETE DOWNLOAD, DELETING FILE, PLEASE CLICK AGAIN!');
+        fs.unlinkSync(targetPath);
+      }
     });
- 
-  ipcMain.on('get-video', (event, arg) => {
-    // console.log('this is app path:' , app.getAppPath());
-    if (!fs.existsSync(app.getAppPath() + '/videos/')) {
-      fs.mkdirSync(app.getAppPath() + '/videos/');
-    }
-    const filePath = app.getAppPath() + '/videos/' + arg;
-    if (fs.existsSync(filePath)) {
-      event.sender.send('play-video', filePath);
-    } else {
-      isOnline().then((online) => {
-        if (online) {
-           // encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
-          const videoUrl = 'https://gre-on-demand.veritasprep.com/' + arg;
-          event.sender.send('play-video', videoUrl);
-        } else {
-          event.sender.send('offline-vid-error');
-        }
-      })
-    }
-  });
+  } else {
+    console.log('NEW DOWNLOAD!');
+    event.sender.send('download-progress', 'downloading', lesson, video);
+    out = fs.createWriteStream(targetPath);
 
+    req.on('response', function (data) {
+      total_bytes = parseInt(data.headers['content-length']);
+    });
 
-  ipcMain.on('get-video-data', (event) => {
-    getVideoData(event, app.getAppPath());
-  });
+    req.on('data', function(chunk) {
+      received_bytes += chunk.length;
+      temp = received_bytes / total_bytes * 100;
+      if (temp - percentage > .75 || received_bytes === total_bytes) {
+        percentage = temp;
+      } 
+    });
+
+    req.pipe(out);
+    req.on('end', () => {
+      console.log('Completed downloading', url.slice(38));
+      event.sender.send('download-progress', 'done', lesson, video);
+    });
+  }
+}
+
+ipcMain.on('download-video', (event, path, lesson, video) => {
+  console.log(path);
+	const fileName = path.substring(path.lastIndexOf('/') + 1);
+	if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+		fs.mkdirSync(app.getAppPath() + '/videos/');
+	}
+	downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
+	});
+
+ipcMain.on('get-video', (event, path) => {
+	// console.log('this is app path:' , app.getAppPath());
+	if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+		fs.mkdirSync(app.getAppPath() + '/videos/');
+	}
+	const filePath = app.getAppPath() + '/videos/' + path;
+	if (fs.existsSync(filePath)) {
+		event.sender.send('play-video', filePath);
+	} else {
+		isOnline().then((online) => {
+			if (online) {
+					// encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
+				const videoUrl = 'https://gre-on-demand.veritasprep.com/' + path;
+				event.sender.send('play-video', videoUrl);
+			} else {
+				// event.sender.send('offline-vid-error');
+			}
+		})
+	}
+});
+
+ipcMain.on('get-video-data', (event) => {
+	getVideoData(event, app.getAppPath());
+});
+
 
 
 
@@ -221,7 +237,7 @@ function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
       fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err, data) {
-        if (!err) {
+        if (!err && data) {
           newProgress = JSON.parse(data);
          
           for (let key in newProgress) {
@@ -248,11 +264,11 @@ request.post({
   url:     'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
   body:    buildtUpStr
 }, function(error, response, body) {
-  console.log('inside postProgress response body of request', response, body);
+  //console.log('inside postProgress response body of request', response, body);
   });
 }
 
-const oneMin = 60000
+const oneMin = 5000;
 setInterval(updateProgress, oneMin);
 
 

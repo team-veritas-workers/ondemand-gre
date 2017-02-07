@@ -26,9 +26,9 @@ class Video extends Component {
     this.onProgress = this.onProgress.bind(this);
     this.onClickFullscreen = this.onClickFullscreen.bind(this);
     this.state = {
-      playing: true,
+      playing: false,
       mute: 0,
-      volume: 0.0,
+      volume: 0.8,
       loaded: 0,
       played: 0,
       duration: 0,
@@ -70,7 +70,7 @@ class Video extends Component {
 
   onProgress(state) {
     !this.state.seeking ? this.setState(state) : null;
-    this.props.changeVideoDataState(this.state.played * 100)
+   this.props.changeVideoDataState(this.state.played * 100)
   }
      
   onClickFullscreen() {

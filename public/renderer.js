@@ -21576,26 +21576,23 @@
 	    _this.logout = _this.logout.bind(_this);
 	    _this.changeVideoDataState = _this.changeVideoDataState.bind(_this);
 	    _this.saveProgressClicked = _this.saveProgressClicked.bind(_this);
+	    _this.functionChecker = _this.functionChecker.bind(_this);
 	    _this.state = {
+	      user: null,
+	      username: null,
+	      password: null,
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
+	      currentVideo: null,
 	      authenticated: null,
 	      showMenu: true,
 	      invalidLoginMessage: '',
-	      progress: null,
-	      username: null,
-	      password: null,
-	      videoData: null
+	      videoData: null,
+	      progress: null
 	    };
 	    return _this;
 	  }
 
 	  _createClass(App, [{
-	    key: 'functionCheck',
-	    value: function functionCheck() {
-	      console.log(this.state.progress);
-	      console.log(this.state.videoData);
-	    }
-	  }, {
 	    key: 'setCurrentVideo',
 	    value: function setCurrentVideo(video, lesson) {
 	      var _this2 = this;
@@ -21605,9 +21602,7 @@
 	      _electron.ipcRenderer.once('play-video', function (event, arg) {
 	        return _this2.setState({ url: arg, currentVideo: currentVideo });
 	      });
-	      _electron.ipcRenderer.once('offline-vid-error', function () {
-	        return alert('you are offline and selected video has not been downloaded');
-	      });
+	      // ipcRenderer.once('offline-vid-error', () => console.log('Video not available offline.'));
 	      _electron.ipcRenderer.send('get-video', fileName);
 	    }
 	  }, {
@@ -21658,7 +21653,16 @@
 
 	            _electron.ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID });
 
-	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: res.data.user.progress });
+	            var improvedProg = {};
+	            var progressArg = res.data.user.progress;
+
+	            for (var i = 0; i < progressArg.length; i += 1) {
+	              var vidId = progressArg[i].video_id;
+	              improvedProg[vidId] = parseInt(progressArg[i].length);
+	            }
+	            improvedProg['sid'] = parseInt(res.data.user.SID);
+
+	            _this3.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg });
 	          } else {
 	            _this3.setState({ invalidLoginMessage: res.data.message });
 	          }
@@ -21703,30 +21707,74 @@
 	    }
 	  }, {
 	    key: 'downloadIndVid',
-	    value: function downloadIndVid(e) {
+	    value: function downloadIndVid(e, lesson, video, id) {
 	      e.preventDefault();
 	      e.stopPropagation();
-	      var highDefDLVid = 'https://gre-on-demand.veritasprep.com/' + e.target.id + '.mp4';
-	      _electron.ipcRenderer.send('download-video', highDefDLVid);
+	      var hd = 'https://gre-on-demand.veritasprep.com/' + id + '.mp4';
+	      var sd = 'https://gre-on-demand.veritasprep.com/360p_' + id + '.mp4';
+	      _electron.ipcRenderer.send('download-video', hd, lesson, parseInt(video));
 	    }
 	  }, {
 	    key: 'downloadAllLessson',
-	    value: function downloadAllLessson(e, videoNames) {
+	    value: function downloadAllLessson(e, lessonData) {
+	      var _this5 = this;
+
 	      e.stopPropagation();
-	      videoNames.forEach(function (video) {
-	        _electron.ipcRenderer.send('download-video', 'https://gre-on-demand.veritasprep.com/' + video + '.mp4');
+	      // videoNames.forEach((video)=> {
+	      //  ipcRenderer.send('download-video', `https://gre-on-demand.veritasprep.com/${ video }.mp4`);
+	      // });
+	      var lesson = parseInt(lessonData.lessonNumber) - 1;
+	      var indexUrl = lessonData.videos.map(function (video, index) {
+	        return [video.name, index];
 	      });
+	      indexUrl.forEach(function (video) {
+	        _this5.downloadIndVid(e, lesson, video[1], video[0]);
+	      });
+	    }
+	  }, {
+	    key: 'getDownloadProgress',
+	    value: function getDownloadProgress() {
+	      var _this6 = this;
+
+	      _electron.ipcRenderer.on('download-progress', function (event, progress, lesson, video) {
+	        var videoData = _this6.state.videoData.slice(0);
+	        if (videoData[lesson]) {
+	          videoData[lesson].videos[video].downloadProgress = '' + progress;
+	          _this6.setState({ videoData: videoData });
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'functionChecker',
+	    value: function functionChecker() {
+	      console.log("function checker", this.state);
+	    }
+	  }, {
+	    key: 'saveProgressClicked',
+	    value: function saveProgressClicked() {
+	      console.log('inside saveProgressClicked in app.js', this.state.progress);
+	      if (this.state.progress) {
+	        console.log("we are in here");
+	        _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var _this7 = this;
+
+	      setTimeout(function () {
+	        return _this7.cookieChecker(_this7.state);
+	      }, 700);
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this5 = this;
-
+	      var tenSec = 5000;
+	      this.getDownloadProgress();
 	      this.getVideoData();
-	      setTimeout(function () {
-	        return _this5.cookieChecker(_this5.state);
-	      }, 100);
-	      this.functionCheck();
+
+	      setInterval(this.saveProgressClicked, tenSec);
 	    }
 	  }, {
 	    key: 'changeVideoDataState',
@@ -21750,12 +21798,9 @@
 	      accessProgress[videoId] = percent;
 	      this.setState({ progress: accessProgress });
 	    }
-	  }, {
-	    key: 'saveProgressClicked',
-	    value: function saveProgressClicked() {
-	      console.log('inside saveProgressClicked in app.js', this.state.progress);
-	      _electron.ipcRenderer.send('save-progress-clicked', this.state.progress);
-	    }
+	    // below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
+
+
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -28239,7 +28284,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Menu = function Menu(props) {
-		if (props.videoData) {
+		console.log("i am in menu", props.videoData, props.progress);
+		if (props.videoData && props.progress) {
 			for (var i = 0; i < props.videoData.length; i += 1) {
 				//here I am giving each lesson group props based on how many videos
 				//is in each group and how many of those have been watched
@@ -28259,6 +28305,9 @@
 					props.videoData[_i].lessonGroupProgress = Math.round(100 * props.videoData[_i].videosComplete / props.videoData[_i].videosQuantity);
 				}
 			}
+			console.log(props.videoData);
+		} else {
+			console.log("no videoData");
 		}
 
 		var lessons = void 0;
@@ -28352,6 +28401,10 @@
 
 	var _dl_icon2 = _interopRequireDefault(_dl_icon);
 
+	var _reactSimplePieChart = __webpack_require__(309);
+
+	var _reactSimplePieChart2 = _interopRequireDefault(_reactSimplePieChart);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Lesson = function Lesson(props) {
@@ -28364,38 +28417,57 @@
 	    var complete = {
 	      display: 'inline-block',
 	      position: 'absolute',
-	      backgroundColor: '' + (video.length === 100 ? "lightgreen" : "orange"),
+	      backgroundColor: 'lightgreen',
 	      height: '100%',
 	      width: (video.length ? video.length : '0') + '%'
 	    };
-	    //console.log('this is props.lessonData.videos:' , props.lessonData.videos)
-	    // for (let i = 0; i < props.lessonData.videos; i += 1) {
-	    //   console.log('hi')
-	    // }
-	    //console.log('this is props.progress' , props.progress)
-	    // props.progress.forEach(function(video){
-	    //   console.log(vidoe)
-	    // })
-	    // props.progress.forEach((video) => {
-	    //   console.log(video);
-	    // }) ;
 
+	    var light = {
+	      display: 'inline-block',
+	      opacity: '.7',
+	      // backgroundColor: `${ video.downloadProgress === 'done' ? 'lightgreen' : 'orange' }`,
+	      height: '8px',
+	      width: '8px',
+	      borderRadius: '50%',
+	      border: '.1px solid #999'
+	    };
+
+	    if (video.downloadProgress === 'downloading') {
+	      light.backgroundColor = 'yellow';
+	    } else if (video.downloadProgress === 'done') {
+	      light.backgroundColor = 'lightgreen';
+	    } else {
+	      light.backgroundColor = 'grey';
+	    }
+
+	    var sendlessonData = function sendlessonData(e) {
+	      props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
+	    };
 
 	    contents.push(_react2.default.createElement(
 	      'div',
 	      { onClick: selectVideo, key: i, style: videoTitle },
 	      _react2.default.createElement(
 	        'span',
-	        { key: i + '-individual', id: video.name, style: downloadIndy, onClick: props.downloadIndVid },
-	        'DL'
+	        { key: i + '-individual', id: video.name, style: dlSingle, onClick: sendlessonData },
+	        _react2.default.createElement('span', { style: light })
 	      ),
-	      video.title,
+	      _react2.default.createElement(
+	        'span',
+	        null,
+	        video.title
+	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { style: dlPrompt },
+	        video.downloadProgress === 'downloading' ? 'downloading...' : ''
+	      ),
 	      _react2.default.createElement(
 	        'span',
 	        { style: abs },
 	        _react2.default.createElement(
 	          'span',
-	          { style: download, id: video.name },
+	          { style: download },
 	          _react2.default.createElement('span', { style: complete })
 	        )
 	      )
@@ -28403,16 +28475,16 @@
 	  });
 
 	  var grabAllVideoNames = function grabAllVideoNames(e) {
-	    function videoNames() {
-	      var allVideoNames = [];
-	      //console.log(lessons[0].props.lessonData.videos)
-	      props.lessonData.videos.forEach(function (video, i) {
-	        allVideoNames.push(video.name);
-	      });
-	      // console.log('this is the array allVideoNames' , allVideoNames)
-	      return allVideoNames;
-	    }
-	    props.downloadAllLessson(e, videoNames());
+	    // function videoNames() {
+	    //   const allVideoNames = []; 
+	    //   //console.log(lessons[0].props.lessonData.videos)
+	    //   props.lessonData.videos.forEach((video, i) => {
+	    //     allVideoNames.push(video.name)
+	    //   })
+	    //   // console.log('this is the array allVideoNames' , allVideoNames)
+	    //   return allVideoNames;
+	    // }
+	    props.downloadAllLessson(e, props.lessonData);
 	  };
 
 	  return _react2.default.createElement(
@@ -28429,13 +28501,15 @@
 	        props.lessonData.name
 	      ),
 	      _react2.default.createElement(
-	        'span',
-	        { style: groupProgress },
-	        ' ',
-	        props.lessonData.videosComplete,
-	        ' of ',
-	        props.lessonData.videosQuantity,
-	        ' watched'
+	        'div',
+	        { style: ppie },
+	        _react2.default.createElement(_reactSimplePieChart2.default, { slices: [{
+	            color: 'gray',
+	            value: 100 - props.lessonData.lessonGroupProgress
+	          }, {
+	            color: 'white',
+	            value: props.lessonData.lessonGroupProgress
+	          }] })
 	      ),
 	      _react2.default.createElement('span', { style: downloadIcon, onClick: grabAllVideoNames })
 	    ),
@@ -28451,23 +28525,35 @@
 	  );
 	};
 
+	var ppie = {
+	  height: '18px',
+	  width: '18px',
+	  margin: '5px'
+
+	};
+
+	var dlPrompt = {
+	  color: 'grey',
+	  fontStyle: 'italic',
+	  marginLeft: '4px'
+	};
 	var groupProgress = {
 	  fontSize: '10px',
 	  margin: '10px'
 
 	};
-	var downloadIndy = {
+	var dlSingle = {
 	  position: 'absolute',
-	  left: '10px',
-	  backgroundColor: 'green',
+	  left: '0px',
 	  display: 'flex',
 	  alignItems: 'center',
 	  justifyContent: 'center',
-	  height: '20px',
-	  width: '20px',
-	  borderRadius: '4px',
+	  height: '100%',
+	  width: '30px',
 	  ':hover': {
-	    backgroundColor: 'lightgreen'
+	    span: {
+	      backgroundColor: 'blue'
+	    }
 	  }
 	};
 
@@ -28490,9 +28576,8 @@
 	  position: 'relative',
 	  zIndex: '2000',
 	  borderRadius: '4px',
-	  transition: 'all .4s ease',
+	  transition: 'all .2s ease',
 	  ':hover': {
-	    cursor: 'pointer',
 	    backgroundColor: 'blue'
 	  }
 	};
@@ -28550,31 +28635,19 @@
 	};
 
 	var videoTitle = {
+	  display: 'flex',
+	  alignItems: 'center',
 	  overflowY: 'auto',
 	  color: 'white',
-	  margin: '-1px',
-	  padding: '10px 40px 10px 35px',
+	  height: '35px',
+	  padding: '0px 70px 0px 35px',
 	  listStyle: 'none',
-	  backgroundRepeat: 'no-repeat',
-	  backgroundPosition: 'right 10px center',
-	  backgroundSize: '16px',
 	  position: 'relative',
-	  transition: 'all .4s ease',
+	  transition: 'all .1s ease',
 	  ':hover': {
-	    backgroundColor: 'blue',
-	    cursor: 'pointer'
+	    backgroundColor: 'dodgerblue'
 	  }
 	};
-
-	// const download = {
-	//   height: '15px',
-	//   backgroundSize: '15px, 15px',
-	//   //backgroundImage: 'url("http://www.lawngames.co.za/images/download/dl2.png")',
-	//   backgroundRepeat: 'no-repeat',
-	//   paddingLeft: '20px',
-	//   marginLeft: '4px',
-	//   backgroundImage: `url(http://files.softicons.com/download/folder-icons/methodic-folders-remix-icons-by-arkangl300/png/512x512/Download.png)`,
-	// }
 
 	var abs = {
 	  position: 'absolute',
@@ -28695,9 +28768,9 @@
 	    _this.onProgress = _this.onProgress.bind(_this);
 	    _this.onClickFullscreen = _this.onClickFullscreen.bind(_this);
 	    _this.state = {
-	      playing: true,
+	      playing: false,
 	      mute: 0,
-	      volume: 0.0,
+	      volume: 0.8,
 	      loaded: 0,
 	      played: 0,
 	      duration: 0,
@@ -29050,11 +29123,6 @@
 	      'div',
 	      { style: greeting, onClick: props.logger },
 	      'Logout'
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      { onClick: props.saveProgressClicked },
-	      'Save Progress'
 	    )
 	  );
 	};
@@ -29124,6 +29192,17 @@
 	  backgroundImage: 'url(' + _veritasLogoWhite2.default + ')',
 	  backgroundSize: 'contain',
 	  backgroundRepeat: 'no-repeat'
+	};
+
+	var save = {
+	  fontSize: '1em',
+	  fontWeight: 'light',
+	  height: '100%',
+	  color: '#999999',
+	  display: 'flex',
+	  alignItems: 'center',
+	  padding: '20px'
+
 	};
 
 	exports.default = (0, _radium2.default)(Banner);
@@ -30391,9 +30470,6 @@
 	    key: 'seekTo',
 	    value: function seekTo(fraction) {
 	      _get(FilePlayer.prototype.__proto__ || Object.getPrototypeOf(FilePlayer.prototype), 'seekTo', this).call(this, fraction);
-	      if (fraction === 1) {
-	        this.player.pause();
-	      }
 	      this.player.currentTime = this.getDuration() * fraction;
 	    }
 	  }, {
@@ -31901,6 +31977,139 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PropTypes = _react2.default.PropTypes;
+
+	var size = 100;
+	var radCircumference = Math.PI * 2;
+	var center = size / 2;
+	var radius = center - 1; // padding to prevent clipping
+
+	/**
+	 * @param {Object[]} slices
+	 * @return {Object[]}
+	 */
+	function renderPaths(slices) {
+	  var total = slices.reduce(function (totalValue, _ref) {
+	    var value = _ref.value;
+	    return totalValue + value;
+	  }, 0);
+
+	  var radSegment = 0;
+	  var lastX = radius;
+	  var lastY = 0;
+
+	  return slices.map(function (_ref2, index) {
+	    var color = _ref2.color;
+	    var value = _ref2.value;
+
+	    // Should we just draw a circle?
+	    if (value === total) {
+	      return _react2.default.createElement('circle', {
+	        r: radius,
+	        cx: center,
+	        cy: center,
+	        fill: color,
+	        key: index
+	      });
+	    }
+
+	    if (value === 0) {
+	      return;
+	    }
+
+	    var valuePercentage = value / total;
+
+	    // Should the arc go the long way round?
+	    var longArc = valuePercentage <= 0.5 ? 0 : 1;
+
+	    radSegment += valuePercentage * radCircumference;
+	    var nextX = Math.cos(radSegment) * radius;
+	    var nextY = Math.sin(radSegment) * radius;
+
+	    // d is a string that describes the path of the slice.
+	    // The weirdly placed minus signs [eg, (-(lastY))] are due to the fact
+	    // that our calculations are for a graph with positive Y values going up,
+	    // but on the screen positive Y values go down.
+	    var d = ['M ' + center + ',' + center, 'l ' + lastX + ',' + -lastY, 'a' + radius + ',' + radius, '0', longArc + ',0', nextX - lastX + ',' + -(nextY - lastY), 'z'].join(' ');
+
+	    lastX = nextX;
+	    lastY = nextY;
+
+	    return _react2.default.createElement('path', { d: d, fill: color, key: index });
+	  });
+	}
+
+	/**
+	 * Generates an SVG pie chart.
+	 * @see {http://wiki.scribus.net/canvas/Making_a_Pie_Chart}
+	 */
+
+	var PieChart = (function (_React$Component) {
+	  _inherits(PieChart, _React$Component);
+
+	  function PieChart() {
+	    _classCallCheck(this, PieChart);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PieChart).apply(this, arguments));
+	  }
+
+	  _createClass(PieChart, [{
+	    key: 'render',
+
+	    /**
+	     * @return {Object}
+	     */
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'svg',
+	        { viewBox: '0 0 ' + size + ' ' + size },
+	        _react2.default.createElement(
+	          'g',
+	          { transform: 'rotate(-90 ' + center + ' ' + center + ')' },
+	          renderPaths(this.props.slices)
+	        )
+	      );
+	    }
+	  }]);
+
+	  return PieChart;
+	})(_react2.default.Component);
+
+	exports.default = PieChart;
+
+	PieChart.propTypes = {
+	  slices: PropTypes.arrayOf(PropTypes.shape({
+	    color: PropTypes.string.isRequired, // hex color
+	    value: PropTypes.number.isRequired
+	  })).isRequired
+	};
+	module.exports = exports['default'];
 
 
 /***/ }
