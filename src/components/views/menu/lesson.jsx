@@ -110,9 +110,8 @@ const Lesson = (props) => {
 
   return (
       <div style={ lesson }> 
-        <div style={ lessonTitle } onClick={ () => props.expandLesson(props.lessonData) }>
+        <div style={ lessonTitle } key="lessonTitle" onClick={ () => props.expandLesson(props.lessonData) }>
           <span style={ titleText }>{ props.lessonData.name }</span>
-          <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>
           <span style={ downloadIcon } onClick={ grabAllVideoNames } key="downloadIcon"></span>
 
  <div style={ ppie }>
@@ -210,7 +209,7 @@ const downloadIcon = {
   width: '35px',
   opacity: '.7',
   backgroundColor: 'transparent',
-  backgroundImage: `url(${ dlIconHover })`,
+  backgroundImage: `url(${ dlIcon })`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: '60%',
   backgroundPosition: 'center',
