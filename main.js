@@ -95,11 +95,15 @@ function createWindow () {
         // console.dir(cookies);
         if (cookies) {
           fs.readFile('./progress.json', {encoding: 'utf-8'}, function (err, data) {
-            if (!err){
+            if (err) { console.log(err)}
+            if (data) {
               progressData = JSON.parse(data);
               const argData = [cookies, progressData];
-              event.sender.send('cookie-exists', argData)
+              event.sender.send('cookie-exists', argData);
             } else {
+              progressData = {};
+              const argData = [cookies, progressData];
+              event.sender.send('cookie-exists', argData);
               console.log("read file error", err);
             }
           });
@@ -292,13 +296,15 @@ request.post({
 }, function (err, response, body) {
   if (err) { 
     console.log('There was an error in postProgress:', err);
+    return
   }
+  console.log('postProgress was sent to Veritas')
   //console.log('inside postProgress response body of request', response, body);
   });
 }
 
-const oneMin = 60000;
-//setInterval(updateProgress, oneMin);
+const oneMin = 10000;
+setInterval(updateProgress, oneMin);
 
 
 function checkVideoTimeStamp(vidNameArr) {

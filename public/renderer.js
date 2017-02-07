@@ -21583,7 +21583,7 @@
 	      password: null,
 	      url: 'https://gre-on-demand.veritasprep.com/gre_1_1.mp4',
 	      currentVideo: null,
-	      authenticated: true,
+	      authenticated: null,
 	      showMenu: true,
 	      invalidLoginMessage: '',
 	      videoData: null,
