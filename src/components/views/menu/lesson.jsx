@@ -152,6 +152,8 @@ const downloadImage = {
 
       
 const ppie = {
+  position: 'absolute',
+  right: '10px',
   height:'18px',
   width: '18px',
   margin: '5px'
@@ -192,7 +194,7 @@ const lessonTitle = {
   textTransform: 'uppercase',
   textAlign: 'left',
   fontWeight: 'bold',
-  paddingLeft: '15px',
+  paddingLeft: '45px',
   position: 'relative',
   zIndex: '2000',
   borderRadius: '4px',
@@ -214,7 +216,7 @@ const downloadIcon = {
   backgroundSize: '60%',
   backgroundPosition: 'center',
   position: 'absolute',
-  right: '0px',
+  left: '0',
   ':hover': {
     backgroundColor: 'lightgreen',
     opacity: '1',
