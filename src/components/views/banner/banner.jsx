@@ -10,19 +10,10 @@ const Banner = (props) => {
         <div style={ subtitle }>{ props.lessonData.lessonName }</div>
       </div>
       <div style={ greeting } key="loggerKey" onClick={ props.logger }>Logout</div>
-      <div style={ save } key="saveKey" onClick={ props.saveProgressClicked }>Save!</div>
     </div>
   );
 };
 
-const save = {
-  color: '#999999',
-  marginRight: '15px',
-  ':hover': {
-    color: 'red',
-    cursor: 'pointer'
-  }
-}
 
 const titles = {
   display: 'flex',
@@ -90,17 +81,6 @@ const logo = {
   backgroundImage: `url(${ logoWhite })`,
   backgroundSize: 'contain',
   backgroundRepeat: 'no-repeat',
-}
-
-const save1 = {
-  fontSize: '1em',
-  fontWeight: 'light',
-  height: '100%',
-  color: '#999999',
-  display: 'flex',
-  alignItems: 'center',
-  padding: '20px',
-  
 }
 
 export default Radium(Banner);
