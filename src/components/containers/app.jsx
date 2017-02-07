@@ -119,10 +119,7 @@ export default class App extends Component {
   getVideoData() {
     ipcRenderer.send('get-video-data');
     ipcRenderer.once('load-video-data', (event, arg) => {
-      const videoData = JSON.parse(arg).map(lesson => {
-        lesson.open = false;
-        return lesson;
-      });
+      const videoData = JSON.parse(arg);
       this.setState({ videoData: videoData })
     });
   }
