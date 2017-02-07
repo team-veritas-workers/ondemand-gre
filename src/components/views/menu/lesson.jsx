@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import dlIcon from './../../../assets/dl_icon.png';
 import dlIconHover from './../../../assets/dl_icon_hover.png';
-
+import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
   const contents = [];
@@ -114,6 +114,24 @@ const Lesson = (props) => {
           <span style={ titleText }>{ props.lessonData.name }</span>
           <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>
           <span style={ downloadIcon } onClick={ grabAllVideoNames } key="downloadIcon"></span>
+
+ <div style={ ppie }>
+          <PieChart slices={[
+                    {
+                      color: 'gray',
+                      value: 100 - props.lessonData.lessonGroupProgress,
+                    },
+                    {
+                      color: 'white',
+                      value: props.lessonData.lessonGroupProgress,
+                    },
+                  ]}/>
+                  </div>
+         {/* <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>*/}
+
+          
+
+          <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
         <div style={ !props.open ? lessonContent : lessonContentOpen }>
           <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen }>
@@ -127,6 +145,25 @@ const Lesson = (props) => {
 const downloadImage = {
   height: '65%'
 }
+
+
+        
+          
+          
+
+      
+const ppie = {
+  height:'18px',
+  width: '18px',
+  margin: '5px'
+  
+
+}
+
+
+
+
+
 
 const dlPrompt = {
   color: 'grey',

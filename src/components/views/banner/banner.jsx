@@ -15,7 +15,7 @@ const Banner = (props) => {
   );
 };
 
-const save = {
+const save1 = {
   color: '#999999',
   marginRight: '15px',
   ':hover': {
@@ -90,6 +90,17 @@ const logo = {
   backgroundImage: `url(${ logoWhite })`,
   backgroundSize: 'contain',
   backgroundRepeat: 'no-repeat',
+}
+
+const save = {
+  fontSize: '1em',
+  fontWeight: 'light',
+  height: '100%',
+  color: '#999999',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '20px',
+  
 }
 
 export default Radium(Banner);

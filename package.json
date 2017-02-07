@@ -39,6 +39,7 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-player": "^0.14.1",
+    "react-simple-pie-chart": "^0.4.0",
     "request": "^2.79.0",
     "screenfull": "^3.0.2",
     "style-loader": "^0.13.1",
