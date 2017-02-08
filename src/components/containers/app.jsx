@@ -87,6 +87,18 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
+          //on ipc"checkedHD" send checker for sid...if it exists and we run our longass function then redo auth and set state and everything
+          ipcRenderer.send('progressHD', JSON.parse(res.data.user.SID))
+          ipcRenderer.on("hdCheck", function(event,arg){
+            if (arg.checked === 1){
+              console.log(arg)
+              //do another
+            }
+            else{
+
+              console.log("it didnt work",arg)
+            }
+          })
           ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: this.state.sid }, this.state.sid);
           const improvedProg = {};
           const progressArg = res.data.user.progress;

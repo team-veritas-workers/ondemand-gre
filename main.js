@@ -48,8 +48,40 @@ function createWindow () {
     mainWindow = null;
   })
   
-  const ses = session.fromPartition('persist:name').cookies;
+  
+ipcMain.on('progressHD',function(event,arg){
 
+  console.log("logout progess check")
+
+    fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
+      if (err) console.log(err);
+      if (data) {
+        progressData = JSON.parse(data);
+        console.log("in function",arg, progressData.sid)
+        if (progressData.sid === arg){
+          updateProgress()
+          event.sender.send("hdCheck",{checked:1})
+          //then send ipc to client saying that it updated 
+        } 
+        else {
+          event.sender.send("hdCheck", {checked:2})
+          //send client to proceed as usual
+        }
+      } 
+      else {
+        console.log("read file error", err);
+      }
+   })
+
+
+
+})
+
+
+    
+ 
+
+  const ses = session.fromPartition('persist:name').cookies;
 
   ipcMain.on('save-user', (event, arg, sid) => {
     // console.log('this is arg in save-user', arg)
@@ -59,6 +91,7 @@ function createWindow () {
     ses.set(cookie, (error) => {
       if (error) console.error(error);
     });
+
     const improvedProg = {};
     const progressArg = arg.progress;
        // console.log('!!!!!sid on main 65:', sid);
