@@ -92,23 +92,44 @@ export default class App extends Component {
           ipcRenderer.on("hdCheck", function(event,arg){
             if (arg.checked === 1){
               console.log(arg)
+
+                axios.post(URL, qs.stringify(body)).then(dat => {
+
+                                                        ipcRenderer.send('save-user', { email: dat.data.user.email, user: dat.data.user.firstname, progress: dat.data.user.progress, sid: dat.data.user.SID }, dat.data.user.SID);
+                              const improvedProg = {};
+                              const progressArg = dat.data.user.progress;
+                              progressArg.sid = dat.data.user.SID 
+                              for (let i = 0; i < progressArg.length; i += 1) {
+                                let vidId = progressArg[i].video_id;
+                                improvedProg[vidId] = parseInt(progressArg[i].length);
+                              }
+
+                              this.setState({ authenticated: true, user: dat.data.user.firstname, progress: improvedProg, sid: dat.data.user.SID });
+
+
+
+                })
+
               //do another
             }
             else{
 
+                                  ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID }, res.data.user.SID);
+                    const improvedProg = {};
+                    const progressArg = res.data.user.progress;
+                    progressArg.sid = res.data.user.SID; 
+                    for (let i = 0; i < progressArg.length; i += 1) {
+                      let vidId = progressArg[i].video_id;
+                      improvedProg[vidId] = parseInt(progressArg[i].length);
+                    }
+
+                    this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+
+
               console.log("it didnt work",arg)
             }
-          })
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: this.state.sid }, this.state.sid);
-          const improvedProg = {};
-          const progressArg = res.data.user.progress;
-          progressArg.sid = this.state.sid; 
-          for (let i = 0; i < progressArg.length; i += 1) {
-            let vidId = progressArg[i].video_id;
-            improvedProg[vidId] = parseInt(progressArg[i].length);
-          }
-
-          this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+          }.bind(this))
+          
           // console.log('!!!this is sid in app' , this.state.sid);
 
         } else {
