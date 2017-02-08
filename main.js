@@ -71,7 +71,7 @@ function createWindow () {
     // improvedProg["sid"] = Number(sid);
    // console.log('this is improvedProg in save-user' , improvedProg)
 
-    fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
+    fs.writeFile(app.getAppPath() + "/progress.json", JSON.stringify(improvedProg), function (err) {
       if (err) {
         return console.log('There was an error in writing to progress.json file:', err);
       }
@@ -93,7 +93,7 @@ function createWindow () {
         let progressData;
         // console.dir(cookies);
         if (cookies) {
-          fs.readFile('./progress.json', {encoding: 'utf-8'}, function (err, data) {
+          fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
             if (err) console.log(err);
             if (data) {
               progressData = JSON.parse(data);
@@ -234,7 +234,7 @@ ipcMain.on('get-video-data', (event) => {
 function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
-      fs.readFile('./progress.json', {encoding: 'utf-8'}, function(err, data) {
+      fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function(err, data) {
         if (!err && data) {
           newProgress = JSON.parse(data);
          
@@ -295,7 +295,7 @@ ipcMain.on('save-progress-auto', (event, arg, sid) => {
   const improvedProg = arg;
   improvedProg["sid"] = Number(sid);
   // console.log(improvedProg.sid)
-  fs.writeFile("./progress.json", JSON.stringify(improvedProg), function (err) {
+  fs.writeFile(app.getAppPath() + "/progress.json", JSON.stringify(improvedProg), function (err) {
     if (err) {
       return console.log(err);
     }
