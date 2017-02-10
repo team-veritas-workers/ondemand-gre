@@ -268,7 +268,7 @@ request.post({
     console.log('There was an error in postProgress:', err);
     return
   }
-  console.log('postProgress was sent to Veritas')
+  console.log('postProgress was sent to Veritas');
   //console.log('inside postProgress response body of request', response, body);
   });
 }
