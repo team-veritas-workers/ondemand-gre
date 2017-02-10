@@ -95,7 +95,7 @@ export default class App extends Component {
 
                 axios.post(URL, qs.stringify(body)).then(dat => {
 
-                                                        ipcRenderer.send('save-user', { email: dat.data.user.email, user: dat.data.user.firstname, progress: dat.data.user.progress, sid: dat.data.user.SID }, dat.data.user.SID);
+                              ipcRenderer.send('save-user', { email: dat.data.user.email, user: dat.data.user.firstname, progress: dat.data.user.progress, sid: dat.data.user.SID }, dat.data.user.SID);
                               const improvedProg = {};
                               const progressArg = dat.data.user.progress;
                               progressArg.sid = dat.data.user.SID 
@@ -228,6 +228,11 @@ export default class App extends Component {
        splitAtMp4 = splitAtCom[1].split('.mp4');
        videoId = splitAtMp4[0];
     }
+
+    //console, log out percent and accessprogressvideoid percent
+
+    setInterval(console.log("is it worling?",percent, accessProgress[videoId]),3000)
+
   
     let accessProgress = this.state.progress;
     accessProgress[videoId] = percent;

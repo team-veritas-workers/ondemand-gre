@@ -47,6 +47,8 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   })
+
+
   
   
 ipcMain.on('progressHD',function(event,arg){
@@ -58,10 +60,13 @@ ipcMain.on('progressHD',function(event,arg){
       if (data) {
         progressData = JSON.parse(data);
         console.log("in function",arg, progressData.sid)
-        if (progressData.sid === arg){
-          updateProgress()
-          event.sender.send("hdCheck",{checked:1})
-          //then send ipc to client saying that it updated 
+        if (progressData.sid === arg) {
+          
+            console.log("in then")
+            // event.sender.send("hdCheck",{checked:1})
+            updateProgress(event, true);
+
+        //then send ipc to client saying that it updated 
         } 
         else {
           event.sender.send("hdCheck", {checked:2})
@@ -264,7 +269,7 @@ ipcMain.on('get-video-data', (event) => {
 
 
 
-function updateProgress() {
+function updateProgress(event, bool = false) {
   isOnline().then(online => {
     if (online === true) {
       fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function(err, data) {
@@ -278,6 +283,11 @@ function updateProgress() {
               postProgress(buildtUpStr);
             }
           }
+          if (bool) {
+            console.log("everything worked")
+            event.sender.send("hdCheck",{checked:1})
+          }
+
         } else {
           console.log("read file error", err);
         }
