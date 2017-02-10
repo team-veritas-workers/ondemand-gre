@@ -269,7 +269,7 @@ ipcMain.on('get-video-data', (event) => {
 
 
 
-function updateProgress(event, bool = false) {
+function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
       fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function(err, data) {
@@ -285,7 +285,7 @@ function updateProgress(event, bool = false) {
           }
           if (bool) {
             console.log("everything worked")
-            event.sender.send("hdCheck",{checked:1})
+           
           }
 
         } else {

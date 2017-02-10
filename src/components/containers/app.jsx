@@ -74,7 +74,72 @@ export default class App extends Component {
     this.setState({ password: e.target.value });
   }
 
-  authenticate(e) {
+  // authenticate(e) {
+  //   if (e.key === 'enter' || e.type === 'click') {
+  //     e.preventDefault();
+  //     const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
+  //     const body = {
+  //       action: 'login-gre-desktop-app',
+  //       username: this.state.username,
+  //       password: this.state.password,
+  //       key: 'y3yz8E%Xb4bTHDc2Ggh&nQ1X9Vsxm%$0'
+  //     }
+
+  //     axios.post(URL, qs.stringify(body)).then(res => {
+  //       if (res.data.status === 'success') {
+  //         //on ipc"checkedHD" send checker for sid...if it exists and we run our longass function then redo auth and set state and everything
+  //        // ipcRenderer.send('progressHD', JSON.parse(res.data.user.SID))
+  //         //ipcRenderer.on("hdCheck", function(event,arg){
+  //           // if (arg.checked === 1){
+  //           //   console.log(arg)
+
+  //           //     axios.post(URL, qs.stringify(body)).then(dat => {
+
+  //           //                   ipcRenderer.send('save-user', { email: dat.data.user.email, user: dat.data.user.firstname, progress: dat.data.user.progress, sid: dat.data.user.SID }, dat.data.user.SID);
+  //           //                   const improvedProg = {};
+  //           //                   const progressArg = dat.data.user.progress;
+  //           //                   progressArg.sid = dat.data.user.SID 
+  //           //                   for (let i = 0; i < progressArg.length; i += 1) {
+  //           //                     let vidId = progressArg[i].video_id;
+  //           //                     improvedProg[vidId] = parseInt(progressArg[i].length);
+  //           //                   }
+
+  //           //                   this.setState({ authenticated: true, user: dat.data.user.firstname, progress: improvedProg, sid: dat.data.user.SID });
+
+
+
+  //           //     })
+
+  //           //   //do another
+  //           // }
+  //          // else{
+
+  //                   ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID }, res.data.user.SID);
+  //                   const improvedProg = {};
+  //                   const progressArg = res.data.user.progress;
+  //                   progressArg.sid = res.data.user.SID; 
+  //                   for (let i = 0; i < progressArg.length; i += 1) {
+  //                     let vidId = progressArg[i].video_id;
+  //                     improvedProg[vidId] = parseInt(progressArg[i].length);
+  //                   }
+
+  //                   this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+
+
+  //             console.log("it didnt work",arg)
+  //           //}
+  //         }
+          
+  //         // console.log('!!!this is sid in app' , this.state.sid);
+
+  //        else {
+  //         this.setState({ invalidLoginMessage: res.data.message });
+  //       }
+  //     }).catch(err => console.log(err));      
+  //   }
+  // }
+
+   authenticate(e) {
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
@@ -87,49 +152,16 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          //on ipc"checkedHD" send checker for sid...if it exists and we run our longass function then redo auth and set state and everything
-          ipcRenderer.send('progressHD', JSON.parse(res.data.user.SID))
-          ipcRenderer.on("hdCheck", function(event,arg){
-            if (arg.checked === 1){
-              console.log(arg)
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: this.state.sid }, this.state.sid);
+          const improvedProg = {};
+          const progressArg = res.data.user.progress;
+          progressArg.sid = this.state.sid; 
+          for (let i = 0; i < progressArg.length; i += 1) {
+            let vidId = progressArg[i].video_id;
+            improvedProg[vidId] = parseInt(progressArg[i].length);
+          }
 
-                axios.post(URL, qs.stringify(body)).then(dat => {
-
-                              ipcRenderer.send('save-user', { email: dat.data.user.email, user: dat.data.user.firstname, progress: dat.data.user.progress, sid: dat.data.user.SID }, dat.data.user.SID);
-                              const improvedProg = {};
-                              const progressArg = dat.data.user.progress;
-                              progressArg.sid = dat.data.user.SID 
-                              for (let i = 0; i < progressArg.length; i += 1) {
-                                let vidId = progressArg[i].video_id;
-                                improvedProg[vidId] = parseInt(progressArg[i].length);
-                              }
-
-                              this.setState({ authenticated: true, user: dat.data.user.firstname, progress: improvedProg, sid: dat.data.user.SID });
-
-
-
-                })
-
-              //do another
-            }
-            else{
-
-                                  ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID }, res.data.user.SID);
-                    const improvedProg = {};
-                    const progressArg = res.data.user.progress;
-                    progressArg.sid = res.data.user.SID; 
-                    for (let i = 0; i < progressArg.length; i += 1) {
-                      let vidId = progressArg[i].video_id;
-                      improvedProg[vidId] = parseInt(progressArg[i].length);
-                    }
-
-                    this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
-
-
-              console.log("it didnt work",arg)
-            }
-          }.bind(this))
-          
+          this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
           // console.log('!!!this is sid in app' , this.state.sid);
 
         } else {
@@ -231,7 +263,7 @@ export default class App extends Component {
 
     //console, log out percent and accessprogressvideoid percent
 
-    setInterval(console.log("is it worling?",percent, accessProgress[videoId]),3000)
+//setInterval(console.log("is it worling?",percent, accessProgress[videoId]),3000)
 
   
     let accessProgress = this.state.progress;
