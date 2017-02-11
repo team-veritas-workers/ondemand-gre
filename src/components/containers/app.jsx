@@ -7,13 +7,6 @@ import Content from './../views/content/content.jsx';
 import Spinner from './../views/spinner/spinner.jsx';
 import electron, { ipcRenderer } from 'electron';
 
-
-//import {app, BrowserWindow} from ('electron')''
-
-
-
-
-
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -30,9 +23,10 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressAuto = this.saveProgressAuto.bind(this);
-    this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
-    this.throttleAlert = this.throttleAlert.bind(this);
-    this.alertOnlineStatus = this.alertOnlineStatus.bind(this)
+    this.offlineSignUpAlert = this.offlineSignUpAlert.bind(this);
+   // this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
+    //this.throttleAlert = this.throttleAlert.bind(this);
+  
     this.state = {
       user: null,
       username: null,
@@ -52,7 +46,7 @@ export default class App extends Component {
     const fileName = `${video.name}.mp4`
     const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };
     ipcRenderer.once('play-video', (event, arg) => this.setState({ url: arg, currentVideo: currentVideo }));
-    ipcRenderer.once('offline-vid-error', () => alert('Video not available offline.'));
+    //ipcRenderer.once('offline-vid-error', () => alert('Video not available offline.'));
     ipcRenderer.send('get-video', fileName);
   }
 
@@ -131,37 +125,41 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
 
-  throttleAlert(callback, delay) {
-    if (!this.state.offlineVidAlert) {
-      alert('Downloading when offline is not possible.');
-    }
-    this.setState({ offlineVidAlert: true });
-  }
+  // throttleAlert(callback, delay) {
+  //   if (!this.state.offlineVidAlert) {
+  //     alert('Downloading when offline is not possible.');
+  //   }
+  //   this.setState({ offlineVidAlert: true });
+  // }
 
   downloadIndVid(e, lesson, video, id) {
-    e.preventDefault();
-    e.stopPropagation();
-    const hd = `https://gre-on-demand.veritasprep.com/${id}.mp4`;
-    const sd = `https://gre-on-demand.veritasprep.com/360p_${id}.mp4`;
-    if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
-      //ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
-      ipcRenderer.send('download-video', hd, lesson, parseInt(video));
-    }
+    if (navigator.onLine) {
+      e.preventDefault();
+      e.stopPropagation();
+      const hd = `https://gre-on-demand.veritasprep.com/${id}.mp4`;
+      const sd = `https://gre-on-demand.veritasprep.com/360p_${id}.mp4`;
+      if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
+        //ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
+        ipcRenderer.send('download-video', hd, lesson, parseInt(video));
+      } 
+      } else if (!navigator.onLine) {
+          alert('you are offline!');
+      }
   }
 
   downloadAllLessson(e, lessonData) {
-    if(this.alertOnlineStatus() === true) {
+    if (navigator.onLine) {
       console.log('here online')
-       e.stopPropagation();
-    console.log(this.state.downloadAllActive);
-    const lesson = parseInt(lessonData.lessonNumber) - 1;
-    const indexUrl = lessonData.videos.map((video, index) => [video.name, index]);
-    indexUrl.forEach(video => {
+      e.stopPropagation();
+      console.log(this.state.downloadAllActive);
+      const lesson = parseInt(lessonData.lessonNumber) - 1;
+      const indexUrl = lessonData.videos.map((video, index) => [video.name, index]);
+      indexUrl.forEach(video => {
       this.downloadIndVid(e, lesson, video[1], video[0]);
     });
-  } else if (this.alertOnlineStatus() === false) {
-    console.log('here offline')
-      alert('you are offline!')
+  } else if (!navigator.onLine) {
+      console.log('here offline');
+      alert('you are offline!');
     }
    
    // ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
@@ -183,24 +181,14 @@ export default class App extends Component {
     this.setState({ offlineVidAlert: false });
   }
 
-  alertOnlineStatus() {
-    // if(navigator.onLine === true) {
-    //   this.setState({online: true})
-    // } else if (navigator.onLine === false)
-    // this.setState({online: false})
-    console.log(navigator.onLine)
-    return navigator.onLine
-  }
-
 
   componentDidMount() {
     const tenSec = 10000;
-    setInterval(this.toggleOfflineVidAlert, 1000);
+    //setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
     this.getVideoData();
     setInterval(this.saveProgressAuto, tenSec);
     setTimeout(() => this.cookieChecker(this.state), 700);
-     setInterval(this.alertOnlineStatus, tenSec);
   }
 
   changeVideoDataState(percent) {
@@ -235,12 +223,17 @@ export default class App extends Component {
     }
   }
 
+  offlineSignUpAlert() {
+    alert('Signup feature is not available offline');
+  }
+
 
   render() {
     if (this.state.authenticated === false) {
       return (
         <div style={app}>
           <Login
+            offlineSignUpAlert={this.offlineSignUpAlert}
             authenticate={this.authenticate}
             usernameOnChange={this.usernameOnChange}
             passwordOnChange={this.passwordOnChange}

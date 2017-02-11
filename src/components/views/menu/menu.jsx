@@ -28,7 +28,7 @@ const Menu = (props) => {
     }
   }
   else {
-    console.log("no videoData")
+    console.log("no videoData");
   }
 
   let lessons;

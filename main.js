@@ -53,7 +53,7 @@ function createWindow () {
 
   ipcMain.on('save-user', (event, arg, sid) => {
     // console.log('this is arg in save-user', arg)
-     //console.log('this is sid on main' , sid)
+    // console.log('this is sid on main' , sid)
     const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')};
 
     ses.set(cookie, (error) => {
@@ -61,11 +61,9 @@ function createWindow () {
     });
     const improvedProg = {};
     const progressArg = arg.progress;
-       // console.log('!!!!!sid on main 65:', sid);
-
+    
     for (let i = 0; i < progressArg.length; i += 1) {
       let vidId = progressArg[i].video_id;
-      //console.log('this is vidId', vidId)
       improvedProg[vidId] = parseInt(progressArg[i].length);
     }
     // improvedProg["sid"] = Number(sid);
@@ -201,7 +199,7 @@ ipcMain.on('download-video', (event, path, lesson, video) => {
 	    }
 	    downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
     } else {
-      event.sender.send('offline-download-error');
+      //event.sender.send('offline-download-error');
     }
   })
 })
