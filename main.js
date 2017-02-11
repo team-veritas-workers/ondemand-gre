@@ -8,7 +8,9 @@ const path = require('path');
 const url = require('url');
 const fs = require('fs');
 const ipcMain = electron.ipcMain;
-const {session} = require('electron');
+const {
+  session
+} = require('electron');
 const isOnline = require('is-online');
 const encryptor = require('file-encryptor');
 const timestamp = require('unix-timestamp');
@@ -18,11 +20,16 @@ const getVideoData = require('./utils/getVideoData.js');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 1280, height: 800, minWidth: 1024, minHeight: 768 });
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 800,
+    minWidth: 1024,
+    minHeight: 768
+  });
 
-    fs.readdir(__dirname + '/videos', function (err, files) {
+  fs.readdir(__dirname + '/videos', function (err, files) {
     const vidNameArr = [];
     if (err) return;
     files.forEach(function (file) {
@@ -48,32 +55,35 @@ function createWindow () {
     mainWindow = null;
   })
 
-//this sets initial state to progress data from the HD
-ipcMain.on('getHD',function(event){
+  //this sets initial state to progress data from the HD
+  ipcMain.on('getHD', function (event) {
 
-   fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
+    fs.readFile(app.getAppPath() + '/progress.json', {
+      encoding: 'utf-8'
+    }, function (err, data) {
       if (err) console.log(err);
       if (data) {
         progressData = JSON.parse(data);
-          event.sender.send("hdCheck",progressData)
-        }
-       
-        else {
-          event.sender.send("hdCheck")
+        event.sender.send("hdCheck", progressData)
+      } else {
+        event.sender.send("hdCheck")
           //send client to proceed as usual
-        }
-      })
-   })
- 
+      }
+    })
+  })
+
   const ses = session.fromPartition('persist:name').cookies;
 
 
   ipcMain.on('save-user', (event, arg, sid) => {
-
-
-    // console.log('this is arg in save-user', arg)
-     //console.log('this is sid on main' , sid)
-    let cookie = {url: 'http://www.auth.com', name: arg.user.replace(/\s/g,''), value:arg.email.toLowerCase(), progress: arg.progress, expirationDate: timestamp.now('+1w')};
+    updateProgress();
+    let cookie = {
+      url: 'http://www.auth.com',
+      name: arg.user.replace(/\s/g, ''),
+      value: arg.email.toLowerCase(),
+      progress: arg.progress,
+      expirationDate: timestamp.now('+1w')
+    };
     //console.log(cookie)
 
     ses.set(cookie, (error) => {
@@ -82,15 +92,13 @@ ipcMain.on('getHD',function(event){
 
     const improvedProg = {};
     const progressArg = arg.progress;
-       // console.log('!!!!!sid on main 65:', sid);
 
     for (let i = 0; i < progressArg.length; i += 1) {
       let vidId = progressArg[i].video_id;
-      //console.log('this is vidId', vidId)
       improvedProg[vidId] = parseInt(progressArg[i].length);
     }
     // improvedProg["sid"] = Number(sid);
-   // console.log('this is improvedProg in save-user' , improvedProg)
+    // console.log('this is improvedProg in save-user' , improvedProg)
 
     fs.writeFile(app.getAppPath() + "/progress.json", JSON.stringify(improvedProg), function (err) {
       if (err) {
@@ -100,43 +108,47 @@ ipcMain.on('getHD',function(event){
     })
   })
 
-//just to see what cookies there are for testing
+  //just to see what cookies there are for testing
 
- ses.get({}, function (error, cookies) {console.log(cookies)})
+  ses.get({}, function (error, cookies) {
+    console.log(cookies)
+  })
 
-   ipcMain.on('logout', function (event, arg) {
-     console.log('this is arg' , arg);
-     ses.remove('http://www.auth.com', arg.name, function (data) {
-         console.log(data)
-      })
+  ipcMain.on('logout', function (event, arg) {
+    console.log('this is arg', arg);
+    ses.remove('http://www.auth.com', arg.name, function (data) {
+      console.log(data)
     })
-    
-    ipcMain.on('check-cookie', function (event) {
-      // console.log("checking cookie")
-      ses.get({}, function (error, cookies) {
-        let progressData;
-        // console.dir(cookies);
-        if (cookies) {
-          fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
-            if (err) console.log(err);
-            if (data) {
-              progressData = JSON.parse(data);
-              const argData = [cookies, progressData];
-              event.sender.send('cookie-exists', argData);
-            } else {
-              progressData = {};
-              const argData = [cookies, progressData];
-              event.sender.send('cookie-exists', argData);
-              console.log("read file error", err);
-            }
-          });
-        }
-        if (error) {
-          console.dir(error);
-        }
-      })
+  })
+
+  ipcMain.on('check-cookie', function (event) {
+    // console.log("checking cookie")
+    ses.get({}, function (error, cookies) {
+      let progressData;
+      // console.dir(cookies);
+      if (cookies) {
+        fs.readFile(app.getAppPath() + '/progress.json', {
+          encoding: 'utf-8'
+        }, function (err, data) {
+          if (err) console.log(err);
+          if (data) {
+            progressData = JSON.parse(data);
+            const argData = [cookies, progressData];
+            event.sender.send('cookie-exists', argData);
+          } else {
+            progressData = {};
+            const argData = [cookies, progressData];
+            event.sender.send('cookie-exists', argData);
+            console.log("read file error", err);
+          }
+        });
+      }
+      if (error) {
+        console.dir(error);
+      }
     })
-  }
+  })
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -162,7 +174,10 @@ app.on('activate', function () {
 // code. You can also put them in separate files and require them here.
 
 function downloadVideo(event, url, targetPath, lesson, video) {
-  const req = request({ method: 'GET', url });
+  const req = request({
+    method: 'GET',
+    url
+  });
 
   let received_bytes = 0;
   let total_bytes = 0;
@@ -202,7 +217,7 @@ function downloadVideo(event, url, targetPath, lesson, video) {
       temp = received_bytes / total_bytes * 100;
       if (temp - percentage > .75 || received_bytes === total_bytes) {
         percentage = temp;
-      } 
+      }
     });
 
     req.pipe(out);
@@ -219,41 +234,39 @@ ipcMain.on('download-video', (event, path, lesson, video) => {
   isOnline().then(function (online) {
     if (online) {
       console.log(path);
-	    const fileName = path.substring(path.lastIndexOf('/') + 1);
-	    if (!fs.existsSync(app.getAppPath() + '/videos/')) {
-		    fs.mkdirSync(app.getAppPath() + '/videos/');
-	    }
-	    downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
-    } else {
-      event.sender.send('offline-download-error');
+      const fileName = path.substring(path.lastIndexOf('/') + 1);
+      if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+        fs.mkdirSync(app.getAppPath() + '/videos/');
+      }
+      downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
     }
   })
 })
 
-  
+
 
 ipcMain.on('get-video', (event, path) => {
-	if (!fs.existsSync(app.getAppPath() + '/videos/')) {
-		fs.mkdirSync(app.getAppPath() + '/videos/');
-	}
-	const filePath = app.getAppPath() + '/videos/' + path;
-	if (fs.existsSync(filePath)) {
-		event.sender.send('play-video', filePath);
-	} else {
-		isOnline().then((online) => {
-			if (online) {
-					// encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
-				const videoUrl = 'https://gre-on-demand.veritasprep.com/' + path;
-				event.sender.send('play-video', videoUrl);
-			} else {
-				 event.sender.send('offline-vid-error');
-			}
-		})
-	}
+  if (!fs.existsSync(app.getAppPath() + '/videos/')) {
+    fs.mkdirSync(app.getAppPath() + '/videos/');
+  }
+  const filePath = app.getAppPath() + '/videos/' + path;
+  if (fs.existsSync(filePath)) {
+    event.sender.send('play-video', filePath);
+  } else {
+    isOnline().then((online) => {
+      if (online) {
+        // encryptor.decryptFile(app.getAppPath() + '/encrypted.dat', app.getAppPath() + '/gre_intro.mp4', key, function(err) {console.log('hello') });
+        const videoUrl = 'https://gre-on-demand.veritasprep.com/' + path;
+        event.sender.send('play-video', videoUrl);
+      } else {
+        event.sender.send('offline-vid-error');
+      }
+    })
+  }
 });
 
 ipcMain.on('get-video-data', (event) => {
-	getVideoData(event, app.getAppPath());
+  getVideoData(event, app.getAppPath());
 });
 
 
@@ -261,10 +274,12 @@ ipcMain.on('get-video-data', (event) => {
 function updateProgress() {
   isOnline().then(online => {
     if (online === true) {
-      fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function(err, data) {
+      fs.readFile(app.getAppPath() + '/progress.json', {
+        encoding: 'utf-8'
+      }, function (err, data) {
         if (!err && data) {
           newProgress = JSON.parse(data);
-         
+
           for (let key in newProgress) {
             let buildtUpStr = '';
             if (key.includes('gre')) {
@@ -283,18 +298,20 @@ function updateProgress() {
 
 
 function postProgress(buildtUpStr) {
-//console.log('inside postProgress post request')
-request.post({
-  headers: {'content-type' : 'application/x-www-form-urlencoded'},
-  url:     'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
-  body:    buildtUpStr
-}, function (err, response, body) {
-  if (err) { 
-    console.log('There was an error in postProgress:', err);
-    return
-  }
-  console.log('postProgress was sent to Veritas')
-  //console.log('inside postProgress response body of request', response, body);
+  //console.log('inside postProgress post request')
+  request.post({
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded'
+    },
+    url: 'https://www.veritasprep.com/account/gmat/ajax/update-video-progress.php',
+    body: buildtUpStr
+  }, function (err, response, body) {
+    if (err) {
+      console.log('There was an error in postProgress:', err);
+      return
+    }
+    console.log('postProgress was sent to Veritas');
+    //console.log('inside postProgress response body of request', response, body);
   });
 }
 
@@ -309,10 +326,10 @@ function checkVideoTimeStamp(vidNameArr) {
     let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
     let createdVideoTime = videoInFolder.birthtime.getTime();
     let weekInMilliSec = 604800000;
-   
+
     if ((createdVideoTime + weekInMilliSec) < Date.now()) {
-     // console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInMilliSec);
-     // console.log('Video is expired and is now being deleted...');
+      // console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInMilliSec);
+      // console.log('Video is expired and is now being deleted...');
       fs.unlink(folderToAccess + vidNameArr[i]);
     }
   }
@@ -345,10 +362,3 @@ ipcMain.on('save-progress-auto', (event, arg, sid) => {
 // encryptor.decryptFile('encrypted.dat', 'output_file.txt', key, function(err) {
 //   // Decryption complete.
 // });
-
-  
-
-
-
-
-
