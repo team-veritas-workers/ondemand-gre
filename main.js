@@ -181,8 +181,11 @@ function downloadVideo(event, url, targetPath, lesson, video) {
         console.log('CHECK PASSED!');
         return;
       } else {
-        console.log('INCOMPLETE DOWNLOAD, DELETING FILE, PLEASE CLICK AGAIN!');
-        fs.unlinkSync(targetPath);
+        // must handle incomplete downloads when user looses connection with code below is when we get errors
+        // console.log('INCOMPLETE DOWNLOAD, DELETING FILE, PLEASE CLICK AGAIN!');
+        // if (targetPath) {
+        //   fs.unlinkSync(targetPath);
+        // }
       }
     });
   } else {
