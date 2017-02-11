@@ -51,6 +51,7 @@ export default class App extends Component {
   }
 
   logout() {
+    console.log(this.state.user)
     ipcRenderer.send('logout', { name: this.state.user });
     this.setState({ authenticated: false });
   }
@@ -91,20 +92,25 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
+          console.log("res", res)
 
           ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID }, res.data.user.SID);
-          const improvedProg = {};
-          const progressArg = res.data.user.progress;
-          progressArg.sid = this.state.sid; 
+          //progressArg.sid = this.state.sid; 
 
-          if (this.state.progress.sid !== JSON.parse(res.data.user.SID)) {
+          //state has been set before anything in componentWillMount using the HD function
+          //so here I am checking to see if the data on the hard disk matches with the actual
+          //authenticated user. If there is not a match, then we will update state with the newly
+          //aqquired data. If there is a match then we proceed as usual
+          if (this.state.progress.sid !== JSON.parse(res.data.user.SID || !this.state.progress.sid)) {
             console.log(typeof this.state.progress.sid, typeof res.data.user.SID, "this sid doesnt match!!!!!")
              const improvedProg = {};
              const progressArg = res.data.user.progress;
+
             for (let i = 0; i < progressArg.length; i += 1) {
               let vidId = progressArg[i].video_id;
               improvedProg[vidId] = parseInt(progressArg[i].length);
             }
+            improvedProg['sid'] = res.data.user.SID
 
             this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
         }
@@ -113,7 +119,7 @@ export default class App extends Component {
 
              const improvedProg = this.state.progress;
              const progressArg = res.data.user.progress;
-           for (let i = 0; i < progressArg.length; i += 1) {
+             for (let i = 0; i < progressArg.length; i += 1) {
 
 
               let vidId = progressArg[i].video_id;
@@ -121,6 +127,7 @@ export default class App extends Component {
                 improvedProg[vidId] = parseInt(progressArg[i].length);
               }
             }
+            improvedProg['sid'] = res.data.user.SID
 
             this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
 
@@ -201,6 +208,7 @@ export default class App extends Component {
       this.setState({progress:arg})
     }
     else {
+      console.log("hd check didnt pass")
       //alert("it is not here")
     }
 
@@ -215,11 +223,7 @@ export default class App extends Component {
 
 
   componentDidMount() {
-    
-    
     this.hdCheck()
-
-
     const tenSec = 10000;
     setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
@@ -245,19 +249,12 @@ export default class App extends Component {
        splitAtMp4 = splitAtCom[1].split('.mp4');
        videoId = splitAtMp4[0];
     }
-
-    //console, log out percent and accessprogressvideoid percent
-
-//setInterval(console.log("is it worling?",percent, accessProgress[videoId]),3000)
-
   
     let accessProgress = this.state.progress;
     if (percent > accessProgress[videoId] || !accessProgress[videoId]){
        accessProgress[videoId] = percent;
        this.setState({progress: accessProgress});
     }
-   
-    
   }
 
  

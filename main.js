@@ -48,6 +48,7 @@ function createWindow () {
     mainWindow = null;
   })
 
+//this sets initial state to progress data from the HD
 ipcMain.on('getHD',function(event){
 
    fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
@@ -63,47 +64,17 @@ ipcMain.on('getHD',function(event){
         }
       })
    })
-
-
-  
-ipcMain.on('progressHD',function(event,arg){
-
-  console.log("logout progess check")
-
-    fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
-      if (err) console.log(err);
-      if (data) {
-        progressData = JSON.parse(data);
-        console.log("in function",arg, progressData.sid)
-        if (progressData.sid === arg) {    
-            console.log("in then")
-            event.sender.send("hdCheck",{checked:1})
-        //then send ipc to client saying that it updated 
-        } 
-        else {
-          event.sender.send("hdCheck", {checked:2})
-          //send client to proceed as usual
-        }
-      } 
-      else {
-        console.log("read file error", err);
-      }
-   })
-
-
-
-})
-
-
-    
  
-
   const ses = session.fromPartition('persist:name').cookies;
 
+
   ipcMain.on('save-user', (event, arg, sid) => {
+
+
     // console.log('this is arg in save-user', arg)
      //console.log('this is sid on main' , sid)
-    const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')};
+    let cookie = {url: 'http://www.auth.com', name: arg.user.replace(/\s/g,''), value:arg.email.toLowerCase(), progress: arg.progress, expirationDate: timestamp.now('+1w')};
+    //console.log(cookie)
 
     ses.set(cookie, (error) => {
       if (error) console.error(error);
@@ -129,11 +100,14 @@ ipcMain.on('progressHD',function(event,arg){
     })
   })
 
+//just to see what cookies there are for testing
+
+ ses.get({}, function (error, cookies) {console.log(cookies)})
 
    ipcMain.on('logout', function (event, arg) {
      console.log('this is arg' , arg);
      ses.remove('http://www.auth.com', arg.name, function (data) {
-        // console.log(data)
+         console.log(data)
       })
     })
     
