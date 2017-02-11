@@ -47,18 +47,39 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null;
   })
-  
+
+//this sets initial state to progress data from the HD
+ipcMain.on('getHD',function(event){
+
+   fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
+      if (err) console.log(err);
+      if (data) {
+        progressData = JSON.parse(data);
+          event.sender.send("hdCheck",progressData)
+        }
+       
+        else {
+          event.sender.send("hdCheck")
+          //send client to proceed as usual
+        }
+      })
+   })
+ 
   const ses = session.fromPartition('persist:name').cookies;
 
 
   ipcMain.on('save-user', (event, arg, sid) => {
+
+
     // console.log('this is arg in save-user', arg)
      //console.log('this is sid on main' , sid)
-    const cookie = {url: 'http://www.auth.com', name: arg.user, value:arg.email, progress: arg.progress, expirationDate: timestamp.now('+1w')};
+    let cookie = {url: 'http://www.auth.com', name: arg.user.replace(/\s/g,''), value:arg.email.toLowerCase(), progress: arg.progress, expirationDate: timestamp.now('+1w')};
+    //console.log(cookie)
 
     ses.set(cookie, (error) => {
       if (error) console.error(error);
     });
+
     const improvedProg = {};
     const progressArg = arg.progress;
        // console.log('!!!!!sid on main 65:', sid);
@@ -79,11 +100,14 @@ function createWindow () {
     })
   })
 
+//just to see what cookies there are for testing
+
+ ses.get({}, function (error, cookies) {console.log(cookies)})
 
    ipcMain.on('logout', function (event, arg) {
      console.log('this is arg' , arg);
      ses.remove('http://www.auth.com', arg.name, function (data) {
-        // console.log(data)
+         console.log(data)
       })
     })
     
@@ -248,6 +272,7 @@ function updateProgress() {
               postProgress(buildtUpStr);
             }
           }
+
         } else {
           console.log("read file error", err);
         }
