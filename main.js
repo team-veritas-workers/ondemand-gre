@@ -48,8 +48,23 @@ function createWindow () {
     mainWindow = null;
   })
 
+ipcMain.on('getHD',function(event){
 
-  
+   fs.readFile(app.getAppPath() + '/progress.json', {encoding: 'utf-8'}, function (err, data) {
+      if (err) console.log(err);
+      if (data) {
+        progressData = JSON.parse(data);
+          event.sender.send("hdCheck",progressData)
+        }
+       
+        else {
+          event.sender.send("hdCheck")
+          //send client to proceed as usual
+        }
+      })
+   })
+
+
   
 ipcMain.on('progressHD',function(event,arg){
 
@@ -60,12 +75,9 @@ ipcMain.on('progressHD',function(event,arg){
       if (data) {
         progressData = JSON.parse(data);
         console.log("in function",arg, progressData.sid)
-        if (progressData.sid === arg) {
-          
+        if (progressData.sid === arg) {    
             console.log("in then")
-            // event.sender.send("hdCheck",{checked:1})
-            updateProgress(event, true);
-
+            event.sender.send("hdCheck",{checked:1})
         //then send ipc to client saying that it updated 
         } 
         else {
@@ -282,10 +294,6 @@ function updateProgress() {
               buildtUpStr += 'video=' + key + '&userID=' + newProgress.sid + '&progress=' + newProgress[key] + '&lessonType=gre';
               postProgress(buildtUpStr);
             }
-          }
-          if (bool) {
-            console.log("everything worked")
-           
           }
 
         } else {
