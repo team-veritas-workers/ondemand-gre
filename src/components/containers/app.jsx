@@ -24,9 +24,11 @@ export default class App extends Component {
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressAuto = this.saveProgressAuto.bind(this);
     this.offlineSignUpAlert = this.offlineSignUpAlert.bind(this);
-   // this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
-    //this.throttleAlert = this.throttleAlert.bind(this);
-  
+    // this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
+    // this.throttleAlert = this.throttleAlert.bind(this);
+    this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
+    this.hdCheck = this.hdCheck.bind(this)
+
     this.state = {
       user: null,
       username: null,
@@ -51,9 +53,11 @@ export default class App extends Component {
   }
 
   logout() {
+    console.log(this.state.user)
     ipcRenderer.send('logout', { name: this.state.user });
     this.setState({ authenticated: false });
   }
+
 
   cookieChecker(state) {
     ipcRenderer.send('check-cookie');
@@ -76,6 +80,7 @@ export default class App extends Component {
   }
 
   authenticate(e) {
+    //console.log("auth state", this.state)
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
@@ -88,15 +93,47 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: this.state.sid }, this.state.sid);
-          const improvedProg = {};
-          const progressArg = res.data.user.progress;
-          progressArg.sid = this.state.sid;
-          for (let i = 0; i < progressArg.length; i += 1) {
-            let vidId = progressArg[i].video_id;
-            improvedProg[vidId] = parseInt(progressArg[i].length);
+          console.log("res", res)
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID }, res.data.user.SID);
+          //progressArg.sid = this.state.sid; 
+
+          //state has been set before anything in componentWillMount using the HD function
+          //so here I am checking to see if the data on the hard disk matches with the actual
+          //authenticated user. If there is not a match, then we will update state with the newly
+          //aqquired data. If there is a match then we proceed as usual
+          if (this.state.progress === undefined || this.state.progress.sid !== JSON.parse(res.data.user.SID)) {
+            console.log(typeof this.state.progress.sid, typeof res.data.user.SID, "this sid doesnt match!!!!!")
+            const improvedProg = {};
+            const progressArg = res.data.user.progress;
+
+            for (let i = 0; i < progressArg.length; i += 1) {
+              let vidId = progressArg[i].video_id;
+              improvedProg[vidId] = parseInt(progressArg[i].length);
+            }
+            improvedProg['sid'] = res.data.user.SID
+
+            this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
           }
-          this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+          else {
+            console.log("the sid matches!!!!!!!!!!!!!!!");
+
+            const improvedProg = this.state.progress;
+            const progressArg = res.data.user.progress;
+            for (let i = 0; i < progressArg.length; i += 1) {
+
+
+              let vidId = progressArg[i].video_id;
+              if (improvedProg[vidId] < parseInt(progressArg[i].length || !improvedProg[vidId])) {
+                improvedProg[vidId] = parseInt(progressArg[i].length);
+              }
+            }
+            improvedProg['sid'] = res.data.user.SID
+
+            this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+
+          }
+          // console.log('!!!this is sid in app' , this.state.sid);
+
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
         }
@@ -139,30 +176,25 @@ export default class App extends Component {
       const hd = `https://gre-on-demand.veritasprep.com/${id}.mp4`;
       const sd = `https://gre-on-demand.veritasprep.com/360p_${id}.mp4`;
       if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
-        //ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
         ipcRenderer.send('download-video', hd, lesson, parseInt(video));
-      } 
-      } else if (!navigator.onLine) {
-          alert('you are offline!');
       }
+    } else if (!navigator.onLine) {
+      alert('Downloading videos while offline is not possible');
+    }
   }
 
   downloadAllLessson(e, lessonData) {
     if (navigator.onLine) {
-      console.log('here online')
       e.stopPropagation();
       console.log(this.state.downloadAllActive);
       const lesson = parseInt(lessonData.lessonNumber) - 1;
       const indexUrl = lessonData.videos.map((video, index) => [video.name, index]);
       indexUrl.forEach(video => {
-      this.downloadIndVid(e, lesson, video[1], video[0]);
-    });
-  } else if (!navigator.onLine) {
-      console.log('here offline');
-      alert('you are offline!');
+        this.downloadIndVid(e, lesson, video[1], video[0]);
+      });
+    } else if (!navigator.onLine) {
+      alert('Downloading videos while offline is not possible');
     }
-   
-   // ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
   }
 
 
@@ -176,13 +208,28 @@ export default class App extends Component {
     });
   }
 
-// below is to limit num of offline feedback alerts when user is offline & tries to download all videos.  
+  hdCheck() {
+    ipcRenderer.send('getHD');
+    ipcRenderer.on('hdCheck', function (event, arg) {
+      if (arg) {
+        // alert("it is here")
+        console.log("hd check worked", arg);
+        this.setState({ progress: arg });
+      }
+      else {
+        console.log("hd check didnt pass");
+        //alert("it is not here")
+      }
+    }.bind(this))
+  }
+
   toggleOfflineVidAlert() {
     this.setState({ offlineVidAlert: false });
   }
 
 
   componentDidMount() {
+    this.hdCheck()
     const tenSec = 10000;
     //setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
@@ -208,8 +255,10 @@ export default class App extends Component {
     }
 
     let accessProgress = this.state.progress;
-    accessProgress[videoId] = percent;
-    this.setState({ progress: accessProgress });
+    if (percent > accessProgress[videoId] || !accessProgress[videoId]) {
+      accessProgress[videoId] = percent;
+      this.setState({ progress: accessProgress });
+    }
   }
 
 
