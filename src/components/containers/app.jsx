@@ -96,10 +96,7 @@ export default class App extends Component {
             let vidId = progressArg[i].video_id;
             improvedProg[vidId] = parseInt(progressArg[i].length);
           }
-
           this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
-          // console.log('!!!this is sid in app' , this.state.sid);
-
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
         }
@@ -138,13 +135,10 @@ export default class App extends Component {
   downloadIndVid(e, lesson, video, id) {
     e.preventDefault();
     e.stopPropagation();
-   // console.log('from current state', this.state.videoData);
-    //console.log('lesson', lesson);
-    //console.log('video', video);
+    
     const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
-    const sd = `https://gre-on-demand.veritasprep.com/360p_${ id }.mp4`;
+
     if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
-      // console.log('!!!!!!inside if statement')
       ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
       ipcRenderer.send('download-video', hd, lesson, parseInt(video));
     }
@@ -166,7 +160,7 @@ export default class App extends Component {
     ipcRenderer.on('download-progress', (event, progress, lesson, video) => {
       const videoData = this.state.videoData.slice(0);
       if (videoData[lesson]) {
-        videoData[lesson].videos[video].downloadProgress = `${progress}`;
+        videoData[lesson].videos[video].downloadProgress = `${ progress }`;
         this.setState({ videoData: videoData });
       }
     });

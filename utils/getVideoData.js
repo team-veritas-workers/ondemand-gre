@@ -16,10 +16,6 @@ module.exports = (event, appPath) => {
       return lesson.videos.map(video => {
         const filePath = `${ appPath }/videos/${ video.name }.mp4`;
         video.downloaded = fs.existsSync(filePath) ? true : false;
-        // if (exists) {
-        //   do get request for data headers content length!
-        //   if fs.statSync().size !== content-length... DLETE!
-        // }
       });
     });
     return JSON.stringify(videoData);

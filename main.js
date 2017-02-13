@@ -13,6 +13,7 @@ const isOnline = require('is-online');
 const encryptor = require('file-encryptor');
 const timestamp = require('unix-timestamp');
 const getVideoData = require('./utils/getVideoData.js');
+const downloadVideo = require('./utils/downloadVideo.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -137,76 +138,15 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-function downloadVideo(event, url, targetPath, lesson, video) {
-  const req = request({ method: 'GET', url });
+ipcMain.on('get-video-data', (event) => {
+	getVideoData(event, app.getAppPath());
+});
 
-  let received_bytes = 0;
-  let total_bytes = 0;
-  let percentage = 0;
-  let temp;
+ipcMain.on('download-video', (event, url, lessonIndex, videoIndex) => {
+  const filePath = app.getAppPath() + '/videos/' + url.substring(url.lastIndexOf('/') + 1);
+  downloadVideo(event, url, filePath, lessonIndex, videoIndex);
+});
 
-  let size;
-  let check;
-  let out;
-
-  if (fs.existsSync(targetPath)) {
-    size = fs.statSync(targetPath).size;
-    req.on('response', (data) => {
-      check = parseInt(data.headers['content-length']);
-      if (check === size) {
-        console.log('CHECK PASSED!');
-        return;
-      } else {
-        // must handle incomplete downloads when user looses connection with code below is when we get errors
-        // console.log('INCOMPLETE DOWNLOAD, DELETING FILE, PLEASE CLICK AGAIN!');
-        // if (targetPath) {
-        //   fs.unlinkSync(targetPath);
-        // }
-      }
-    });
-  } else {
-    console.log('NEW DOWNLOAD!');
-    event.sender.send('download-progress', 'downloading', lesson, video);
-    out = fs.createWriteStream(targetPath);
-
-    req.on('response', function (data) {
-      total_bytes = parseInt(data.headers['content-length']);
-    });
-
-    req.on('data', function (chunk) {
-      received_bytes += chunk.length;
-      temp = received_bytes / total_bytes * 100;
-      if (temp - percentage > .75 || received_bytes === total_bytes) {
-        percentage = temp;
-      } 
-    });
-
-    req.pipe(out);
-    req.on('end', () => {
-      console.log('Completed downloading', url.slice(38));
-      event.sender.send('download-progress', 'done', lesson, video);
-    });
-  }
-}
-
-
-
-ipcMain.on('download-video', (event, path, lesson, video) => {
-  isOnline().then(function (online) {
-    if (online) {
-      console.log(path);
-	    const fileName = path.substring(path.lastIndexOf('/') + 1);
-	    if (!fs.existsSync(app.getAppPath() + '/videos/')) {
-		    fs.mkdirSync(app.getAppPath() + '/videos/');
-	    }
-	    downloadVideo(event, path, app.getAppPath() + '/videos/' + fileName, lesson, video);
-    } else {
-      event.sender.send('offline-download-error');
-    }
-  })
-})
-
-  
 
 ipcMain.on('get-video', (event, path) => {
 	if (!fs.existsSync(app.getAppPath() + '/videos/')) {
@@ -227,12 +167,6 @@ ipcMain.on('get-video', (event, path) => {
 		})
 	}
 });
-
-ipcMain.on('get-video-data', (event) => {
-	getVideoData(event, app.getAppPath());
-});
-
-
 
 function updateProgress() {
   isOnline().then(online => {
@@ -268,7 +202,7 @@ request.post({
     console.log('There was an error in postProgress:', err);
     return
   }
-  console.log('postProgress was sent to Veritas')
+  // console.log('postProgress was sent to Veritas')
   //console.log('inside postProgress response body of request', response, body);
   });
 }
@@ -302,7 +236,7 @@ ipcMain.on('save-progress-auto', (event, arg, sid) => {
     if (err) {
       return console.log(err);
     }
-    console.log("Progress.json was updated!");
+    // console.log("Progress.json was updated!");
   })
 });
 
