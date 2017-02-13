@@ -179,9 +179,12 @@ ipcMain.on('get-video-data', (event) => {
 });
 
 ipcMain.on('download-video', (event, url, lessonIndex, videoIndex) => {
+  console.log('from main');
   const filePath = app.getAppPath() + '/videos/' + url.substring(url.lastIndexOf('/') + 1);
   downloadVideo(event, url, filePath, lessonIndex, videoIndex);
 });
+
+
 
 ipcMain.on('get-video', (event, path) => {
   if (!fs.existsSync(app.getAppPath() + '/videos/')) {

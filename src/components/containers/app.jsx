@@ -24,8 +24,6 @@ export default class App extends Component {
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressAuto = this.saveProgressAuto.bind(this);
     this.offlineSignUpAlert = this.offlineSignUpAlert.bind(this);
-    // this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
-    // this.throttleAlert = this.throttleAlert.bind(this);
     this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
     this.hdCheck = this.hdCheck.bind(this)
 
@@ -80,7 +78,6 @@ export default class App extends Component {
   }
 
   authenticate(e) {
-    //console.log("auth state", this.state)
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
@@ -169,16 +166,19 @@ export default class App extends Component {
   // }
 
   downloadIndVid(e, lesson, video, id) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
-
-    if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
-      ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
-      ipcRenderer.send('download-video', hd, lesson, parseInt(video));
+    if (navigator.online) {
+      console.log('online');
+      e.preventDefault();
+      e.stopPropagation();
+      const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
+      if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === false) {
+        ipcRenderer.send('download-video', hd, lesson, parseInt(video));
+      }
+    } else if (!navigator.online) {
+      alert('Downloading videos while offline is not possible');
     }
   }
+
 
   downloadAllLessson(e, lessonData) {
     if (navigator.onLine) {
@@ -220,9 +220,9 @@ export default class App extends Component {
     }.bind(this))
   }
 
-  toggleOfflineVidAlert() {
-    this.setState({ offlineVidAlert: false });
-  }
+  // toggleOfflineVidAlert() {
+  //   this.setState({ offlineVidAlert: false });
+  // }
 
 
   componentDidMount() {
