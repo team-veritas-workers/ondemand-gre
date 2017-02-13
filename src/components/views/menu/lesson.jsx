@@ -145,11 +145,6 @@ const downloadImage = {
   height: '65%'
 }
 
-
-        
-          
-          
-
       
 const ppie = {
   position: 'absolute',
@@ -157,14 +152,7 @@ const ppie = {
   height:'18px',
   width: '18px',
   margin: '5px'
-  
-
 }
-
-
-
-
-
 
 const dlPrompt = {
   color: 'grey',
