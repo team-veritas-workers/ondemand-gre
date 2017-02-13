@@ -3,3 +3,14 @@ node_modules/
 public/renderer.js
 videos/
 progress.json
+src/assets/app.png
+src/assets/checkmark.png
+src/assets/child.png
+src/assets/client.png
+src/assets/cookie.png
+src/assets/gears.png
+src/assets/github.png
+src/assets/hd.png
+src/assets/offline.png
+src/assets/server.png
+src/assets/video.png
