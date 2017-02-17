@@ -316,13 +316,13 @@ function postProgress(buildtUpStr) {
 const twentySec = 20000;
 setInterval(updateProgress, twentySec);
 
-// script which checks time stamp of videos to see if older than 1 week & if so deletes them
+// script which checks time stamp of videos to see if older than 1 month & if so deletes them
 function checkVideoTimeStamp(vidNameArr) {
   for (let i = 2; i < vidNameArr.length; i += 1) {
     let folderToAccess = app.getAppPath() + '/videos/';
     let videoInFolder = fs.statSync(folderToAccess + vidNameArr[i]);
     let createdVideoTime = videoInFolder.birthtime.getTime();
-    let weekInMilliSec = 604800000;
+    let monthInMilliSec = 2629746000;
 
     if ((createdVideoTime + weekInMilliSec) < Date.now()) {
       fs.unlink(folderToAccess + vidNameArr[i]);
