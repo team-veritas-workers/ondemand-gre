@@ -56,7 +56,7 @@ export default class App extends Component {
     this.setState({ authenticated: false });
   }
 
-
+// Runs everytime app is opened to validate cookie is less than 1 week old
   cookieChecker(state) {
     ipcRenderer.send('check-cookie');
     ipcRenderer.on('cookie-exists', function (event, arg) {
@@ -206,6 +206,7 @@ export default class App extends Component {
     });
   }
 
+// checks when app is started to see if anything in progress.json to set state
   hdCheck() {
     ipcRenderer.send('getHD');
     ipcRenderer.on('hdCheck', function (event, arg) {
@@ -233,6 +234,7 @@ export default class App extends Component {
     setTimeout(() => this.cookieChecker(this.state), 700);
   }
 
+// function called in reactVideo.jsx which is a part of auto deletion script that deletes videos every month
   changeVideoDataState(percent) {
     let splitAtCom;
     let splitAtMp4;
@@ -259,7 +261,7 @@ export default class App extends Component {
 
 
   // there is a setInterval in app.js under componentDidMount that runs every 10 sec. 
-
+  // saves progress from state to HD
   saveProgressAuto() {
     console.log('inside saveProgressAuto in app.js (state saved to HD)');
     if (this.state.progress) {
@@ -267,6 +269,7 @@ export default class App extends Component {
     }
   }
 
+// Gives feedback to user if they click signup button when they are offline
   offlineSignUpAlert() {
     alert('Signup feature is not available offline');
   }
