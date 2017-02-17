@@ -84,7 +84,6 @@ function createWindow() {
       progress: arg.progress,
       expirationDate: timestamp.now('+1w')
     };
-    //console.log(cookie)
 
     ses.set(cookie, (error) => {
       if (error) console.error(error);
@@ -111,13 +110,13 @@ function createWindow() {
   //just to see what cookies there are for testing
 
   ses.get({}, function (error, cookies) {
-    console.log(cookies)
+    console.log(cookies);
   })
 
   ipcMain.on('logout', function (event, arg) {
     console.log('this is arg', arg);
     ses.remove('http://www.auth.com', arg.name, function (data) {
-      console.log(data)
+      console.log(data);
     })
   })
 
@@ -298,7 +297,6 @@ function updateProgress() {
 
 
 function postProgress(buildtUpStr) {
-  //console.log('inside postProgress post request')
   request.post({
     headers: {
       'content-type': 'application/x-www-form-urlencoded'
@@ -308,10 +306,9 @@ function postProgress(buildtUpStr) {
   }, function (err, response, body) {
     if (err) {
       console.log('There was an error in postProgress:', err);
-      return
+      return;
     }
     console.log('postProgress was sent to Veritas');
-    //console.log('inside postProgress response body of request', response, body);
   });
 }
 
@@ -319,7 +316,7 @@ function postProgress(buildtUpStr) {
 const twentySec = 20000;
 setInterval(updateProgress, twentySec);
 
-
+// script which checks time stamp of videos to see if older than 1 week & if so deletes them
 function checkVideoTimeStamp(vidNameArr) {
   for (let i = 2; i < vidNameArr.length; i += 1) {
     let folderToAccess = app.getAppPath() + '/videos/';
@@ -328,18 +325,14 @@ function checkVideoTimeStamp(vidNameArr) {
     let weekInMilliSec = 604800000;
 
     if ((createdVideoTime + weekInMilliSec) < Date.now()) {
-      // console.log('this is createdVideoTime + weekInSec:' , createdVideoTime + weekInMilliSec);
-      // console.log('Video is expired and is now being deleted...');
       fs.unlink(folderToAccess + vidNameArr[i]);
     }
   }
 }
 
 ipcMain.on('save-progress-auto', (event, arg, sid) => {
-  // console.log('this is SID in save-progress-auto main.js', sid);
   const improvedProg = arg;
   improvedProg["sid"] = Number(sid);
-  // console.log(improvedProg.sid)
   fs.writeFile(app.getAppPath() + "/progress.json", JSON.stringify(improvedProg), function (err) {
     if (err) {
       return console.log(err);

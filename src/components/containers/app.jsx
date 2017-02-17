@@ -24,8 +24,6 @@ export default class App extends Component {
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressAuto = this.saveProgressAuto.bind(this);
     this.offlineSignUpAlert = this.offlineSignUpAlert.bind(this);
-    // this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
-    // this.throttleAlert = this.throttleAlert.bind(this);
     this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
     this.hdCheck = this.hdCheck.bind(this)
 
@@ -53,7 +51,7 @@ export default class App extends Component {
   }
 
   logout() {
-    console.log(this.state.user)
+    console.log(this.state.user);
     ipcRenderer.send('logout', { name: this.state.user });
     this.setState({ authenticated: false });
   }
@@ -110,12 +108,12 @@ export default class App extends Component {
               let vidId = progressArg[i].video_id;
               improvedProg[vidId] = parseInt(progressArg[i].length);
             }
-            improvedProg['sid'] = res.data.user.SID
+            improvedProg['sid'] = res.data.user.SID;
 
             this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
           }
           else {
-            console.log("the sid matches!!!!!!!!!!!!!!!");
+            console.log("The SID matches!!!!!!!!!!!!");
 
             const improvedProg = this.state.progress;
             const progressArg = res.data.user.progress;
@@ -127,7 +125,7 @@ export default class App extends Component {
                 improvedProg[vidId] = parseInt(progressArg[i].length);
               }
             }
-            improvedProg['sid'] = res.data.user.SID
+            improvedProg['sid'] = res.data.user.SID;
 
             this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
 
@@ -212,13 +210,11 @@ export default class App extends Component {
     ipcRenderer.send('getHD');
     ipcRenderer.on('hdCheck', function (event, arg) {
       if (arg) {
-        // alert("it is here")
         console.log("hd check worked", arg);
         this.setState({ progress: arg });
       }
       else {
         console.log("hd check didnt pass");
-        //alert("it is not here")
       }
     }.bind(this))
   }
@@ -229,9 +225,8 @@ export default class App extends Component {
 
 
   componentDidMount() {
-    this.hdCheck()
+    this.hdCheck();
     const tenSec = 10000;
-    //setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
     this.getVideoData();
     setInterval(this.saveProgressAuto, tenSec);

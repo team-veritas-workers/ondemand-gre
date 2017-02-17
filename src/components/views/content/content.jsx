@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Menu from './../menu/menu.jsx';
 import Video from './../video/reactVideo.jsx';
-import Login from './../auth/login.jsx'
-import electron, {ipcRenderer} from 'electron'
+import Login from './../auth/login.jsx';
+import electron, {ipcRenderer} from 'electron';
 
 const Content = (props) => {
   const { 
