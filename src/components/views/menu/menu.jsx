@@ -5,31 +5,23 @@ import logoWhite from './../../../assets/veritas-logo-white.png';
 
 
 const Menu = (props) => {
-  // console.log("i am in menu", props.videoData, props.progress)
   if (props.videoData && props.progress) {
-    for (let i = 0; i < props.videoData.length; i += 1) {
-      //giving each lesson group props based on how many videos
-      //is in each group & how many of those have been watched
-      props.videoData[i].videosQuantity = props.videoData[i].videos.length;
-      props.videoData[i].videosComplete = 0;
-      for (let j = 0; j < props.videoData[i].videos.length; j += 1) {
-        if (props.progress[props.videoData[i].videos[j].name]) {
-          props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
+		for (let i = 0; i < props.videoData.length; i += 1) {
+			props.videoData[i].videosQuantity = props.videoData[i].videos.length;
+			props.videoData[i].videosComplete = 0;
+			for (let j = 0; j < props.videoData[i].videos.length; j += 1) {
+				if (props.progress[props.videoData[i].videos[j].name]) {
+					props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
           if (props.videoData[i].videos[j].length === 100) {
-            props.videoData[i].videosComplete++;
-          }
-        }
-      }
-      //calculating the lesson group percentage complete & then making that a prop to
-      //pass down to lesson
-      for (let i = 0; i < props.videoData.length; i += 1) {
-        props.videoData[i].lessonGroupProgress = Math.round(100 * props.videoData[i].videosComplete / props.videoData[i].videosQuantity);
-      }
-    }
-  }
-  else {
-    console.log("no videoData");
-  }
+						props.videoData[i].videosComplete++;
+					}
+				}
+			}
+			for (let i = 0; i < props.videoData.length; i += 1) {
+				props.videoData[i].lessonGroupProgress = Math.round(100 * props.videoData[i].videosComplete/props.videoData[i].videosQuantity);
+			}
+		}
+	}
 
   let lessons;
   if (props.videoData) {

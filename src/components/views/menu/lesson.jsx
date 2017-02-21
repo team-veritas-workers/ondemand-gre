@@ -128,21 +128,9 @@ const Lesson = (props) => {
           <span style={ titleText }>{ props.lessonData.name }</span>
           <span style={ downloadIcon } onClick={ grabAllVideoNames } key="downloadIcon"></span>
 
- <div style={ ppie }>
-          <PieChart slices={[
-                    {
-                      color: 'gray',
-                      value: 100 - props.lessonData.lessonGroupProgress,
-                    },
-                    {
-                      color: 'white',
-                      value: props.lessonData.lessonGroupProgress,
-                    },
-                  ]}/>
-                  </div>
-         {/* <span style={ groupProgress }> {props.lessonData.videosComplete} of {props.lessonData.videosQuantity} watched</span>*/}
-
-          
+          <div style={ ppie }>
+              <PieChart slices={ slices(props) }/>
+          </div>
 
           <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
@@ -166,11 +154,15 @@ const videoName = {
 const length = {
   position: 'absolute',
   right: '90px',
-  
   fontSize: '10px',
 }
 
-      
+const slices = (props) => [
+    { color: 'rgba(185, 185, 195, .6)', value: 100 - props.lessonData.lessonGroupProgress },
+    { color: 'rgba(255, 255, 255, .9)', value: props.lessonData.lessonGroupProgress }
+];
+
+  
 const ppie = {
   position: 'absolute',
   right: '10px',
@@ -203,7 +195,6 @@ const lesson = {
   fontSize: '.9em',
   overflow: 'auto'
 }
-
 
 const lessonTitle = {
   overflow: 'hidden',
