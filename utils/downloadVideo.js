@@ -17,6 +17,7 @@ const checkVideoFile = (downloadedSize, totalSize, filePath) => {
 // download logic
 const download = (event, url, lessonIndex, videoIndex, filePath) => {
   console.log('--------START-------', filePath);
+  console.log('QUEUE', QUEUE);
   console.log('LENGTH', QUEUE.length);
   console.log('Initialize download...', 'downloading status set to', downloading.status);
   event.sender.send('download-progress', 'downloading', lessonIndex, videoIndex);
@@ -48,10 +49,12 @@ const download = (event, url, lessonIndex, videoIndex, filePath) => {
                QUEUE.downloads[0].url,
                QUEUE.downloads[0].lessonIndex,
                QUEUE.downloads[0].videoIndex,
-               QUEUE.downloads[0].filePath)
+               QUEUE.downloads[0].filePath);
     } else {
       downloading.status = !downloading.status;
       console.log('No more downloads!', 'downloading?', downloading.status);
+      QUEUE.dequeue();
+      console.log('Remaining in queue (should be empty', QUEUE);
     }
   })
 };
