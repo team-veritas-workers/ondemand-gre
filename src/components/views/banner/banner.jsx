@@ -38,7 +38,6 @@ const title = {
 const subtitle = {
   display: 'flex',
   alignItems: 'center',
-
   fontSize: '1.1em',
   color: '#9A9A9A',
   fontStyle: 'italic',
