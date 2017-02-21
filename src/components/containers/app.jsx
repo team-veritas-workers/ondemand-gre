@@ -23,8 +23,6 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressAuto = this.saveProgressAuto.bind(this);
-    this.offlineSignUpAlert = this.offlineSignUpAlert.bind(this);
-    this.toggleOfflineVidAlert = this.toggleOfflineVidAlert.bind(this);
     this.hdCheck = this.hdCheck.bind(this)
 
     this.state = {
@@ -37,7 +35,6 @@ export default class App extends Component {
       showMenu: true,
       invalidLoginMessage: '',
       videoData: null,
-      offlineVidAlert: false,
       downloadAllActive: true
     };
   }
@@ -159,22 +156,18 @@ export default class App extends Component {
     this.setState({ videoData: newState });
   }
 
-  // throttleAlert(callback, delay) {
-  //   if (!this.state.offlineVidAlert) {
-  //     alert('Downloading when offline is not possible.');
-  //   }
-  //   this.setState({ offlineVidAlert: true });
-  // }
-
   downloadIndVid(e, lesson, video, id) {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
+    if (navigator.onLine) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hd = `https://gre-on-demand.veritasprep.com/${ id }.mp4`;
 
-    if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
-      ipcRenderer.once('offline-download-error', this.throttleAlert, 1000);
-      ipcRenderer.send('download-video', hd, lesson, parseInt(video));
+      if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
+        ipcRenderer.send('download-video', hd, lesson, parseInt(video));
+      }
+    } else {
+      alert('No network connection detected.');
     }
   }
 
@@ -187,8 +180,8 @@ export default class App extends Component {
       indexUrl.forEach(video => {
         this.downloadIndVid(e, lesson, video[1], video[0]);
       });
-    } else if (!navigator.onLine) {
-      alert('Downloading videos while offline is not possible');
+    } else {
+      alert('No network connection detected.');
     }
   }
 
@@ -220,7 +213,6 @@ export default class App extends Component {
   toggleOfflineVidAlert() {
     this.setState({ offlineVidAlert: false });
   }
-
 
   componentDidMount() {
     this.hdCheck();
