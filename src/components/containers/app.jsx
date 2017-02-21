@@ -48,12 +48,12 @@ export default class App extends Component {
   }
 
   logout() {
-    console.log(this.state.user)
+    console.log(this.state.user);
     ipcRenderer.send('logout', { name: this.state.user });
     this.setState({ authenticated: false });
   }
 
-
+// Runs everytime app is opened to validate cookie is less than 1 week old
   cookieChecker(state) {
     ipcRenderer.send('check-cookie');
     ipcRenderer.on('cookie-exists', function (event, arg) {
@@ -105,12 +105,12 @@ export default class App extends Component {
               let vidId = progressArg[i].video_id;
               improvedProg[vidId] = parseInt(progressArg[i].length);
             }
-            improvedProg['sid'] = res.data.user.SID
+            improvedProg['sid'] = res.data.user.SID;
 
             this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
           }
           else {
-            console.log("the sid matches!!!!!!!!!!!!!!!");
+            console.log("The SID matches!!!!!!!!!!!!");
 
             const improvedProg = this.state.progress;
             const progressArg = res.data.user.progress;
@@ -122,7 +122,7 @@ export default class App extends Component {
                 improvedProg[vidId] = parseInt(progressArg[i].length);
               }
             }
-            improvedProg['sid'] = res.data.user.SID
+            improvedProg['sid'] = res.data.user.SID;
 
             this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
 
@@ -196,17 +196,16 @@ export default class App extends Component {
     });
   }
 
+// checks when app is started to see if anything in progress.json to set state
   hdCheck() {
     ipcRenderer.send('getHD');
     ipcRenderer.on('hdCheck', function (event, arg) {
       if (arg) {
-        // alert("it is here")
         console.log("hd check worked", arg);
         this.setState({ progress: arg });
       }
       else {
         console.log("hd check didnt pass");
-        //alert("it is not here")
       }
     }.bind(this))
   }
@@ -216,15 +215,15 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.hdCheck()
+    this.hdCheck();
     const tenSec = 10000;
-    //setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
     this.getVideoData();
     setInterval(this.saveProgressAuto, tenSec);
     setTimeout(() => this.cookieChecker(this.state), 700);
   }
 
+// function called in reactVideo.jsx which is a part of auto deletion script that deletes videos every month
   changeVideoDataState(percent) {
     let splitAtCom;
     let splitAtMp4;
@@ -251,7 +250,7 @@ export default class App extends Component {
 
 
   // there is a setInterval in app.js under componentDidMount that runs every 10 sec. 
-
+  // saves progress from state to HD
   saveProgressAuto() {
     console.log('inside saveProgressAuto in app.js (state saved to HD)');
     if (this.state.progress) {
@@ -259,6 +258,7 @@ export default class App extends Component {
     }
   }
 
+// Gives feedback to user if they click signup button when they are offline
   offlineSignUpAlert() {
     alert('Signup feature is not available offline');
   }
