@@ -16,10 +16,6 @@ const checkVideoFile = (downloadedSize, totalSize, filePath) => {
 }
 // download logic
 const download = (event, url, lessonIndex, videoIndex, filePath) => {
-  console.log('--------START-------', filePath);
-  console.log('QUEUE', QUEUE);
-  console.log('LENGTH', QUEUE.length);
-  console.log('Initialize download...', 'downloading status set to', downloading.status);
   event.sender.send('download-progress', 'downloading', lessonIndex, videoIndex);
   const req = request({ method: 'GET', url });
   const out = fs.createWriteStream(filePath);
@@ -41,7 +37,7 @@ const download = (event, url, lessonIndex, videoIndex, filePath) => {
   });
   req.pipe(out);
   req.on('end', () => {
-    console.log('Download complete:', url.slice(38));
+    // console.log('Download complete:', url.slice(38));
     event.sender.send('download-progress', 'done', lessonIndex, videoIndex);
     if (QUEUE.length > 1) {
       QUEUE.dequeue();
@@ -52,14 +48,13 @@ const download = (event, url, lessonIndex, videoIndex, filePath) => {
                QUEUE.downloads[0].filePath);
     } else {
       downloading.status = !downloading.status;
-      console.log('No more downloads!', 'downloading?', downloading.status);
       QUEUE.dequeue();
-      console.log('Remaining in queue (should be empty', QUEUE);
     }
   })
 };
 // export function 
-module.exports = (event, url, filePath, lessonIndex, videoIndex) => {
+module.exports = (event, url, appPath, lessonIndex, videoIndex) => {
+  const filePath = appPath + '/videos/' + url.substring(url.lastIndexOf('/') + 1);
   isOnline().then(online => {
     // valid network connection, download attempted
     if (online && fs.existsSync(filePath)) {
@@ -76,7 +71,6 @@ module.exports = (event, url, filePath, lessonIndex, videoIndex) => {
         lessonIndex: lessonIndex,
         videoIndex: videoIndex
       });
-      console.log('ENQUEUE!', QUEUE);
       if (!downloading.status) {
         downloading.status = !downloading.status;
         download(QUEUE.downloads[0].event,

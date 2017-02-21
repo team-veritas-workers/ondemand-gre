@@ -38,53 +38,6 @@ const Lesson = (props) => {
       pointerEvents: 'none'
     }
 
-    // const complete = {
-    //   display: 'inline-block',
-    //   position: 'absolute',
-    //   backgroundColor: `${ video.length === 100 ? 'lightgreen' : 'yellow' }`,
-    //   height: '100%',
-    //   width: `${ video.length ? video.length : '0' }%`,
-    // };
-    
-    // const light = {
-    //   display: 'inline-block',
-    //   opacity: `1`,
-    //   backgroundColor: `${ video.downloaded ? 'lightgreen' : 'grey' }`,
-    //   height: '8px',
-    //   width: '8px',
-    //   borderRadius: '50%',
-    //   border: '.1px solid #999',
-    // }
-
-    // if (video.downloadProgress && video.downloadProgress === 'downloading') {
-    //   light.backgroundColor = 'yellow';
-    // } 
-    // else if (video.downloadProgress && video.downloadProgress === 'done') {
-    //   light.backgroundColor = 'lightgreen';
-    // }
-
-    // if (!video.downloaded && video.downloadProgress !== 'downloading') {
-    //   downloadButton.pointerEvents = 'auto',
-    //   downloadButton[':hover'] = {
-    //     opacity: '1',
-    //     backgroundColor: 'lightgreen',
-    //   }
-    // } 
-    // else if (video.downloadProgress && video.downloadProgress === 'done') {
-    //   downloadButton.pointerEvents = 'auto',
-    //   downloadButton[':hover'] = {
-    //     opacity: '1',
-    //     backgroundColor: 'lightgreen',
-    //   }
-    // }
-    // else {
-    //   downloadButton.pointerEvents = 'none',
-    //   downloadButton[':hover'] = {
-    //     opacity: '0',
-    //     backgroundColor: 'lightgreen',
-    //   }
-    // }
-
     const sendlessonData = (e) => {
       props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
     }
@@ -159,11 +112,7 @@ const length = {
 }
 
 const slices = (props) => [
-<<<<<<< HEAD
     { color: 'rgba(225, 255, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
-=======
-    { color: 'rgba(225, 225, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
->>>>>>> master
     { color: 'rgba(255, 255, 255, 1)', value: props.lessonData.lessonGroupProgress }
 ];
 
@@ -171,15 +120,9 @@ const slices = (props) => [
 const ppie = {
   position: 'absolute',
   right: '10px',
-<<<<<<< HEAD
   height: '100%',
   width: '28px',
   marginTop: '6px'
-=======
-  height:'100%',
-  width: '28px',
-  marginTop: '6px'
-
 }
 
 const ppie1 = {
@@ -188,7 +131,6 @@ const ppie1 = {
   height:'18px',
   width: '18px',
   margin: '5px'
->>>>>>> master
 }
 
 const dlPrompt = {
