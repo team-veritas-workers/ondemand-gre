@@ -132,18 +132,20 @@ const Lesson = (props) => {
 const downloadImage = {
   height: '65%'
 }
- 
-const ppie = {
-  position: 'absolute',
-  right: '10px',
-  width: '28px',
-  marginTop: '2px'
-}
 
 const slices = (props) => [
     { color: 'rgba(185, 185, 195, .6)', value: 100 - props.lessonData.lessonGroupProgress },
     { color: 'rgba(255, 255, 255, .9)', value: props.lessonData.lessonGroupProgress }
 ];
+
+      
+const ppie = {
+  position: 'absolute',
+  right: '10px',
+  height:'18px',
+  width: '18px',
+  margin: '5px'
+}
 
 const dlPrompt = {
   color: 'grey',
@@ -161,7 +163,6 @@ const lesson = {
   fontSize: '.9em',
   overflow: 'auto'
 }
-
 
 const lessonTitle = {
   overflow: 'hidden',

@@ -1,11 +1,16 @@
 {
   "name": "veritas-prep-online-gre",
   "version": "1.0.0",
+  "productName": "Gre On Demand",
   "description": "Veritas Prep Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "./node_modules/.bin/webpack -w"
+    "build": "./node_modules/.bin/webpack -w",
+    "macPackage": "electron-packager . Gre On Demand --overwrite --platform=darwin --arch=x64 --prune=true --asar=true --out=/Users/vincentking/Desktop/packagedApps",
+    "macInstaller": "electron-installer-dmg /Users/vincentking/Desktop/ondemand-gre/GreApp-darwin-x64/GreApp.app Gre On Demand --overwrite --out=/Users/vincentking/Desktop/installApps",
+    "windowsPackage": "electron-packager . Gre On Demand --overwrite --platform=win32 --arch=ia32 --prune=true --asar=true --out=/Users/vincentking/Desktop/packagedApps",
+    "windowsInstaller": "grunt create-windows-installer"
   },
   "repository": "https://github.com/team-veritas-workers/offline-gre",
   "keywords": [
@@ -18,7 +23,10 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^1.4.1"
+    "electron": "^1.4.1",
+    "grunt": "^1.0.1",
+    "grunt-electron-installer": "^2.1.0",
+    "webpack": "^1.14.0"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -30,6 +38,7 @@
     "body-parser": "^1.16.0",
     "css-loader": "^0.26.1",
     "electron": "^1.4.15",
+    "electron-winstaller": "^2.5.2",
     "file-encryptor": "^0.1.1",
     "file-loader": "^0.9.0",
     "is-online": "^6.0.1",
@@ -43,7 +52,6 @@
     "screenfull": "^3.0.2",
     "style-loader": "^0.13.1",
     "unix-timestamp": "^0.2.0",
-    "url-loader": "^0.5.7",
-    "webpack": "^1.14.0"
+    "url-loader": "^0.5.7"
   }
 }

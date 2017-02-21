@@ -5,7 +5,19 @@ import Login from './../auth/login.jsx'
 import electron, {ipcRenderer} from 'electron'
 
 const Content = (props) => {
-  const { downloadAllLessson, url, user, setCurrentVideo, downloadIndVid, videoData, expandLesson, showMenu, logger, toggleMenu, currentVideo } = props;
+  const { 
+    downloadAllLessson, 
+    url, 
+    user,
+    setCurrentVideo, 
+    downloadIndVid,
+    videoData, 
+    expandLesson, 
+    showMenu, 
+    logger, 
+    toggleMenu, 
+    currentVideo } = props;
+    
   return (
   <div style={ container }>
     <Menu
@@ -28,7 +40,6 @@ const Content = (props) => {
       videoData = { videoData }
       url = { url }
       logger = { props.logger }
-      saveProgressClicked={ props.saveProgressClicked }
     />
   </div>
   );

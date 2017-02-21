@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import Radium from 'radium';
 import logo from '../../../assets/hi-def-logo.png';
 
+
 const Login = (props) => {
-  return (
+  if(navigator.onLine) {
+    return (
     <div style={ wrapper }>
       <div style={ container }>
         <img height="auto" width="100%" className='logo' src={ logo } />
@@ -17,6 +19,22 @@ const Login = (props) => {
       </div>
     </div>
   );
+  } else {
+  return (
+    <div style={ wrapper }>
+      <div style={ container }>
+        <img height="auto" width="100%" className='logo' src={ logo } />
+        <h5 style={ invalid }>{ props.invalidLoginMessage }</h5>
+        <form onKeyPress={ props.authenticate }>
+          <input key="username" style={ input } id='username' onChange={ props.usernameOnChange } type='text' placeholder='Username'></input>
+          <input key="password" style={ input } id='password' onChange={ props.passwordOnChange } type='password' placeholder='Password'></input>
+          <button style={ button } onClick={ props.authenticate }>Log in</button>
+        </form>
+        <p style={ p }>New User? <a onClick={props.offlineSignUpAlert} key="signup" style={ signupOffline } target="new">Sign up here.</a></p>
+      </div>
+    </div>
+  );
+  }
 };
 
 const wrapper = {
@@ -72,6 +90,14 @@ const input = {
 }
 
 const signup = {
+  textDecoration: 'none',
+  ':hover': {
+    color: 'red'
+  }
+}
+
+const signupOffline = {
+  color: 'blue',
   textDecoration: 'none',
   ':hover': {
     color: 'red'

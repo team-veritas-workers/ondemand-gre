@@ -7,13 +7,12 @@ import Content from './../views/content/content.jsx';
 import Spinner from './../views/spinner/spinner.jsx';
 import electron, { ipcRenderer } from 'electron';
 
-
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.authenticate = this.authenticate.bind(this);
     this.usernameOnChange = this.usernameOnChange.bind(this);
-    this.passwordOnChange = this.passwordOnChange.bind(this);    
+    this.passwordOnChange = this.passwordOnChange.bind(this);
     this.getVideoData = this.getVideoData.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.expandLesson = this.expandLesson.bind(this);
@@ -24,7 +23,8 @@ export default class App extends Component {
     this.logout = this.logout.bind(this);
     this.changeVideoDataState = this.changeVideoDataState.bind(this);
     this.saveProgressAuto = this.saveProgressAuto.bind(this);
-    
+    this.hdCheck = this.hdCheck.bind(this)
+
     this.state = {
       user: null,
       username: null,
@@ -40,28 +40,30 @@ export default class App extends Component {
   }
 
   setCurrentVideo(video, lesson) {
-    const fileName = `${ video.name }.mp4`
+    const fileName = `${video.name}.mp4`
     const currentVideo = { videoTitle: video.title, videoName: video.name, lessonName: lesson.name, lessonDescription: lesson.description };
     ipcRenderer.once('play-video', (event, arg) => this.setState({ url: arg, currentVideo: currentVideo }));
-    ipcRenderer.once('offline-vid-error', () => alert('Video not available offline.'));
+    //ipcRenderer.once('offline-vid-error', () => alert('Video not available offline.'));
     ipcRenderer.send('get-video', fileName);
   }
 
   logout() {
+    console.log(this.state.user)
     ipcRenderer.send('logout', { name: this.state.user });
     this.setState({ authenticated: false });
   }
 
-   cookieChecker(state) {
-      ipcRenderer.send('check-cookie');
-      ipcRenderer.on('cookie-exists', function(event, arg){
-        if (arg[0].length !== 0) {
-          this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1], sid: arg[1].sid});
-          // console.log('this is this.state.progress in cookieChecker:' , this.state.progress.sid)
-        } else {
-          this.setState({ authenticated: false });
-        }
-      }.bind(this))
+
+  cookieChecker(state) {
+    ipcRenderer.send('check-cookie');
+    ipcRenderer.on('cookie-exists', function (event, arg) {
+      if (arg[0].length !== 0) {
+        this.setState({ authenticated: true, user: arg[0][0].name, progress: arg[1], sid: arg[1].sid });
+        // console.log('this is this.state.progress in cookieChecker:' , this.state.progress.sid)
+      } else {
+        this.setState({ authenticated: false });
+      }
+    }.bind(this))
   }
 
   usernameOnChange(e) {
@@ -73,6 +75,7 @@ export default class App extends Component {
   }
 
   authenticate(e) {
+    //console.log("auth state", this.state)
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
@@ -85,19 +88,50 @@ export default class App extends Component {
 
       axios.post(URL, qs.stringify(body)).then(res => {
         if (res.data.status === 'success') {
-          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: this.state.sid }, this.state.sid);
-          const improvedProg = {};
-          const progressArg = res.data.user.progress;
-          progressArg.sid = this.state.sid; 
-          for (let i = 0; i < progressArg.length; i += 1) {
-            let vidId = progressArg[i].video_id;
-            improvedProg[vidId] = parseInt(progressArg[i].length);
+          console.log("res", res)
+          ipcRenderer.send('save-user', { email: res.data.user.email, user: res.data.user.firstname, progress: res.data.user.progress, sid: res.data.user.SID }, res.data.user.SID);
+          //progressArg.sid = this.state.sid; 
+
+          //state has been set before anything in componentWillMount using the HD function
+          //so here I am checking to see if the data on the hard disk matches with the actual
+          //authenticated user. If there is not a match, then we will update state with the newly
+          //aqquired data. If there is a match then we proceed as usual
+          if (this.state.progress === undefined || this.state.progress.sid !== JSON.parse(res.data.user.SID)) {
+            console.log(typeof this.state.progress.sid, typeof res.data.user.SID, "this sid doesnt match!!!!!")
+            const improvedProg = {};
+            const progressArg = res.data.user.progress;
+
+            for (let i = 0; i < progressArg.length; i += 1) {
+              let vidId = progressArg[i].video_id;
+              improvedProg[vidId] = parseInt(progressArg[i].length);
+            }
+            improvedProg['sid'] = res.data.user.SID
+
+            this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
           }
-          this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+          else {
+            console.log("the sid matches!!!!!!!!!!!!!!!");
+
+            const improvedProg = this.state.progress;
+            const progressArg = res.data.user.progress;
+            for (let i = 0; i < progressArg.length; i += 1) {
+
+
+              let vidId = progressArg[i].video_id;
+              if (improvedProg[vidId] < parseInt(progressArg[i].length || !improvedProg[vidId])) {
+                improvedProg[vidId] = parseInt(progressArg[i].length);
+              }
+            }
+            improvedProg['sid'] = res.data.user.SID
+
+            this.setState({ authenticated: true, user: res.data.user.firstname, progress: improvedProg, sid: res.data.user.SID });
+
+          }
+          // console.log('!!!this is sid in app' , this.state.sid);
         } else {
           this.setState({ invalidLoginMessage: res.data.message });
         }
-      }).catch(err => console.log(err));      
+      }).catch(err => console.log(err));
     }
   }
 
@@ -109,7 +143,7 @@ export default class App extends Component {
     });
   }
 
-  toggleMenu() {  
+  toggleMenu() {
     const newState = this.state;
     newState.showMenu = !newState.showMenu;
     this.setState({ showMenu: newState.showMenu });
@@ -136,7 +170,7 @@ export default class App extends Component {
       alert('No network connection detected.');
     }
   }
-  
+
   downloadAllLessson(e, lessonData) {
     if (navigator.onLine) {
       e.stopPropagation();
@@ -162,9 +196,29 @@ export default class App extends Component {
     });
   }
 
+  hdCheck() {
+    ipcRenderer.send('getHD');
+    ipcRenderer.on('hdCheck', function (event, arg) {
+      if (arg) {
+        // alert("it is here")
+        console.log("hd check worked", arg);
+        this.setState({ progress: arg });
+      }
+      else {
+        console.log("hd check didnt pass");
+        //alert("it is not here")
+      }
+    }.bind(this))
+  }
+
+  toggleOfflineVidAlert() {
+    this.setState({ offlineVidAlert: false });
+  }
+
   componentDidMount() {
+    this.hdCheck()
     const tenSec = 10000;
-    setInterval(this.toggleOfflineVidAlert, 1000);
+    //setInterval(this.toggleOfflineVidAlert, 1000);
     this.getDownloadProgress();
     this.getVideoData();
     setInterval(this.saveProgressAuto, tenSec);
@@ -172,7 +226,6 @@ export default class App extends Component {
   }
 
   changeVideoDataState(percent) {
-    // console.log(this.state.url)
     let splitAtCom;
     let splitAtMp4;
     let videoId;
@@ -181,64 +234,68 @@ export default class App extends Component {
       splitAtCom = this.state.url.split('.com/');
       splitAtMp4 = splitAtCom[1].split('.mp4');
       videoId = splitAtMp4[0];
-        
+
     } else {
-       splitAtCom = this.state.url.split('videos/');
-       splitAtMp4 = splitAtCom[1].split('.mp4');
-       videoId = splitAtMp4[0];
+      splitAtCom = this.state.url.split('videos/');
+      splitAtMp4 = splitAtCom[1].split('.mp4');
+      videoId = splitAtMp4[0];
     }
-  
+
     let accessProgress = this.state.progress;
-    accessProgress[videoId] = percent;
-    this.setState({progress: accessProgress});
+    if (percent > accessProgress[videoId] || !accessProgress[videoId]) {
+      accessProgress[videoId] = percent;
+      this.setState({ progress: accessProgress });
+    }
   }
 
- 
 
-// below originally function was a button that needed to be clicked now there is a setInterval in app.js under componentDidMount that runs every 10 sec. maybe change the name?
+
+  // there is a setInterval in app.js under componentDidMount that runs every 10 sec. 
 
   saveProgressAuto() {
-    //console.log('#!@!@#!@#!@#!@', this.state.sid)
     console.log('inside saveProgressAuto in app.js (state saved to HD)');
     if (this.state.progress) {
       ipcRenderer.send('save-progress-auto', this.state.progress, this.state.sid);
     }
-} 
+  }
+
+  offlineSignUpAlert() {
+    alert('Signup feature is not available offline');
+  }
 
 
   render() {
-    //console.log('this.state on app end in render:', this.state)
     if (this.state.authenticated === false) {
       return (
-        <div style={ app }>
+        <div style={app}>
           <Login
-            authenticate={ this.authenticate }
-            usernameOnChange={ this.usernameOnChange }
-            passwordOnChange={ this.passwordOnChange }
-            invalidLoginMessage={ this.state.invalidLoginMessage }/>
+            offlineSignUpAlert={this.offlineSignUpAlert}
+            authenticate={this.authenticate}
+            usernameOnChange={this.usernameOnChange}
+            passwordOnChange={this.passwordOnChange}
+            invalidLoginMessage={this.state.invalidLoginMessage} />
         </div>
       );
     }
     else if (this.state.authenticated === true) {
       return (
-        <div style={ app }>
+        <div style={app}>
           <Content
             changeVideoDataState={this.changeVideoDataState}
             progress={this.state.progress}
             authenticate={this.authenticate}
             stateLog={this.state.logout}
             logger={this.logout}
-            downloadAllLessson={ this.downloadAllLessson }
-            downloadIndVid={ this.downloadIndVid }
-            user={ this.state.user }
-            toggleMenu={ this.state.toggleMenu }
-            currentVideo={ this.state.currentVideo }
-            setCurrentVideo={ this.setCurrentVideo }
-            videoData={ this.state.videoData }
-            expandLesson={ this.expandLesson}
-            showMenu={ this.state.showMenu }
-            url={ this.state.url }
-            saveProgressClicked={ this.saveProgressClicked }
+            downloadAllLessson={this.downloadAllLessson}
+            downloadIndVid={this.downloadIndVid}
+            user={this.state.user}
+            toggleMenu={this.state.toggleMenu}
+            currentVideo={this.state.currentVideo}
+            setCurrentVideo={this.setCurrentVideo}
+            videoData={this.state.videoData}
+            expandLesson={this.expandLesson}
+            showMenu={this.state.showMenu}
+            url={this.state.url}
           />
         </div>
       );
@@ -265,7 +322,7 @@ const container = {
   width: '100%',
   height: '100vh',
   overflow: 'hidden'
-  
+
 }
 const me = {
   listStyle: 'none',
