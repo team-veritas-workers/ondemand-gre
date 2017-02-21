@@ -93,7 +93,7 @@ const Lesson = (props) => {
         <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
           <span key={ `${video.name}Button` } style={ downloadButton }><img src={ dlIconHover } style={ downloadImage } /></span>
           {/*<span style={ light } key={ `${i}${video.name}` }></span>*/}
-           <span style={ ppie }>
+           <span style={ ppie1 }>
           <PieChart slices={[
                     {
                       color: 'gray',
@@ -158,17 +158,18 @@ const length = {
 }
 
 const slices = (props) => [
-    { color: 'rgba(185, 185, 195, .6)', value: 100 - props.lessonData.lessonGroupProgress },
-    { color: 'rgba(255, 255, 255, .9)', value: props.lessonData.lessonGroupProgress }
+    { color: 'rgba(225, 225, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
+    { color: 'rgba(255, 255, 255, 1)', value: props.lessonData.lessonGroupProgress }
 ];
 
   
 const ppie = {
   position: 'absolute',
   right: '10px',
-  height:'18px',
-  width: '18px',
-  margin: '5px'
+  height:'100%',
+  width: '28px',
+  marginTop: '6px'
+
 }
 
 const ppie1 = {
