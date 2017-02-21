@@ -3,11 +3,12 @@ import Radium from 'radium';
 import logoWhite from './../../../assets/veritas-logo-white.png';
 
 const Banner = (props) => {
+  console.log(props.lessonData);
   return (
     <div style={ banner }>
       <div style={ titles }>
-        <div style={ title }>{ props.lessonData.videoTitle }</div>
-        <div style={ subtitle }>{ props.lessonData.lessonName }</div>
+        <div style={ title }>{ props.lessonData.lessonName }</div>
+        <div style={ subtitle }>{ props.lessonData.videoTitle }</div>
       </div>
       <div style={ greeting } key="loggerKey" onClick={ props.logger }>Logout</div>
     </div>
@@ -38,7 +39,7 @@ const subtitle = {
   display: 'flex',
   alignItems: 'center',
 
-  fontSize: '.8em',
+  fontSize: '1.1em',
   color: '#9A9A9A',
   fontStyle: 'italic',
   height: '40px',

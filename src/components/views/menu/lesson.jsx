@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
-import dlIcon from './../../../assets/dl_icon.png';
+// import dlIcon from './../../../assets/dl_icon.png';
+import dlIcon from './../../../assets/dl_icon_transparent.png';
 import dlIconHover from './../../../assets/dl_icon_hover.png';
 import PieChart from 'react-simple-pie-chart';
 
@@ -134,17 +135,17 @@ const downloadImage = {
 }
 
 const slices = (props) => [
-    { color: 'rgba(185, 185, 195, .6)', value: 100 - props.lessonData.lessonGroupProgress },
-    { color: 'rgba(255, 255, 255, .9)', value: props.lessonData.lessonGroupProgress }
+    { color: 'rgba(225, 255, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
+    { color: 'rgba(255, 255, 255, 1)', value: props.lessonData.lessonGroupProgress }
 ];
 
       
 const ppie = {
   position: 'absolute',
   right: '10px',
-  height:'18px',
-  width: '18px',
-  margin: '5px'
+  height: '100%',
+  width: '28px',
+  marginTop: '6px'
 }
 
 const dlPrompt = {
@@ -152,10 +153,10 @@ const dlPrompt = {
   fontStyle: 'italic',
   marginLeft: '4px'
 }
+
 const groupProgress = {
   fontSize: '10px',
   margin: '10px'
-
 }
 
 const lesson = {
