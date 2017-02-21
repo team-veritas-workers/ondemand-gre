@@ -5,6 +5,7 @@ import dlIconHover from './../../../assets/dl_icon_hover.png';
 import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
+  console.log('props...', props.lessonData.videos)
   const contents = [];
   props.lessonData.videos.forEach((video, i) => {
 
@@ -36,52 +37,52 @@ const Lesson = (props) => {
       pointerEvents: 'none'
     }
 
-    const complete = {
-      display: 'inline-block',
-      position: 'absolute',
-      backgroundColor: `${ video.length === 100 ? 'lightgreen' : 'yellow' }`,
-      height: '100%',
-      width: `${ video.length ? video.length : '0' }%`,
-    };
+    // const complete = {
+    //   display: 'inline-block',
+    //   position: 'absolute',
+    //   backgroundColor: `${ video.length === 100 ? 'lightgreen' : 'yellow' }`,
+    //   height: '100%',
+    //   width: `${ video.length ? video.length : '0' }%`,
+    // };
     
-    const light = {
-      display: 'inline-block',
-      opacity: `1`,
-      backgroundColor: `${ video.downloaded ? 'lightgreen' : 'grey' }`,
-      height: '8px',
-      width: '8px',
-      borderRadius: '50%',
-      border: '.1px solid #999',
-    }
+    // const light = {
+    //   display: 'inline-block',
+    //   opacity: `1`,
+    //   backgroundColor: `${ video.downloaded ? 'lightgreen' : 'grey' }`,
+    //   height: '8px',
+    //   width: '8px',
+    //   borderRadius: '50%',
+    //   border: '.1px solid #999',
+    // }
 
-    if (video.downloadProgress && video.downloadProgress === 'downloading') {
-      light.backgroundColor = 'yellow';
-    } 
-    else if (video.downloadProgress && video.downloadProgress === 'done') {
-      light.backgroundColor = 'lightgreen';
-    }
+    // if (video.downloadProgress && video.downloadProgress === 'downloading') {
+    //   light.backgroundColor = 'yellow';
+    // } 
+    // else if (video.downloadProgress && video.downloadProgress === 'done') {
+    //   light.backgroundColor = 'lightgreen';
+    // }
 
-    if (!video.downloaded && video.downloadProgress !== 'downloading') {
-      downloadButton.pointerEvents = 'auto',
-      downloadButton[':hover'] = {
-        opacity: '1',
-        backgroundColor: 'lightgreen',
-      }
-    } 
-    else if (video.downloadProgress && video.downloadProgress === 'done') {
-      downloadButton.pointerEvents = 'auto',
-      downloadButton[':hover'] = {
-        opacity: '1',
-        backgroundColor: 'lightgreen',
-      }
-    }
-    else {
-      downloadButton.pointerEvents = 'none',
-      downloadButton[':hover'] = {
-        opacity: '0',
-        backgroundColor: 'lightgreen',
-      }
-    }
+    // if (!video.downloaded && video.downloadProgress !== 'downloading') {
+    //   downloadButton.pointerEvents = 'auto',
+    //   downloadButton[':hover'] = {
+    //     opacity: '1',
+    //     backgroundColor: 'lightgreen',
+    //   }
+    // } 
+    // else if (video.downloadProgress && video.downloadProgress === 'done') {
+    //   downloadButton.pointerEvents = 'auto',
+    //   downloadButton[':hover'] = {
+    //     opacity: '1',
+    //     backgroundColor: 'lightgreen',
+    //   }
+    // }
+    // else {
+    //   downloadButton.pointerEvents = 'none',
+    //   downloadButton[':hover'] = {
+    //     opacity: '0',
+    //     backgroundColor: 'lightgreen',
+    //   }
+    // }
 
     const sendlessonData = (e) => {
       props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
@@ -90,15 +91,28 @@ const Lesson = (props) => {
     contents.push(
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
-          <span key={ `${video.name}Button` }style={ downloadButton }><img src={ dlIconHover } style={ downloadImage } /></span>
-          <span style={ light } key={ `${i}${video.name}` }></span>
+          <span key={ `${video.name}Button` } style={ downloadButton }><img src={ dlIconHover } style={ downloadImage } /></span>
+          {/*<span style={ light } key={ `${i}${video.name}` }></span>*/}
+           <span style={ ppie1 }>
+          <PieChart slices={[
+                    {
+                      color: 'gray',
+                      value: 100 - video.length || 0,
+                    },
+                    {
+                      color: 'white',
+                      value: 100,
+                    },
+                  ]}/>
+                  </span>
         </span>
-        <span>{ video.title }</span>
+        <span style={ videoName }>{ video.title }</span>
+        <span style={length}>{video.duration}</span>
         <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'downloading..' : '' }</span>
         <span style={ abs }>
-          <span style={ download }>
+          {/*<span style={ download }>
             <span style={ complete }></span>
-          </span>
+          </span>*/}
         </span>
       </div>
     )
@@ -133,15 +147,34 @@ const downloadImage = {
   height: '65%'
 }
 
+const videoName = {
+  marginRight: '50px',
+}
+
+const length = {
+  position: 'absolute',
+  right: '90px',
+  fontSize: '10px',
+}
+
 const slices = (props) => [
-    { color: 'rgba(185, 185, 195, .6)', value: 100 - props.lessonData.lessonGroupProgress },
-    { color: 'rgba(255, 255, 255, .9)', value: props.lessonData.lessonGroupProgress }
+    { color: 'rgba(225, 225, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
+    { color: 'rgba(255, 255, 255, 1)', value: props.lessonData.lessonGroupProgress }
 ];
 
-      
+  
 const ppie = {
   position: 'absolute',
   right: '10px',
+  height:'100%',
+  width: '28px',
+  marginTop: '6px'
+
+}
+
+const ppie1 = {
+  position: 'absolute',
+  right: '5px',
   height:'18px',
   width: '18px',
   margin: '5px'
@@ -219,6 +252,7 @@ const lessonContent = {
   textAlign: 'left',
 	transition: 'all 1s ease',
 	overflow: 'hidden',
+  
 }
 
 const lessonContentOpen = {
@@ -239,6 +273,7 @@ const lessonContentText = {
   visibility: 'hidden',
   opacity: '0',
   overflow: 'hidden',
+  
 }
 
 const lessonContentTextOpen = {
@@ -266,6 +301,7 @@ const videoTitle = {
 const abs = {
   position: 'absolute',
   right: '10px',
+  
 }
 
 
