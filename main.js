@@ -324,7 +324,7 @@ function checkVideoTimeStamp(vidNameArr) {
     let createdVideoTime = videoInFolder.birthtime.getTime();
     let monthInMilliSec = 2629746000;
 
-    if ((createdVideoTime + weekInMilliSec) < Date.now()) {
+    if ((createdVideoTime + monthInMilliSec) < Date.now()) {
       fs.unlink(folderToAccess + vidNameArr[i]);
     }
   }
