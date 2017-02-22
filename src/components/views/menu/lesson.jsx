@@ -6,7 +6,6 @@ import dlIconHover from './../../../assets/dl_icon_hover.png';
 import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
-  console.log('props...', props.lessonData.videos)
   const contents = [];
   props.lessonData.videos.forEach((video, i) => {
 
@@ -46,19 +45,6 @@ const Lesson = (props) => {
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
           <span key={ `${video.name}Button` } style={ downloadButton }><img src={ dlIconHover } style={ downloadImage } /></span>
-          {/*<span style={ light } key={ `${i}${video.name}` }></span>*/}
-           <span style={ ppie1 }>
-          <PieChart slices={[
-                    {
-                      color: 'gray',
-                      value: 100 - video.length || 0,
-                    },
-                    {
-                      color: 'white',
-                      value: 100,
-                    },
-                  ]}/>
-                  </span>
         </span>
         <span style={ videoName }>{ video.title }</span>
         <span style={length}>{video.duration}</span>
@@ -67,6 +53,12 @@ const Lesson = (props) => {
           {/*<span style={ download }>
             <span style={ complete }></span>
           </span>*/}
+        </span>
+        <span style={ ppie1 }>
+              <PieChart slices={[
+                { color: 'gray', value: 100 - video.length || 0 },
+                { color: 'white', value: 100 },
+              ]}/>
         </span>
       </div>
     )
