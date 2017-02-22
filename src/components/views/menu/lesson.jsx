@@ -167,7 +167,8 @@ const lessonTitle = {
   transition: 'all .2s ease',
   ':hover': {
     color: '#FFF',
-    backgroundColor: 'dodgerblue'
+    // backgroundColor: 'dodgerblue'
+    backgroundColor: '#e45c00'
   }
 }
 
@@ -246,8 +247,8 @@ const videoTitle = {
   position: 'relative',
   transition: 'all .1s ease',
   ':hover': {
-    color: '#888',
-    backgroundColor: '#EAEAEA',
+    color: '#FFF',
+    backgroundColor: '#e45c00',
   }
 }
 

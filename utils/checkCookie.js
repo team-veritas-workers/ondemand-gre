@@ -1,22 +1,27 @@
 const fs = require('fs');
 
 module.exports = (event, ses, appPath) => {
-  ses.get({}, (error, cookies) => {
-    if (error) {
-      console.log('checkCookie error', error);
-    }
+  ses.get({}, function (error, cookies) {
+    let progressData;
     if (cookies) {
-      fs.readFile(appPath + '/progresss.json', { encoding: 'utf-8' }, (err, data) => {
-        if (err) {
-          console.log('checkCookie readFile progress', err);
-        }
+      fs.readFile(appPath + '/progress.json', {
+        encoding: 'utf-8'
+      }, function (err, data) {
+        if (err) console.log(err);
         if (data) {
-          console.log('COOKIE!');
-          event.sender.send('cookie-exists', [cookies, JSON.parse(data)]);
+          progressData = JSON.parse(data);
+          const argData = [cookies, progressData];
+          event.sender.send('cookie-exists', argData);
         } else {
-          event.sender.send('cookie-exists', [cookies, {}]);
+          progressData = {};
+          const argData = [cookies, progressData];
+          event.sender.send('cookie-exists', argData);
+          console.log("read file error", err);
         }
       });
     }
-  });
-}
+    if (error) {
+      console.dir(error);
+    }
+  })
+};
