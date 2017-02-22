@@ -39,7 +39,7 @@ module.exports = (event, appPath) => {
       req.pipe(output);
       req.on('end', () => sendFile());
     } else {
-      console.log('No network connection.');
+      console.log('Waiting for connection...');
       sendFile();
     }
   });

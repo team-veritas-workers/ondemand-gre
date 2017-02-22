@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
-import dlIcon from './../../../assets/dl_icon.png';
+// import dlIcon from './../../../assets/dl_icon.png';
+import dlIcon from './../../../assets/dl_icon_transparent.png';
 import dlIconHover from './../../../assets/dl_icon_hover.png';
 import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
-  console.log('props...', props.lessonData.videos)
   const contents = [];
   props.lessonData.videos.forEach((video, i) => {
 
@@ -37,53 +37,6 @@ const Lesson = (props) => {
       pointerEvents: 'none'
     }
 
-    // const complete = {
-    //   display: 'inline-block',
-    //   position: 'absolute',
-    //   backgroundColor: `${ video.length === 100 ? 'lightgreen' : 'yellow' }`,
-    //   height: '100%',
-    //   width: `${ video.length ? video.length : '0' }%`,
-    // };
-    
-    // const light = {
-    //   display: 'inline-block',
-    //   opacity: `1`,
-    //   backgroundColor: `${ video.downloaded ? 'lightgreen' : 'grey' }`,
-    //   height: '8px',
-    //   width: '8px',
-    //   borderRadius: '50%',
-    //   border: '.1px solid #999',
-    // }
-
-    // if (video.downloadProgress && video.downloadProgress === 'downloading') {
-    //   light.backgroundColor = 'yellow';
-    // } 
-    // else if (video.downloadProgress && video.downloadProgress === 'done') {
-    //   light.backgroundColor = 'lightgreen';
-    // }
-
-    // if (!video.downloaded && video.downloadProgress !== 'downloading') {
-    //   downloadButton.pointerEvents = 'auto',
-    //   downloadButton[':hover'] = {
-    //     opacity: '1',
-    //     backgroundColor: 'lightgreen',
-    //   }
-    // } 
-    // else if (video.downloadProgress && video.downloadProgress === 'done') {
-    //   downloadButton.pointerEvents = 'auto',
-    //   downloadButton[':hover'] = {
-    //     opacity: '1',
-    //     backgroundColor: 'lightgreen',
-    //   }
-    // }
-    // else {
-    //   downloadButton.pointerEvents = 'none',
-    //   downloadButton[':hover'] = {
-    //     opacity: '0',
-    //     backgroundColor: 'lightgreen',
-    //   }
-    // }
-
     const sendlessonData = (e) => {
       props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
     }
@@ -92,19 +45,6 @@ const Lesson = (props) => {
       <div onClick={ selectVideo } key={ i } style={ videoTitle }>
         <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
           <span key={ `${video.name}Button` } style={ downloadButton }><img src={ dlIconHover } style={ downloadImage } /></span>
-          {/*<span style={ light } key={ `${i}${video.name}` }></span>*/}
-           <span style={ ppie1 }>
-          <PieChart slices={[
-                    {
-                      color: 'gray',
-                      value: 100 - video.length || 0,
-                    },
-                    {
-                      color: 'white',
-                      value: 100,
-                    },
-                  ]}/>
-                  </span>
         </span>
         <span style={ videoName }>{ video.title }</span>
         <span style={length}>{video.duration}</span>
@@ -113,6 +53,12 @@ const Lesson = (props) => {
           {/*<span style={ download }>
             <span style={ complete }></span>
           </span>*/}
+        </span>
+        <span style={ ppie1 }>
+              <PieChart slices={[
+                { color: 'gray', value: 100 - video.length || 0 },
+                { color: 'white', value: 100 },
+              ]}/>
         </span>
       </div>
     )
@@ -158,7 +104,7 @@ const length = {
 }
 
 const slices = (props) => [
-    { color: 'rgba(225, 225, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
+    { color: 'rgba(225, 255, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
     { color: 'rgba(255, 255, 255, 1)', value: props.lessonData.lessonGroupProgress }
 ];
 
@@ -166,10 +112,9 @@ const slices = (props) => [
 const ppie = {
   position: 'absolute',
   right: '10px',
-  height:'100%',
+  height: '100%',
   width: '28px',
   marginTop: '6px'
-
 }
 
 const ppie1 = {
@@ -185,10 +130,10 @@ const dlPrompt = {
   fontStyle: 'italic',
   marginLeft: '4px'
 }
+
 const groupProgress = {
   fontSize: '10px',
   margin: '10px'
-
 }
 
 const lesson = {
@@ -214,7 +159,8 @@ const lessonTitle = {
   transition: 'all .2s ease',
   ':hover': {
     color: '#FFF',
-    backgroundColor: 'dodgerblue'
+    // backgroundColor: 'dodgerblue'
+    backgroundColor: '#e45c00'
   }
 }
 
@@ -293,8 +239,8 @@ const videoTitle = {
   position: 'relative',
   transition: 'all .1s ease',
   ':hover': {
-    color: '#888',
-    backgroundColor: '#EAEAEA',
+    color: '#FFF',
+    backgroundColor: '#e45c00',
   }
 }
 

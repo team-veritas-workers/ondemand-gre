@@ -75,7 +75,6 @@ export default class App extends Component {
   }
 
   authenticate(e) {
-    //console.log("auth state", this.state)
     if (e.key === 'enter' || e.type === 'click') {
       e.preventDefault();
       const URL = 'https://gmat-on-demand-app.veritasprep.com/checkout/LIBRARY/auth/AEntry.php';
@@ -166,10 +165,12 @@ export default class App extends Component {
       if (!this.state.videoData[lesson].videos[video].downloadProgress || this.state.videoData[lesson].videos[video].downloaded === 'false') {
         ipcRenderer.send('download-video', hd, lesson, parseInt(video));
       }
-    } else {
+    } 
+    else {
       alert('No network connection detected.');
     }
   }
+
 
   downloadAllLessson(e, lessonData) {
     if (navigator.onLine) {
@@ -210,9 +211,9 @@ export default class App extends Component {
     }.bind(this))
   }
 
-  toggleOfflineVidAlert() {
-    this.setState({ offlineVidAlert: false });
-  }
+  // toggleOfflineVidAlert() {
+  //   this.setState({ offlineVidAlert: false });
+  // }
 
   componentDidMount() {
     this.hdCheck();
