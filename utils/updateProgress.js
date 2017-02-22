@@ -1,6 +1,6 @@
-const isOnline = require('is-online');
 const fs = require('fs');
 const request = require('request');
+const isOnline = require('is-online');
 
 function postProgress(buildtUpStr) {
   request.post({
@@ -18,14 +18,13 @@ function postProgress(buildtUpStr) {
 }
 
 module.exports = (appPath) => {
-  console.log('Updated progress!');
   isOnline().then(online => {
     if (online === true) {
       fs.readFile(appPath + '/progress.json', {
         encoding: 'utf-8'
       }, function (err, data) {
         if (!err && data) {
-          newProgress = JSON.parse(data);
+          const newProgress = JSON.parse(data);
 
           for (let key in newProgress) {
             let buildtUpStr = '';
@@ -35,7 +34,7 @@ module.exports = (appPath) => {
             }
           }
         } else {
-          console.log("read file error", err);
+          console.log("updateProgress - read file error", err);
         }
       });
     }
