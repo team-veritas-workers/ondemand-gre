@@ -1,107 +1,38 @@
 import React, { Component } from 'react';
 import Radium from 'radium';
+import SelectVideo from './selectVideo.jsx';
 // import dlIcon from './../../../assets/dl_icon.png';
 import dlIcon from './../../../assets/dl_icon_transparent.png';
 import dlIconHover from './../../../assets/dl_icon_hover.png';
 import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
+
+  const grabAllVideoNames = (e) => props.downloadAllLessson(e, props.lessonData);
   const contents = [];
   props.lessonData.videos.forEach((video, i) => {
-
-    const selectVideo = (e) => {
-      props.setCurrentVideo(video, props.lessonData);
-    };
-
-    const dlSingle = {
-      overflow: 'hidden',
-      position: 'absolute',
-      left: '0px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%',
-      width: '30px',
-      pointerEvents: 'none'
-    }
-
-    const downloadButton = {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      left: '0',
-      height: '100%',
-      width: '100%',
-      opacity: '0',
-      pointerEvents: 'none'
-    }
-
-    const sendlessonData = (e) => {
-      props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(i), video.name);
-    }
-
-    contents.push(
-      <div onClick={ selectVideo } key={ i } style={ videoTitle }>
-        <span key={ `${i}-individual` } id={ video.name } style={ dlSingle } onClick={ sendlessonData }>
-          <span key={ `${video.name}Button` } style={ downloadButton }><img src={ dlIconHover } style={ downloadImage } /></span>
-        </span>
-        <span style={ videoName }>{ video.title }</span>
-        <span style={length}>{video.duration}</span>
-        <span style={ dlPrompt }>{ video.downloadProgress === 'downloading' ? 'downloading..' : '' }</span>
-        <span style={ abs }>
-          {/*<span style={ download }>
-            <span style={ complete }></span>
-          </span>*/}
-        </span>
-        <span style={ ppie1 }>
-              <PieChart slices={[
-                { color: 'gray', value: 100 - video.length || 0 },
-                { color: 'white', value: 100 },
-              ]}/>
-        </span>
-      </div>
-    )
+    contents.push(<SelectVideo setCurrentVideo={ props.setCurrentVideo } videoData={ video } lessonData={ props.lessonData } id={ i } key={ i } />);
   });
-
-  const grabAllVideoNames = (e) => {
-    props.downloadAllLessson(e, props.lessonData);
-  }
 
   return (
       <div style={ lesson }> 
+        
         <div style={ lessonTitle } key="lessonTitle" onClick={ () => props.expandLesson(props.lessonData) }>
-          <span style={ titleText }>{ props.lessonData.name }</span>
+          <span>{ props.lessonData.name }</span>
           <span style={ downloadIcon } onClick={ grabAllVideoNames } key="downloadIcon"></span>
-
-          <div style={ ppie }>
-              <PieChart slices={ slices(props) }/>
-          </div>
-
+          <div style={ ppie }><PieChart slices={ slices(props) }/></div>
           <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
+
         <div style={ !props.open ? lessonContent : lessonContentOpen }>
           <div key="text" style={ !props.open ? lessonContentText : lessonContentTextOpen }>
             { contents } 
           </div>
         </div>
+
       </div>
   );
 };
-
-const downloadImage = {
-  height: '65%'
-}
-
-const videoName = {
-  marginRight: '50px',
-}
-
-const length = {
-  position: 'absolute',
-  right: '90px',
-  fontSize: '10px',
-}
 
 const slices = (props) => [
     { color: 'rgba(225, 255, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
@@ -115,20 +46,6 @@ const ppie = {
   height: '100%',
   width: '28px',
   marginTop: '6px'
-}
-
-const ppie1 = {
-  position: 'absolute',
-  right: '5px',
-  height:'18px',
-  width: '18px',
-  margin: '5px'
-}
-
-const dlPrompt = {
-  color: 'grey',
-  fontStyle: 'italic',
-  marginLeft: '4px'
 }
 
 const groupProgress = {
@@ -159,8 +76,8 @@ const lessonTitle = {
   transition: 'all .2s ease',
   ':hover': {
     color: '#FFF',
-    // backgroundColor: 'dodgerblue'
-    backgroundColor: '#e45c00'
+    backgroundColor: 'dodgerblue'
+    // backgroundColor: '#e45c00'
   }
 }
 
@@ -181,10 +98,6 @@ const downloadIcon = {
     opacity: '1',
     backgroundImage: `url(${ dlIconHover })`
   }
-}
-
-const titleText = {
-
 }
 
 const lessonContent = {
@@ -226,28 +139,6 @@ const lessonContentTextOpen = {
   overflow: 'hidden',
   visibility: 'visible',
   opacity: '1',
-}
-
-const videoTitle = {
-  display: 'flex',
-  alignItems: 'center',
-  overflowY: 'auto',
-  color: 'white',
-  height: '35px',
-	padding: '0px 70px 0px 35px',
-	listStyle: 'none',
-  position: 'relative',
-  transition: 'all .1s ease',
-  ':hover': {
-    color: '#FFF',
-    backgroundColor: '#e45c00',
-  }
-}
-
-const abs = {
-  position: 'absolute',
-  right: '10px',
-  
 }
 
 
