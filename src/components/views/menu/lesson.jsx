@@ -4,23 +4,42 @@ import SelectVideo from './selectVideo.jsx';
 // import dlIcon from './../../../assets/dl_icon.png';
 import dlIcon from './../../../assets/dl_icon_transparent.png';
 import dlIconHover from './../../../assets/dl_icon_hover.png';
+import fullCircle from './../../../assets/complete.png';
 import PieChart from 'react-simple-pie-chart';
 
 const Lesson = (props) => {
-
+  console.log(props.lessonData.lessonGroupProgress)
   const grabAllVideoNames = (e) => props.downloadAllLessson(e, props.lessonData);
   const contents = [];
   props.lessonData.videos.forEach((video, i) => {
     contents.push(<SelectVideo setCurrentVideo={ props.setCurrentVideo } videoData={ video } lessonData={ props.lessonData } id={ i } key={ i } />);
   });
 
+  const complete = {
+    position: 'absolute',
+    opacity: `${ props.lessonData.lessonGroupProgress === 100 ? 1 : 0 }`,
+    size: '40px'
+  };
+
+  const slices = (props) => {
+    if (props.lessonData.lessonGroupProgress === 100) {
+      return [
+        { color: 'rgba(255, 255, 255, 0)', value: 100 }, { color: 'rgba(255, 255, 255, 0)', value: 100 }
+      ]
+    }
+    return [
+      { color: 'rgba(225, 255, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
+      { color: 'rgba(255, 255, 255, 1)', value: 100 }
+    ];
+  }
+
   return (
-      <div style={ lesson }> 
-        
+      <div style={ lesson }>
+
         <div style={ lessonTitle } key="lessonTitle" onClick={ () => props.expandLesson(props.lessonData) }>
           <span>{ props.lessonData.name }</span>
           <span style={ downloadIcon } onClick={ grabAllVideoNames } key="downloadIcon"></span>
-          <div style={ ppie }><PieChart slices={ slices(props) }/></div>
+          <div style={ ppie }><img width="auto" height="28px" style={ complete } src={ fullCircle } /><PieChart slices={ slices(props) }/></div>
           <span style={ downloadIcon } onClick={ grabAllVideoNames }></span>
         </div>
 
@@ -33,12 +52,6 @@ const Lesson = (props) => {
       </div>
   );
 };
-
-const slices = (props) => [
-    { color: 'rgba(225, 255, 255, .5)', value: 100 - props.lessonData.lessonGroupProgress },
-    { color: 'rgba(255, 255, 255, 1)', value: props.lessonData.lessonGroupProgress }
-];
-
   
 const ppie = {
   position: 'absolute',

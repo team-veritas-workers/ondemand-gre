@@ -13,7 +13,8 @@ const Menu = (props) => {
 				if (props.progress[props.videoData[i].videos[j].name]) {
 					props.videoData[i].videos[j].length = props.progress[props.videoData[i].videos[j].name];
           if (props.videoData[i].videos[j].length === 100) {
-						props.videoData[i].videosComplete++;
+            console.log(props.videoData[i].videos[j]);
+						props.videoData[i].videosComplete += 1;
 					}
 				}
 			}

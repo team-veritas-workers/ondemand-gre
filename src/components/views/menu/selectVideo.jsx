@@ -2,11 +2,30 @@ import React from 'react';
 import Radium from 'radium';
 import dlIconHover from './../../../assets/dl_icon_hover.png';
 import PieChart from 'react-simple-pie-chart';
+import fullCircle from './../../../assets/complete.png';
 
 const SelectVideo = (props) => {
 
+  if (props.lessonData.name === 'Quantitative Strategy') {
+    console.log(props.lessonData)
+  };
+
   const selectVideo = (e) => props.setCurrentVideo(props.videoData, props.lessonData);
   const sendlessonData = (e) => props.downloadIndVid(e, parseInt(props.lessonData.lessonNumber) - 1, parseInt(props.id), props.videoData.name);
+
+  const complete = {
+    position: 'absolute',
+    opacity: `${ props.videoData.length === 100 ? 1 : 0 }`,
+    size: '40px'
+  };
+
+  const slices = (props) => {
+    if (props.videoData.length === 100) {
+      return [{ color: 'rgba(255, 255, 255, 0)', value: 100 }, { color: 'rgba(255, 255, 255, 0)', value: 100 }];
+    } else {
+      return [{ color: 'gray', value: 100 - props.videoData.length || 0 }, { color: 'white', value: 100 }]
+    }
+  }
 
   return (
     <div onClick={ selectVideo } key={ props.id } style={ title }>
@@ -19,7 +38,8 @@ const SelectVideo = (props) => {
       <span style={ length }>{ props.videoData.duration }</span>
       <span style={ dlPrompt }>{ props.videoData.downloadProgress === 'downloading' ? 'downloading..' : '' }</span>
       <span style={ progressWheel }>
-        <PieChart slices={[{ color: 'gray', value: 100 - props.videoData.length || 0 }, { color: 'white', value: 100 }]}/>
+        <img width="auto" height="22px" style={ complete } src={ fullCircle } />
+        <PieChart slices={ slices(props) }/>
       </span>
     </div>
   )
