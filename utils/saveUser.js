@@ -15,7 +15,7 @@ module.exports = (event, arg, sid, appPath, ses) => {
 
   updateProgress(appPath);
 
-  ses.set(cookie, (err) => err ? console.log('save user', err) : null);
+  ses.set(cookie, (err) => err ? console.log('Error saving user data:', err) : null);
 
   for (let i = 0; i < progressArg.length; i += 1) {
     let vidId = progressArg[i].video_id;
